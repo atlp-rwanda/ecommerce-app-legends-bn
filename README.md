@@ -27,7 +27,13 @@ This is the Full Ecommerce App that should be used for the whole world for prodc
 - clone the project `git clone `;
 - go into cloded project's root directory
 - run `npm install` for installing dependencies
+- copy .env.example to .env and set PORT and other environment variables
 - run `npm run dev` for development
+- access the project on your local machine ```ie``` : => `127.0.0.1:$port` 
+
+>## Documentation 
+ 
+`127.0.0.1:$port`/docs and boooom. The project setup is all well set up
 
 ### Development
 
