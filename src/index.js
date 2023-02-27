@@ -10,6 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 // built-in middleware to handle urlencoded form data
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // built-in middleware for json

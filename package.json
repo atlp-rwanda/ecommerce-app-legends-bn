@@ -1,14 +1,14 @@
 {
   "name": "ecommerce-app-legends-bn",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Introduction",
   "main": "index.js",
   "scripts": {
     "build": "babel src/index.js -d dist",
     "start": "npm run build && nodemon dist/index.js",
     "dev": "npm run build && nodemon --exec babel-node src/index.js",
     "lintfix": "eslint src --fix --cache",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "migrate":"npx sequelize-cli db:migrate src/migrations/*.js"
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,11 @@
     "body-parser": "^1.20.2",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "pg": "^8.9.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.29.0",
+    "sequelize-cli": "^6.6.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.21.0",
@@ -44,5 +48,8 @@
     "mocha": "^10.2.0",
     "prettier": "^2.8.4",
     "swagger-ui-express": "^4.6.2"
+  },
+  "directories": {
+    "doc": "docs"
   }
 }
