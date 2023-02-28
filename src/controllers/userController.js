@@ -1,6 +1,5 @@
 import {User} from '../models';
-const root = (req, res) => res.status(200).json({ message: 'Hello World!' });
-export default { root };
+export const root = (req, res) => res.status(200).json({ message: 'Hello World!' });
 //sending demo data to database to test if connection is established
 export const createUser = async (req, res) => {
     try{
