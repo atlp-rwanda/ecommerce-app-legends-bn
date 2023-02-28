@@ -3,7 +3,7 @@ import express from 'express';
 import path from 'path';
 import rootRouter from './api/root';
 import docs from '../docs/index';
-
+import { connection } from './databaseConn/connection';
 env.config();
 
 const app = express();
@@ -24,5 +24,7 @@ app.use('/', rootRouter);
 app.use(docs);
 
 app.all('*', (req, res) => { res.json({ error: '404 Not Found' }); });
+//calling connection notification string
+connection();
 // start server on port 5000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
