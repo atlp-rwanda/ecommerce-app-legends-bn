@@ -9,6 +9,9 @@ on:
   pull_request:
     branches: [ "develop" ]
 
+.env:
+  PORT_SERVER: ${{SEsecrets.PORT_SERVER}}
+
 jobs:
   build:
 
