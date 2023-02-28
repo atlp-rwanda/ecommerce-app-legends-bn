@@ -8,9 +8,9 @@
     "start": "npm run build && nodemon dist/index.js",
     "dev": "npm run build && nodemon --exec babel-node src/index.js",
     "lintfix": "eslint src --fix --cache",
-    "migrate":"npx sequelize-cli db:migrate src/migrations/*.js",
-    "migrate:undo": "npx sequelize-cli db:migrate:undo src/migrations/*.js",
-    "make:migration":"npx sequelize-cli model:generate --name renameThis --attributes firstName:string,lastName:string,email:string"
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "make:migration": "npx sequelize-cli model:generate --name renameThis --attributes firstName:string,lastName:string,email:string"
   },
   "repository": {
     "type": "git",
