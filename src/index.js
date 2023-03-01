@@ -20,11 +20,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/', express.static(path.join(__dirname, '/public')));
 
 // routes
-app.use('/', rootRouter);
 app.use(docs);
+app.use('/', rootRouter);
+
 
 app.all('*', (req, res) => { res.json({ error: '404 Not Found' }); });
 //calling connection notification string
 connection();
 // start server on port 5000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+export default app
+  

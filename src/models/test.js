@@ -23,3 +23,9 @@ module.exports = (sequelize, DataTypes) => {
   });
   return test;
 };
+
+describe('Sample test', () => {
+  it('should pass', () => {
+    expect(true).toBe(true);
+  });
+});
