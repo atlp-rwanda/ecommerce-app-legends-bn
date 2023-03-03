@@ -9,11 +9,10 @@
     "dev": "nodemon --exec babel-node src/index.js",
     "migrate:undo": "npx sequelize-cli db:migrate:undo",
     "migrate": "npx sequelize-cli db:migrate",
-    "make:migration": "npx sequelize-cli model:generate --name newchema --attributes firstName:string,lastName:string,email:string",
-    "generate:seed": "npx sequelize-cli seed:generate --name demo-user",
-    "seed": "npm run migrate:undo && npm run migrate && npx sequelize-cli db:seed:all",
-    "lint:fix": "eslint src --fix --cache",
-    "test": "jest --coverage --verbose --forceExit"
+    "make:migration":"npx sequelize-cli model:generate --name newchema --attributes firstName:string,lastName:string,email:string",
+    "generate:seed":"npx sequelize-cli seed:generate --name demo-user",
+    "seed":"npm run migrate:undo && npm run migrate && npx sequelize-cli db:seed:all",
+    "lint:fix": "eslint src --fix --cache"
   },
   "repository": {
     "type": "git",
@@ -32,7 +31,6 @@
     "body-parser": "^1.20.2",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "istanbul": "^0.4.5",
     "nodemon": "^2.0.20",
     "pg": "^8.9.0",
     "pg-hstore": "^2.3.4",
