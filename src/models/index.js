@@ -33,12 +33,10 @@ Object.keys(db).forEach((modelName) => {
     db[modelName].associate(db);
   }
 });
-export const dbConnection = sequelize
-  .authenticate()
-  .then(() => console.log(env, 'database connection established'))
-  .catch((err) => console.log('unable to connect to the database', err));
+export const dbConnection=sequelize.authenticate().then(
+  ()=>console.log(env,'database connection established')
+).catch(err=>console.log('unable to connect to the database',err))
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-db.dbConnection = dbConnection;
 
 module.exports = db;

@@ -1,6 +1,6 @@
 import express from 'express';
 import rootRouter from './api/root';
-import userRouter from './api/user.routes';
+import adminRouter from './api/users/adminRoutes';
 import docs from './docs/index';
 import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
@@ -21,10 +21,11 @@ const app = express();
 // built-in middleware to handle urlencoded form data
 app.use(express.json());
 app.use(middleware.handle(i18next));
+app.use(middleware.handle(i18next));
 // routes
 app.use('/', rootRouter);
-app.use('/api/users', userRouter);
 app.use(docs);
+app.use(adminRouter);
 
 app.all('*', (req, res) => {
   res.json({ error: req.t('404_error') });

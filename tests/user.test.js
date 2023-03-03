@@ -1,31 +1,59 @@
 import request from 'supertest';
 import app from '../src/index.js';
 
-
 describe('GET /', () => {
   it('should return 200', async () => {
     const response = await request(app).get('/');
     expect(response.statusCode).toBe(200);
   });
 });
+//admin endpoints
+describe('admin tests', () => {
+  let idAdmin;
+  let token;
 
-describe('POST new user', () => {
-  it('should create a new user', async () => {
-    const response = await request(app)
-      .post('/api/users/add')
+  test('adding a malformed admin with no Authorization', async () => {
+    await request(app)
+      .post('/api/admin/users')
       .send({
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'doe@gmail.com',
+        firstname: 'joeyb',
+        lastname: 'idowa',
+        email: 'hassomeon@bff.com',
+      })
+      .expect(function (res) {
+        return expect(res.status).toBe(403);
+      })
+      .catch((error) => {
+        console.error(error);
+        throw error;
       });
-    expect(response.statusCode).toBe(201);
   });
-});
 
-describe('POST new user', () => {
-  it('should create a new user', async () => {
-    const response = await request(app)
-      .get('/api/users/all');
-    expect(response.statusCode).toBe(200);
+  test('logging in as admin with no Authorization', async () => {
+    await request(app)
+      .post('/api/admin/login')
+      .send({
+        email: 'hassomeon@bff.com',
+        password: 'pasmegaround',
+      })
+      .expect((res) => {
+        token = res.body.token;
+        console.log(token);
+        return expect(res.status).toBe(403);
+      });
+  });
+  test('deleting users by admin with no Authorization', async () => {
+    await request(app)
+      .delete(`/api/admin/users/${idAdmin}`)
+      .expect((res) => {
+        return expect(res.status).toBe(403);
+      });
+  });
+  test('deleting invalid users by admin with no Authorization', async () => {
+    await request(app)
+      .delete(`/api/admin/users/tdvtfvdtyyc`)
+      .expect((res) => {
+        return expect(res.status).toBe(403);
+      });
   });
 });
