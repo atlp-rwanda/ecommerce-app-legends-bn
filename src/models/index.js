@@ -1,23 +1,18 @@
 'use strict';
-
-import fs from'fs';
-import path from'path';
-import Sequelize from'sequelize';
-import dotenv from "dotenv";
-dotenv.config();
+import fs from 'fs';
+import path from 'path';
+import Sequelize from 'sequelize';
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require('../config/config')[env];
+const config = require(__dirname + '/../config/config.js');
+const env = process.env.NODE_ENV;
 const db = {};
-
 let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+console.log(config[env].url);
+if (config[env].url) {
+  sequelize = new Sequelize(config[env].url);
 } else {
   sequelize = new Sequelize(process.env.DEV_DATABASE_URL);
-
 }
-
 fs
   .readdirSync(__dirname)
   .filter(file => {
@@ -34,7 +29,7 @@ Object.keys(db).forEach(modelName => {
   }
 });
 export const dbConnection=sequelize.authenticate().then(
-  ()=>console.log(`database connection established in ${env} database`)
+  ()=>console.log('database connection established')
 ).catch(err=>console.log('unable to connect to the database',err))
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

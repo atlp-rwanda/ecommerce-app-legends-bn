@@ -1,4 +1,5 @@
-# ecommerce-app-legends-bn-
+# ecommerce-app-legends-bn- ![check-code-coverage](https://img.shields.io/badge/code--coverage-97.05%25-brightgreen)
+
 
 ## Introduction
 
