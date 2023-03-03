@@ -33,4 +33,4 @@ jobs:
 
 env:
   NODE_ENV: ${{secrets.NODE_ENV}}
-  TEST_DATABASE_URL: ${{TEST_DATABASE_URL}}
+  TEST_DATABASE_URL: ${{sectrets.TEST_DATABASE_URL}}
