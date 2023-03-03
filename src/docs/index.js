@@ -2,7 +2,7 @@ import swagger from 'swagger-ui-express';
 import home from './home';
 import schemas from './shema';
 
-const { Router } = require('express');
+import { Router } from 'express';
 
 const { serve, setup } = swagger;
 

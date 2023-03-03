@@ -7,6 +7,11 @@
     "build": "babel src -d dist",
     "start": "nodemon dist/index.js",
     "dev": "nodemon --exec babel-node src/index.js",
+    "migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "migrate": "npx sequelize-cli db:migrate",
+    "make:migration":"npx sequelize-cli model:generate --name newchema --attributes firstName:string,lastName:string,email:string",
+    "generate:seed":"npx sequelize-cli seed:generate --name demo-user",
+    "seed":"npm run migrate:undo && npm run migrate && npx sequelize-cli db:seed:all",
     "lint:fix": "eslint src --fix --cache"
   },
   "repository": {
@@ -24,8 +29,13 @@
     "@babel/node": "^7.20.7",
     "babel-node": "^0.0.1-security",
     "body-parser": "^1.20.2",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "pg": "^8.9.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.29.0",
+    "sequelize-cli": "^6.6.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.21.0",
