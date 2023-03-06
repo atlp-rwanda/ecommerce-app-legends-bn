@@ -1,4 +1,4 @@
-# ecommerce-app-legends-bn-   ![check-code-coverage](https://img.shields.io/badge/code--coverage-96.66%25-brightgreen)
+# ecommerce-app-legends-bn-   ![check-code-coverage](https://img.shields.io/badge/code--coverage-96.66%25-brightgreen) [![Node.js CI](https://github.com/atlp-rwanda/ecommerce-app-legends-bn/actions/workflows/node.js.yml/badge.svg)](https://github.com/atlp-rwanda/ecommerce-app-legends-bn/actions/workflows/node.js.yml)
 ## Introduction
 
 This is the initial setup for the project, `ecommerce-app-legends-bn-`
