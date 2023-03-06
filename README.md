@@ -45,6 +45,7 @@ This is the Full Ecommerce App that should be used for the whole world for prodc
 
 ### File Structure
 
+- `locales:` This folder contains all the translation files for the application to use multiple languages.
 - `src:` This folder contains all the source code of the application.
 -  `api:` This folder contains all the API routes.
 -  `config:` This folder contains configuration files for the application.
