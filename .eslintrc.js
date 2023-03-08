@@ -1,7 +1,8 @@
 module.exports = {
+  parser: 'babel-eslint',
   env: {
     browser: true,
-    es2021: true
+    es2021: true,
   },
   extends: 'airbnb-base',
   overrides: [],
@@ -13,7 +14,7 @@ module.exports = {
     'prettier/prettier': 'error',
     quotes: 'off',
     avoidEscape: true,
-    allowTemplateLiterals: true
+    allowTemplateLiterals: true,
   },
-  plugins: ['prettier']
+  plugins: ['prettier'],
 };
