@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  server:
+    container_name: ecommerce_backend
+    image: ecommerce-backend:0.0.1
+    build:
+      context: .
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      DEV_DATABASE_URL: postgres://${DB_USER}:${DB_PASSWORD}@db:${DB_PORT}/${DB_NAME}
+
+    networks:
+      - shared-network
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - db
+
+  db:
+    container_name: postgres_db
+    image: "postgres"
+    ports:
+      - 5433:${DB_PORT}
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    networks:
+      - shared-network
+    volumes:
+      - nps_data:/var/lib/postgresql/data
+volumes:
+  nps_data:
+networks:
+  shared-network:

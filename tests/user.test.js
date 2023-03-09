@@ -12,12 +12,20 @@ describe('GET /', () => {
 describe('POST new user', () => {
   it('should create a new user', async () => {
     const response = await request(app)
-      .post('/api/user/post')
+      .post('/api/users/add')
       .send({
         firstName: 'John',
         lastName: 'Doe',
         email: 'doe@gmail.com',
       });
     expect(response.statusCode).toBe(201);
+  });
+});
+
+describe('POST new user', () => {
+  it('should create a new user', async () => {
+    const response = await request(app)
+      .get('/api/users/all');
+    expect(response.statusCode).toBe(200);
   });
 });
