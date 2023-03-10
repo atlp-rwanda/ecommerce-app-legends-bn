@@ -1,11 +1,13 @@
-import dotenv from "dotenv"
-import { User } from "../../models"
+import dotenv from "dotenv";
+import { User } from "../../models";
 import passport from 'passport';
-import GoogleStrategy from 'passport-google-oauth20';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20'; 
 import  jwt from 'jsonwebtoken';
-dotenv.config()
+
+dotenv.config();
+
 passport.use(new GoogleStrategy({
-  callbackURL: "http://localhost:5000/auth/google/redirect",
+  callbackURL: process.env.REDIRECT_URI,
   clientID: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
 },
@@ -27,4 +29,5 @@ async (accessToken, refreshToken, profile, done) => {
     done(error)
   }
 }));
-export default passport
+
+export default passport;

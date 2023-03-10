@@ -8,7 +8,6 @@ import { Router } from 'express';
 const { serve, setup } = swagger;
 
 const swaggerDocRouter = Router();
-
 const options = {
   openapi: '3.0.3',
   info: {

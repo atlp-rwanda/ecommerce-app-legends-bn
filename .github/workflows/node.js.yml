@@ -34,3 +34,7 @@ jobs:
 env:
   NODE_ENV: ${{secrets.NODE_ENV}}
   TEST_DATABASE_URL: ${{secrets.TEST_DATABASE_URL}}
+  CLIENT_ID: ${{secrets.CLIENT_ID}}
+  CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
+  REDIRECT_URI: ${{secrets.REDIRECT_URI}}
+  ACCESS_TOKEN_SECRET: ${{secrets.ACCESS_TOKEN_SECRET}}

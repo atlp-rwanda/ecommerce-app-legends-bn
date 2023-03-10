@@ -1,4 +1,5 @@
 export default {
+  
     "/auth/google": {
       "get": {
         "tags": [
