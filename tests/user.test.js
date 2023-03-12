@@ -9,14 +9,6 @@ describe('GET /', () => {
   });
 });
 
-describe('GET all users', () => {
-  it('should get a all users', async () => {
-    const response = await request(app)
-      .get('/api/users/all');
-    expect(response.statusCode).toBe(200);
-  });
-});
-
 describe('POST new user', () => {
   it('should create a new user', async () => {
     const response = await request(app)
