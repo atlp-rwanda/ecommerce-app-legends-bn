@@ -4,21 +4,6 @@ export default {
     get: {
       tags: ['home'],
       description: 'Home',
-      parameters: [],
-      requestBody: {
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/components/schemas/User',
-            },
-            example: {
-              names: 'Anathole Ana10',
-              email: 'Ana10@webmail.com',
-              description: 'message description',
-            },
-          },
-        },
-      },
       responses: {
         200: {
           description: 'route success',
@@ -29,24 +14,9 @@ export default {
   '/error': {
     get: {
       tags: ['error'],
-      description: '404',
-      parameters: [],
-      requestBody: {
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/components/schemas/User',
-            },
-            example: {
-              names: 'Anathole Ana10',
-              email: 'Ana10@webmail.com',
-              description: 'message description',
-            },
-          },
-        },
-      },
+      description: '404 not found',
       responses: {
-        401: {
+        404: {
           description: 'Not found',
         },
       },

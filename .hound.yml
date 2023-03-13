@@ -1,2 +1,2 @@
 eslint:
-  parser: babel-eslint
+  enabled: true

@@ -1,5 +1,6 @@
 import swagger from 'swagger-ui-express';
 import home from './home';
+import register from './register';
 import schemas from './shema';
 
 import { Router } from 'express';
@@ -7,7 +8,6 @@ import { Router } from 'express';
 const { serve, setup } = swagger;
 
 const swaggerDocRouter = Router();
-
 const options = {
   openapi: '3.0.3',
   info: {
@@ -21,7 +21,7 @@ const options = {
   tags: [
     { name: 'home', description: 'home' },
   ],
-  paths: { ...home },
+  paths: { ...home , ...register },
   components: {
     schemas,
     securitySchemes: {
@@ -29,7 +29,7 @@ const options = {
         type: 'http',
         scheme: 'bearer',
         bearerFormat: 'JWT',
-      },
+      }
     },
   },
 

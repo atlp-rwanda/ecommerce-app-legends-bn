@@ -9,14 +9,39 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      firstName: {
+      firstname: {
+        allowNull: false,
         type: Sequelize.STRING
       },
-      lastName: {
+      lastname: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       email: {
+        allowNull: false,
         type: Sequelize.STRING
+      },
+      dob:{
+        type: Sequelize.DATE
+      },
+      password: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      email_verfied_at: {
+        allowNull: true,
+        type: Sequelize.DATE
+      },
+      roleId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Role',
+          key: 'id',
+          onDelete: 'RESTRICT',
+          onUpdate: 'CASCADE',
+        },
+        
       },
       createdAt: {
         allowNull: false,

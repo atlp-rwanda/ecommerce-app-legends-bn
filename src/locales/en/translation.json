@@ -1,4 +1,7 @@
 {
     "hello_message": "Hello Wolrd!",
-    "404_error": "404 Not found"
+    "404_error": "404 Not found",
+    "user_exixted_error": "User already exists",
+    "fill_out_all_fields": "All fields are required",
+    "user_created_successfully": "User created successfully"
 }

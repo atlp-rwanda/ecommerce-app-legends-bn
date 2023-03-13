@@ -11,7 +11,7 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'prettier/prettier': 'error',
+    // 'prettier/prettier': 'error',
     quotes: 'off',
     avoidEscape: true,
     allowTemplateLiterals: true,

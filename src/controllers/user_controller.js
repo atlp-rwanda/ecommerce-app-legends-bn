@@ -17,7 +17,7 @@ const createUser = async (req, res) => {
 
 const getUser = async (req, res) => {
   const users = await User.findAll({});
-  return res.status(200).json({ users, message: 'success' });
+  return res.status(200).json({ users, message: 'ok' });
 };
 
 export default { createUser, getUser };

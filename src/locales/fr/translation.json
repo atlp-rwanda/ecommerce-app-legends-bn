@@ -1,4 +1,7 @@
 {
     "hello_message": "Bonjour le Monde!",
-    "404_error": "404 Pas trouvé"
+    "404_error": "404 Pas trouvé",
+    "user_not_found_error": "L'utilisateur n'existe pas",
+    "fill_out_all_fields" : "Remplir tous les champs",
+    "user_created_successfully": "L'utilisateur a été créé avec succès"
 }
