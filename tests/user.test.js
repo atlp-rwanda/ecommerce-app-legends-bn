@@ -1,5 +1,6 @@
 import request from 'supertest';
 import app from '../src/index.js';
+import {user ,role } from '../src/models';
 
 describe('GET /', () => {
   it('should return 200', async () => {
@@ -166,5 +167,50 @@ describe('admin tests', () => {
       .expect((res) => {
         return expect(res.status).toBe(204);
       });
+  });
+});
+
+
+//  =========== BUYER REGISTRATION TESTS ===========
+
+describe('POST Buyer register', () => {
+  it('should create a return 409', async () => {
+  
+    let buyer = await role.findOne({where: {name: 'buyer'}})
+
+    console.log('user')
+
+    if(!buyer){
+      buyer = await role.create({
+        name: 'buyer'
+      });
+    }
+    const newUser = await user.create({firstname: 'John', lastname: 'Doe', phone: "12345678", email: 'doe@gmail.com', password: '12345678', roleId: buyer.id});
+
+    const response = await request(app)
+      .post('/api/v1/register')
+      .send({firstname: 'John', lastname: 'Doe', phone: "1234", email: 'doe@gmail.com', password: '123456', roleId: buyer.id});
+    expect(response.statusCode).toBe(409);
+  });
+});
+
+
+// User 
+describe('POST Buyer register return 201', () => {
+
+  it('should create a return 201', async () => {
+    await user.destroy({where: {}});
+  const response = await request(app)
+  .post('/api/v1/register')
+  .send({firstname: 'John', lastname: 'Doe', phone: "1234", email: 'doe1@gmail.com', password: '123456'});
+  expect(response.statusCode).toBe(201);
+  });
+});
+
+describe('POST Buyer register', () => {
+  it('should create a return 400', async () => {
+    const response = await request(app)
+      .post('/api/v1/register');
+    expect(response.statusCode).toBe(400);
   });
 });

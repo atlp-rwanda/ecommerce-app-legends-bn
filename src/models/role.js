@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
           role.belongsToMany(models.permission, {
             through: models.rolePermission,
           });
-      
     }
   }
   role.init(
