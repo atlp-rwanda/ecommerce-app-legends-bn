@@ -15,6 +15,10 @@ module.exports = {
     quotes: 'off',
     avoidEscape: true,
     allowTemplateLiterals: true,
+    'babel/new-cap': 1,
+    'babel/object-curly-spacing': 1,
+    'babel/no-invalid-this': 1,
+    'babel/semi': 1,
   },
-  plugins: ['prettier'],
+  plugins: ['prettier', 'babel']
 };
