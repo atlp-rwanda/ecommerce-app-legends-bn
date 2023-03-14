@@ -6,7 +6,6 @@ dotenv.config();
 
 export const auth = (arg) => {
   return async (req, res, next) => {
-    console.log('here')
     const bearerHeader = req.headers.authorization;
     if (!bearerHeader)
       return res.status(403).json({

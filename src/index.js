@@ -4,6 +4,8 @@ import adminRouter from './api/users/adminRoutes';
 import userAuthRoutes from './api/users/userRoutes';
 import google_auth from './api/users/google_oauth.routes'
 import vendorRouter from './api/users/vendorRoutes';
+import categoryRoutes from './api/products/category'
+import productRoutes from './api/products/productsRoutes'
 import docs from './docs/index';
 import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
@@ -36,6 +38,8 @@ app.use(docs);
 app.use(adminRouter);
 app.use(vendorRouter);
 app.use('/api/v1', userAuthRoutes);
+app.use('/api/v1/category', categoryRoutes);
+app.use(productRoutes);
 app.use(google_auth)
 
 

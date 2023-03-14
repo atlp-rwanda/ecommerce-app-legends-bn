@@ -420,4 +420,3 @@ describe('verifyOTP', () => {
     expect(response.body.message).toBe();
   });
 });
-

@@ -31,5 +31,6 @@
   "disabled_successfully":"user disabled successfully",
   "enabled_successfuly":"user enabled successfully",
   "already_enabled":"user already enabled",
-  "user_disabled":"Your account is disabled, please contact admin"
+  "user_disabled":"Your account is disabled, please contact admin",
+  "product_exist_error" : "The same product is already in this collection"
 }
