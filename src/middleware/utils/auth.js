@@ -2,71 +2,34 @@ import dotenv from 'dotenv';
 import { checkToken } from './verifyPassword';
 dotenv.config();
 
-export const authAdmin = async (req, res, next) => {
-  const bearerHeader = req.headers.authorization;
-  if (!bearerHeader) return res.status(403).json({
-    status: 'failed',
-    message: 'Access dineid',
-  });
-  const bearer = bearerHeader.split(' ');
-  const token = bearer[1];
-  const result = await checkToken(token);
-  const role = result.user.role;
-  if (!result) return res.status(401).json({
-    status: 'failed',
-    message: 'Unauthorized, invalid token',
-  });
-  if (role === 'admin') {
-    next();
-  } else {
-    res.status(401).json({
-      status: 'failed',
-      message: 'Access dineid, provide correct credentials',
-    });
-  }
-};
-
-export const authVendor = async (req, res, next) => {
-  const token = await accessCookie(req, res);
-  const result = await checkToken(token);
-  if (!result)
-    return res.status(401).json({
-      status: 'failed',
-      message: 'Unauthorized, invalid token',
-    });
-  if (result.role === 'vendor') {
-    next();
-  } else {
-    res.status(401).json({
-      status: 'failed',
-      message: 'Access dineid, provide correct credentials',
-    });
-  }
-};
-
-export const authBuyer = async (req, res, next) => {
-  //  const token = await accessCookie(req, res);
-  const bearerHeader = req.headers.authorization;
-  if (!bearerHeader) return res.status(403).json({
-    status: 'failed',
-    message: 'Access dineid',
-  });
-  const bearer = bearerHeader.split(' ');
-  const token = bearer[1];
-  const result = await checkToken(token);
-  if (!result)
-    return res.status(401).json({
-      status: 'failed',
-      message: 'Unauthorized, invalid token',
-    });
-  if (result.role === 'buyer') {
-    next();
-  } else {
-    res.status(401).json({
-      status: 'failed',
-      message: 'Access dineid, provide correct credentials',
-    });
-  }
+export const auth = (arg) => {
+  return async (req, res, next) => {
+    const bearerHeader = req.headers.authorization;
+    if (!bearerHeader)
+      return res.status(403).json({
+        status: 'failed',
+        message: 'Access dineid',
+      });
+    const bearer = bearerHeader.split(' ');
+    const token = bearer[1];
+    const result = await checkToken(token);
+    if (!result)
+      return res.status(401).json({
+        status: 'failed',
+        message: 'Unauthorized, invalid token',
+      });
+    const role = result?.user.role;
+    if (role === 'admin') return next();
+    else {
+      if (role !== arg) {
+        return res.status(401).json({
+          status: 'failed',
+          message: 'Access dineid, provide correct credentials',
+        });
+      }
+      next();
+    }
+  };
 };
 
 export const accessCookie = async (req, res) => {
@@ -84,5 +47,5 @@ export const accessCookie = async (req, res) => {
   //    }
   //    hashedToken = obj.token;
   //   }
-  return hashedToken;
+  // return hashedToken;
 };

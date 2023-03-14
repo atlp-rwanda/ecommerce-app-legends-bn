@@ -1,6 +1,6 @@
 import express from 'express';
 import { login } from '../../controllers/login';
-import { auth, authAdmin } from '../../middleware/utils/auth';
+import { auth } from '../../middleware/utils/auth';
 import {
   getAllUsers,
   createAdmin,
@@ -10,9 +10,9 @@ import {
 const router = express.Router();
 
 router.post('/api/admin/login', login);
-router.get('/api/admin/users', authAdmin, getAllUsers);
-router.get('/api/admin/users/:id', authAdmin, getSingleUser);
+router.get('/api/admin/users', auth('admin'), getAllUsers);
+router.get('/api/admin/users/:id', auth('admin'), getSingleUser);
 router.post('/api/admin/users', createAdmin);
-router.delete('/api/admin/users/:id', authAdmin, deleteUsers);
+router.delete('/api/admin/users/:id', auth('admin'), deleteUsers);
 
 export default router;
