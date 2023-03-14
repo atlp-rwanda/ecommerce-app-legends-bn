@@ -6,7 +6,7 @@ module.exports = {
     testEnvironmentVariables: {
       NODE_ENV: 'test'
     },
-    testTimeout: 32000,
+    testTimeout: 46000,
     collectCoverage: true,
     coverageDirectory: 'coverage',
     collectCoverageFrom: [

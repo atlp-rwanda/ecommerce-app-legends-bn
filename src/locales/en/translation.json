@@ -1,4 +1,6 @@
 {
-    "hello_message": "Hello Wolrd!",
-    "404_error": "404 Not found"
+  "hello_message": "Hello Wolrd!",
+  "404_error": "404 Not found",
+  "admin_added_message": "admin added",
+  "success": "success"
 }

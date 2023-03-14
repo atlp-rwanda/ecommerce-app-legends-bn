@@ -2,9 +2,8 @@ import swagger from 'swagger-ui-express';
 import home from './home';
 import google_outh from './google_outh';
 import schemas from './shema';
-
+import admin from './admin';
 import { Router } from 'express';
-
 const { serve, setup } = swagger;
 
 const swaggerDocRouter = Router();
@@ -52,7 +51,14 @@ const options = {
       },
     },
   },
-
+  tags: [
+    { name: 'home', description: 'home' },
+    {
+      name: 'admin',
+      description: 'endpoints that offer special priviledge functions to admin',
+    },
+  ],
+  paths: { ...home, ...admin },
 };
 
 swaggerDocRouter.use('/docs', serve, setup(options));

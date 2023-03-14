@@ -41,6 +41,10 @@ export const loginWithGoogle = async (req, res) => {
   try {
     const { user, token } = req.user;
     const existingUser = await db.user.findOne({ where: { email: user.email } });
+    if(!existingUser){
+      res.status(404).json({status:"fail", message: "user email not found"})
+      return
+    }
     if (existingUser) {
       const role = await db.role.findOne({ where: { id: existingUser.roleId } });
       req.body.role = role.name;
@@ -54,24 +58,24 @@ export const loginWithGoogle = async (req, res) => {
       });
       return res.status(200).json({ user, token });
     }
-    const newUser = await db.user.create({
-      email:user.email,
-      password: null,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      roleId: 2, // default role is "user"
-      });
-      req.body.role = 'user';
-      const role = await db.role.findOne({ where: { id: newUser.roleId } });
-      const newToken = await signToken({ id: newUser.id, role: role.name });
-      res.cookie('token', newToken, {
-      expiresIn: new Date(
-      Date.now() + process.env.JWT_EXPIRES_IN * 24 * 60 * 60 * 1000
-      ),
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      });
+    // const newUser = await db.user.create({
+    //   email:user.email,
+    //   password: null,
+    //   firstName: user.firstName,
+    //   lastName: user.lastName,
+    //   roleId: 2, // default role is "user"
+    //   });
+      // req.body.role = 'user';
+      // const role = await db.role.findOne({ where: { id: newUser.roleId } });
+      // const newToken = await signToken({ id: newUser.id, role: role.name });
+      // res.cookie('token', newToken, {
+      // expiresIn: new Date(
+      // Date.now() + process.env.JWT_EXPIRES_IN * 24 * 60 * 60 * 1000
+      // ),
+      // httpOnly: true,
+      // secure: true,
+      // sameSite: 'none',
+      // });
       return res.status(200).json({ user: newUser, token: newToken });
       } catch (err) {
       console.error(err);
