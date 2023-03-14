@@ -14,8 +14,12 @@ export const signToken = async (user) => {
 };
 
 export const checkToken = async (token) => {
-  const result = await jwt.verify(token, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
-  return result;
+ try {
+   const result = await jwt.verify(token, process.env.JWT_SECRET, {
+     expiresIn: process.env.JWT_EXPIRES_IN,
+   });
+   return result;
+ } catch (error) {
+    return false;
+ }
 };
