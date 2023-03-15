@@ -152,4 +152,75 @@ export default {
       },
     },
   },
+  '/api/vendor/users':{
+    post:{
+      tags: ['admin'],
+      description:
+        "this endpoint is defined with the post HTTP method and allows the creation of a new Vendor. The endpoint is also tagged as being only accessible to admin users and requires a request body with the user's details, such as first name, last name, email, password, phone, and permissions. The request body schema is defined using an object with properties that match the user details, each with its own type, description, and example value",
+      parameters: [],
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                firstname: {
+                  type: 'string',
+                  description: 'firstname',
+                  example: 'kevchecho',
+                },
+                lastname: {
+                  type: 'string',
+                  description: 'lastname',
+                  example: 'rustage',
+                },
+                email: {
+                  type: 'string',
+                  description: 'email',
+                  example: 'koksa@gmail.com ',
+                },
+                password: {
+                  type: 'string',
+                  description: 'password',
+                  example: 'pasword ',
+                },
+                phone: {
+                  type: 'string',
+                  description: 'phone',
+                  example: '250787882105',
+                },
+                permissions: {
+                  type: 'string',
+                  description: 'title',
+                  example: [
+                    'add product',
+                    'add vendor',
+                    'add buyer',
+                    'remove vendor',
+                    'remove product',
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
+      responses: {
+        201: {
+          description: 'ok',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                example: {
+                  message: 'Vendor added',
+                  status: 'success',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  }
 };

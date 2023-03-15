@@ -3,6 +3,7 @@ import rootRouter from './api/root';
 import adminRouter from './api/users/adminRoutes';
 import userAuthRoutes from './api/users/userRoutes';
 import google_auth from './api/users/google_oauth.routes'
+import vendorRouter from './api/users/vendorRoutes';
 import docs from './docs/index';
 import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
@@ -33,6 +34,7 @@ app.use(middleware.handle(i18next));
 app.use('/', rootRouter);
 app.use(docs);
 app.use(adminRouter);
+app.use(vendorRouter);
 app.use('/api/v1', userAuthRoutes);
 app.use(google_auth)
 
