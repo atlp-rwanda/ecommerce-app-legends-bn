@@ -46,7 +46,8 @@
     "pg": "^8.9.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.29.0",
-    "sequelize-cli": "^6.6.0"
+    "sequelize-cli": "^6.6.0",
+    "speakeasy": "^2.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.21.0",
@@ -76,6 +77,6 @@
     "swagger-ui-express": "^4.6.2"
   },
   "directories": {
-    "doc": "docs"
+    "test": "tests"
   }
 }
