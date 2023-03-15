@@ -2,8 +2,11 @@
   "hello_message": "Bonjour le Monde!",
   "404_error": "404 Pas trouvé",
   "admin_added_message": "Administrateur ajouté",
-  "success":"succès",
+  "success": "succès",
+  "fail": "échoué",
+  "wrong_email": "Informations d'identification non valides, l'e-mail n'est pas enregistré",
+  "wrong_password": "Identifiants invalides, mot de passe erroné",
   "user_not_found_error": "L'utilisateur n'existe pas",
-  "fill_out_all_fields" : "{{validation}} sont obligatoires et ne peuvent pas être vides}}",
+  "fill_out_all_fields": "{{validation}} sont obligatoires et ne peuvent pas être vides}}",
   "user_created_successfully": "L'utilisateur a été créé avec succès"
 }

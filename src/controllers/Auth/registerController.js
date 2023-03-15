@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import { user, role } from '../../models';
 import sendEmail from '../../utils/sendEmail';
+import { signToken, checkToken } from '../../utils/verifyPassword';
+import hashPassword from '../../utils/hashpassword';
 
 // eslint-disable-next-line consistent-return
 const register = async (req, res) => {
@@ -34,10 +36,9 @@ const register = async (req, res) => {
     }); // Conflict
 
   // encrypt the password
-  const hashedPwd = await bcrypt.hash(password, 10);
+  const hashedPwd = await hashPassword(password);
 
   let buyer = await role.findOne({ where: { name: 'buyer' } });
-
   if (!buyer) {
     buyer = await role.create({
       name: 'buyer',
@@ -55,8 +56,12 @@ const register = async (req, res) => {
     <p> if not ${firstname} ${lastname} don,t care this email </p>
     `,
   };
+  let token = '';
   try {
-    const result = user.create(req.body);
+    const result = await user.create(req.body);
+    token = await signToken({ id: result.id, role: buyer.name });
+    req.body.token = token;
+    await checkToken(token);
     await sendEmail(emailContent);
   } catch (error) {
     return res.status(500).json({ status: 'error', message: error.message });
@@ -64,7 +69,7 @@ const register = async (req, res) => {
 
   res
     .status(201)
-    .json({ message: req.t('user_created_successfully'), status: 'ok' });
+    .json({ message: req.t('user_created_successfully'), status: 'ok', token });
 };
 
 export default { register };
