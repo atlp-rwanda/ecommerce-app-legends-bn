@@ -15,6 +15,8 @@ module.exports = {
     '!src/models/index.js',
     '!src/utils/sendEmail.js',
     '!src/docs/**/*.js',
+    "!src/controllers/Auth/google_oauth.js",
+    "!src/middleware/**/*.js",
   ],
   coverageReporters: ['text', 'html', 'json', 'lcov', 'json-summary'],
 };

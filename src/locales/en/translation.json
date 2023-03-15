@@ -9,5 +9,7 @@
   "wrong_password":"Invalid credentials, password is wrong",
   "user_exixted_error": "User already exists",
   "fill_out_all_fields": "{{validation}} , fields are required and can't be empty",
-  "user_created_successfully": "User created successfully"
+  "user_created_successfully": "User created successfully",
+  "user_email_not_found": "email not found, do you want to signup?",
+  "500_insternal_server_error": "internal server error"
 }
