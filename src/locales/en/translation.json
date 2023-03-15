@@ -2,5 +2,8 @@
   "hello_message": "Hello Wolrd!",
   "404_error": "404 Not found",
   "admin_added_message": "admin added",
-  "success": "success"
+  "success": "success",
+  "user_exixted_error": "User already exists",
+  "fill_out_all_fields": "{{validation}} , fields are required and can't be empty",
+  "user_created_successfully": "User created successfully"
 }
