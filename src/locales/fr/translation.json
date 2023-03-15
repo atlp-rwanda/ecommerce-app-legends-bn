@@ -8,5 +8,7 @@
   "wrong_password": "Identifiants invalides, mot de passe erroné",
   "user_not_found_error": "L'utilisateur n'existe pas",
   "fill_out_all_fields": "{{validation}} sont obligatoires et ne peuvent pas être vides}}",
-  "user_created_successfully": "L'utilisateur a été créé avec succès"
+  "user_created_successfully": "L'utilisateur a été créé avec succès",
+  "user_email_not_found": "email introuvable, voulez-vous vous inscrire ?",
+  "500_insternal_server_error": "Erreur interne du serveur"
 }

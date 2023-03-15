@@ -2,6 +2,7 @@ import express from 'express';
 import rootRouter from './api/root';
 import adminRouter from './api/users/adminRoutes';
 import userAuthRoutes from './api/users/userRoutes';
+import google_auth from './api/users/google_oauth.routes'
 import docs from './docs/index';
 import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
@@ -33,6 +34,7 @@ app.use('/', rootRouter);
 app.use(docs);
 app.use(adminRouter);
 app.use('/api/v1', userAuthRoutes);
+app.use(google_auth)
 
 app.all('*', (req, res) => {
   res.json({ error: req.t('404_error') });

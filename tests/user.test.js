@@ -8,6 +8,7 @@ describe('GET /', () => {
     expect(response.statusCode).toBe(200);
   });
 });
+
 //admin endpoints
 describe('admin tests', () => {
   let idAdmin;
