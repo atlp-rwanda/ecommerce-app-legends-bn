@@ -1,6 +1,6 @@
 import express from 'express';
 import upload from '../../utils/handlingFileUploads';
-import { CreateNewProduct } from '../../controllers/products/productController';
+import { CreateNewProduct ,deleteProduct} from '../../controllers/products/productController';
 import { addNewProductVariation } from '../../controllers/products/productVariationsControllers';
 import { addNewProductimages } from '../../controllers/products/ProductImagesController';
 import { auth } from '../../middleware/auth';
@@ -16,7 +16,7 @@ ProductRouter.post(
 //products atributes
 ProductRouter.post(
   '/api/v1/product/variation/add',
-  auth('admin'),
+  auth('vendor'),
   upload.array('attrImage', 1),
   addNewProductVariation
 );
@@ -28,4 +28,7 @@ ProductRouter.post(
   upload.array('prodImage', 8),
   addNewProductimages
 );
+//delete product
+ProductRouter.delete('/api/v1/products/delete/:id',
+auth('vendor'),deleteProduct);
 export default ProductRouter;

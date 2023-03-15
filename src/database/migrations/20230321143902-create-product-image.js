@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       prodImage: {
-        type: Sequelize.ARRAY(Sequelize.STRING)
+        type: Sequelize.STRING
       },
       productId: {
         type: Sequelize.UUID,
@@ -33,6 +33,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      cloudinaryId:{
+        allowNull: false,
+        type: Sequelize.STRING
+      }
     });
   },
   async down(queryInterface, Sequelize) {

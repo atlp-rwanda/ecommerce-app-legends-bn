@@ -30,3 +30,6 @@ export default multer({
     cb(null, true);
   },
 });
+export const removeImageFromCloudinary= (imgId)=>{
+ return cloudinary.uploader.destroy(imgId);
+}

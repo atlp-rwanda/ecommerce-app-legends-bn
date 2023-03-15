@@ -137,15 +137,12 @@ export const verifyOTP = async (req, res) => {
             where: { id: cookies.onloggingUserid },
           });
           const role = await db.role.findOne({ where: { id: user.roleId } });
-          const token = JWT.sign(
-            {
-              id: user.id,
-              email: user.email,
-              role: role.name,
-            },
-            process.env.APP_SECRET,
-            { expiresIn: '3600s' }
-          );
+          const token = await signToken({
+            id: user.id,
+            role: role.name,
+            email: user.email,
+          });
+          req.body.token = token;
           res
             .status(200)
             .json({ message: req.t('verified'), user, token, role: role.name });

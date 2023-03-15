@@ -1,3 +1,4 @@
+
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -33,7 +34,7 @@ module.exports = {
 
       },
       attrImage: {
-        type: Sequelize.ARRAY(Sequelize.STRING)
+        type: Sequelize.STRING
       },
       quantity: {
         type: Sequelize.INTEGER
@@ -45,6 +46,10 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      cloudinaryId:{
+        allowNull: false,
+        type: Sequelize.STRING
       }
     });
   },
