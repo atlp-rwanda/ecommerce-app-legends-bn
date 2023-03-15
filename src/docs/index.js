@@ -3,6 +3,7 @@ import home from './home';
 import schemas from './shema';
 import admin from './admin';
 import register from './register';
+import login from './login';
 import { Router } from 'express';
 const { serve, setup } = swagger;
 
@@ -35,7 +36,7 @@ const options = {
       description: 'endpoints that offer special priviledge functions to admin',
     },
   ],
-  paths: { ...home, ...admin, ...register },
+  paths: { ...home, ...admin, ...register, ...login },
 };
 
 swaggerDocRouter.use('/docs', serve, setup(options));

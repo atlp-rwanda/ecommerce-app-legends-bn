@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { checkToken } from './verifyPassword';
+import { checkToken } from '../utils/verifyPassword';
 dotenv.config();
 
 export const auth = (arg) => {
@@ -17,7 +17,7 @@ export const auth = (arg) => {
       return res.status(401).json({
         status: 'failed',
         message: 'Unauthorized, invalid token',
-      });
+      })
     const role = result?.user.role;
     if (role === 'admin') return next();
     else {

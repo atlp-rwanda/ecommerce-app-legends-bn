@@ -1,6 +1,6 @@
 import express from 'express';
 import { login } from '../../controllers/login';
-import { auth } from '../../middleware/utils/auth';
+import { auth } from '../../middleware/auth';
 import {
   getAllUsers,
   createAdmin,

@@ -36,3 +36,7 @@ env:
   TEST_DATABASE_URL: ${{secrets.TEST_DATABASE_URL}}
   JWT_EXPIRES_IN: ${{secrets.JWT_EXPIRES_IN}}
   JWT_SECRET: ${{secrets.JWT_SECRET}}
+  GMAIL_USER: ${{secrets.GMAIL_USER}}
+  GMAIL_PASS: ${{secrets.GMAIL_PASS}}
+  APP_NAME: ${{secrets.APP_NAME}}
+  PORT: ${{secrets.PORT}}

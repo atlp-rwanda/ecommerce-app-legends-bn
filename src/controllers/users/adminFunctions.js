@@ -1,5 +1,5 @@
 import db from '../../models';
-import { hashPassword } from '../../middleware/hashpassword';
+import  hashPassword from '../../utils/hashpassword';
 export const createAdmin = async (req, res) => {
   //add admins
   try {
