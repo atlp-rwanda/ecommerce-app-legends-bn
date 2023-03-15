@@ -1,5 +1,5 @@
 import db from '../../models';
-import  hashPassword from '../../utils/hashpassword';
+import { hashPassword }from '../../utils/hashpassword';
 export const createAdmin = async (req, res) => {
   //add admins
   try {
@@ -29,7 +29,7 @@ export const createAdmin = async (req, res) => {
       status: req.t('success'),
     });
   } catch (err) {
-    res.status(403).json({
+    res.status(500).json({
       message: err.errors ? err.errors[0].message : err.message,
       status: 'failed',
     });

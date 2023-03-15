@@ -8,7 +8,7 @@ export const auth = (arg) => {
     if (!bearerHeader)
       return res.status(403).json({
         status: 'failed',
-        message: 'Access dineid',
+        message: 'Access denied',
       });
     const bearer = bearerHeader.split(' ');
     const token = bearer[1];

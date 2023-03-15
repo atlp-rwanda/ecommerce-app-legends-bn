@@ -1,8 +1,7 @@
-import bcrypt from 'bcrypt';
 import { user, role } from '../../models';
 import sendEmail from '../../utils/sendEmail';
 import { signToken, checkToken } from '../../utils/verifyPassword';
-import hashPassword from '../../utils/hashpassword';
+import { hashPassword } from '../../utils/hashpassword';
 
 // eslint-disable-next-line consistent-return
 const register = async (req, res) => {
@@ -11,20 +10,27 @@ const register = async (req, res) => {
   let validation = '';
   let isvalid = true;
 
-  let valdationArr = ["firstname", "lastname", "email", "phone", "password"]
+  let valdationArr = ['firstname', 'lastname', 'email', 'phone', 'password'];
 
-  valdationArr.forEach((key,val) => {
-    if (req.body[key] == "undefined" || req.body[key] == "" || req.body[key] == null) {
+  valdationArr.forEach((key, val) => {
+    if (
+      req.body[key] == 'undefined' ||
+      req.body[key] == '' ||
+      req.body[key] == null
+    ) {
       console.log(key);
       validation += key + ' ,';
-      isvalid = false
+      isvalid = false;
     }
   });
 
   if (!isvalid) {
     return res
       .status(400)
-      .json({ status: 'error', message: req.t('fill_out_all_fields', {validation}) });
+      .json({
+        status: 'error',
+        message: req.t('fill_out_all_fields', { validation }),
+      });
   }
 
   // check for duplicate usernames in the db

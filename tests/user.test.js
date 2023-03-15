@@ -13,6 +13,7 @@ describe('GET /', () => {
 describe('admin tests', () => {
   let idAdmin;
   let token;
+  let idvendor
   test('adding a real admin', async () => {
     await request(app)
       .post('/api/admin/users')
@@ -41,7 +42,7 @@ describe('admin tests', () => {
         email: 'hassomeon@bff.com',
       })
       .expect(function (res) {
-        return expect(res.status).toBe(403);
+        return expect(res.status).toBe(500);
       })
       .catch((error) => {
         console.error(error);
@@ -126,35 +127,56 @@ describe('admin tests', () => {
         return expect(res.status).toBe(200);
       });
   });
+     test('adding a real vendor', async () => {
+       await request(app)
+         .post('/api/vendor/users')
+         .set('Authorization', `bearer ${token}`)
+         .send({
+           firstname: 'joeyb',
+           lastname: 'idowa',
+           email: 'testvendor@bff.com',
+           password: 'pasmegaround',
+           phone: '0787882105',
+           permissions: [],
+         })
+         .expect(function (res) {
+           return expect(res.status).toBe(201);
+         })
+         .catch((error) => {
+           console.error(error);
+           throw error;
+         });
+     });
+        test('getting users by admin with wrong token', async () => {
+          await request(app)
+            .get('/api/admin/users')
+            .set('Authorization', `Bearer ${token}qwert`)
+            .expect((res) => {
+              return expect(res.status).toBe(401);
+            })
+            .catch((err) => {
+              throw err;
+            });
+        });
 
   test('getting users by admin', async () => {
     await request(app)
       .get('/api/admin/users')
       .set('Authorization', `Bearer ${token}`)
       .expect((res) => {
-        idAdmin = res._body[0].id;
+        console.log(res._body)
+        idAdmin = res._body
+
         return expect(res.status).toBe(200);
       })
       .catch((err) => {
         throw err;
       });
   });
-
-   test('getting users by admin with wrong token', async () => {
-     await request(app)
-       .get('/api/admin/users')
-       .set('Authorization', `Bearer ${token}qwert`)
-       .expect((res) => {
-         return expect(res.status).toBe(401);
-       })
-       .catch((err) => {
-         throw err;
-       });
-   });
   
   test('getting single user by admin', async () => {
     await request(app)
-      .get(`/api/admin/users/${idAdmin}`)
+      .get(`/api/admin/users/${idAdmin[0].id}`)
       .set('Authorization', `Bearer ${token}`)
       .expect((res) => {
         return expect(res.status).toBe(200);
@@ -163,12 +185,23 @@ describe('admin tests', () => {
 
   test('deleting users by admin', async () => {
     await request(app)
-      .delete(`/api/admin/users/${idAdmin}`)
+      .delete(`/api/admin/users/${idAdmin[0].id}`)
       .set('Authorization', `bearer ${token}`)
       .expect((res) => {
         return expect(res.status).toBe(204);
       });
   });
+  
+  test('deleting vendor by admin', async () => {
+    await request(app)
+      .delete(`/api/admin/users/${idAdmin[1].id}`)
+      .set('Authorization', `bearer ${token}`)
+      .expect((res) => {
+        return expect(res.status).toBe(204);
+      });
+  });
+
+ 
 });
 
 
