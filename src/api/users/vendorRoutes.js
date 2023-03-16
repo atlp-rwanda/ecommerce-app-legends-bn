@@ -6,7 +6,7 @@ const router =Express.Router()
 
 
 //routes for vendors
-router.post('/api/vendor/users', auth('admin'), createVendor);
+router.post('/api/vendor/users', createVendor);
 
 
 export default router

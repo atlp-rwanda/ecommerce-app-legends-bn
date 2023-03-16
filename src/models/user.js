@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
           isAlpha: true,
         },
       },
+
       email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -47,13 +48,25 @@ module.exports = (sequelize, DataTypes) => {
       },
       phone: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
+      },
+      birthdate: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      language: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      currency: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
       roleId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: 'role',
+          model: 'roles',
           key: 'id',
           onDelete: 'CASCADE', // add cascade on delete
           onUpdate: 'CASCADE',
