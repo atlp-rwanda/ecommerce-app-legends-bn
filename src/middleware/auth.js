@@ -24,11 +24,12 @@ export const auth = (arg) => {
     if (role === 'admin') return next();
     else {
       if (role !== arg) {
-        console.log(role)
+        if(arg !== 'all'){
         return res.status(401).json({
           status: req.t('fail'),
           message: req.t('wrong_credentials'),
         });
+      }
       }
       next();
     }

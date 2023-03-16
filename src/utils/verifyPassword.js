@@ -7,8 +7,13 @@ export const comparePassword = async (password, hashedPassword) => {
   return result;
 };
 export const signToken = async (user) => {
+  let expires = process.env.JWT_EXPIRES_IN;
+  if(user.reason === 'reset'){
+    expires = process.env.PASS_EXPIRES_IN;
+    // console.log(user);
+  }
   const result = await jwt.sign({ user }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
+    expiresIn: expires,
   });
   return result;
 };
