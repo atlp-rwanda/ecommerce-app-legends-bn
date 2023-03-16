@@ -14,5 +14,11 @@
   "no_user":"Identifiants invalides pour n'importe quel utilisateur",
   "verified":"Vérifié...! Bienvenue",
   "not_validated":"Ce n'est pas validé",
-  "login":"Veuillez vous connecter d'abord"
+  "login":"Veuillez vous connecter d'abord",
+  "user_email_not_found": "email introuvable, voulez-vous vous inscrire ?",
+  "500_insternal_server_error": "Erreur interne du serveur",
+  "auth_message": "Authentification échoué",
+  "access": "acces refuse",
+  "email_fail": "L'utilisation avec cet email n'existe pas",
+  "password_updated": "Mot de passe utilisateur mis a jour"
 }

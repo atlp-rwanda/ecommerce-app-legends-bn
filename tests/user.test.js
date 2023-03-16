@@ -205,7 +205,7 @@ describe('admin tests', () => {
  
 });
 //  =========== BUYER REGISTRATION TESTS ===========
-
+let pass_token;
 describe('POST Buyer register', () => {
   it('should create a return 409', async () => {
   
@@ -237,6 +237,50 @@ describe('POST Buyer register return 201', () => {
   expect(response.statusCode).toBe(201);
   });
 });
+describe('verify the email if it is valid for the password reset ', () => {
+
+  it('should create a return 201', async () => {
+  const response = await request(app)
+  .post('/api/v1/email')
+  .send({email: 'doe1@gmail.com'});
+  expect(response.statusCode).toBe(200);
+  expect(response.body).toHaveProperty("token");
+  pass_token=response.body.token;
+  });
+});
+describe('the password reset ', () => {
+
+  it('should create a return 201', async () => {
+    const response =await request(app)
+    
+  .post(`/api/v1/password/${pass_token}`)
+  .send({password: '123'});
+  expect(response.body.message).toEqual('User password updated!');
+  });
+});
+describe('verify the email if it is valid for the password reset ', () => {
+
+  it('should create a return error', async () => {
+  const response = await request(app)
+  .post('/api/v1/email')
+  .send({email: 'doe147@gmail.com'});
+  expect(response.statusCode).toBe(200);
+  expect(response.body).toHaveProperty("message");
+  pass_token=response.body.token;
+  });
+});
+
+describe('the password reset with non-valid token', () => {
+
+  it('should create a return error', async () => {
+    const response =await request(app)
+  .post(`/api/v1/password/${pass_token}e`)
+  .set('Accept-Language', `fr`)
+  .send({password: '123'});
+  expect(response.body.message).toEqual('Authentification échoué');
+  });
+});
+
 
 describe('POST Buyer register', () => {
   it('should create a return 400', async () => {

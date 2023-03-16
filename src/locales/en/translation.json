@@ -15,5 +15,11 @@
   "no_user":"invalid credentials for any user",
   "verified":"verified...!,welcome",
   "not_validated":"it is not validated",
-  "login":"please login first"
+  "login":"please login first",
+  "user_email_not_found": "email not found, do you want to signup?",
+  "500_insternal_server_error": "internal server error",
+  "auth_message": "Authentication failed",
+  "access": "access denied",
+  "email_fail": "User with that email does not exist",
+  "password_updated": "User password updated!"
 }
