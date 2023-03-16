@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../src/index.js';
 import {user ,role } from '../src/models';
+import { comparePassword } from '../src/utils/verifyPassword.js';
 
 describe('GET /', () => {
   it('should return 200', async () => {
@@ -86,7 +87,7 @@ describe('admin tests', () => {
         password: 'pasmegaroundhello',
       })
       .expect((res) => {
-        return expect(res.status).toBe(403);
+        return expect(res.status).toBe(500);
       });
   });
 
@@ -203,8 +204,6 @@ describe('admin tests', () => {
 
  
 });
-
-
 //  =========== BUYER REGISTRATION TESTS ===========
 
 describe('POST Buyer register', () => {
@@ -227,8 +226,6 @@ describe('POST Buyer register', () => {
     expect(response.statusCode).toBe(409);
   });
 });
-
-
 // User 
 describe('POST Buyer register return 201', () => {
 
@@ -246,5 +243,31 @@ describe('POST Buyer register', () => {
     const response = await request(app)
       .post('/api/v1/register');
     expect(response.statusCode).toBe(400);
+  });
+});
+/////verification code testing from vendor//////
+describe('verifyOTP', () => {
+  it('should return "please login first" if no cookies are present', async () => {
+    const response = await request(app)
+      .post('/api/vendor/verify')
+      .send({ token: '354482' });
+    expect(response.statusCode).toBe(403);
+  });
+  it('should return "it is not validated" if the incoming token does not match the saved token', async () => {
+    const response = await request(app)
+      .post('/api/vendor/verify')
+      .set('Cookie', 'onloginToken=374829; onloggingUserid=1')
+      .send({ token: '463829' });
+    expect(response.statusCode).toBe(500);
+  });
+  it('should return "verified...!,welcome" and an access token if the incoming token matches the saved token', async () => {
+    const mockUser = { id: 1, email: 'ben@example.com' };
+    const mockToken = 'some_encoded_token';
+    const response = await request(app)
+      .post('/verify-otp')
+      .set('Cookie', `onloginToken=${mockToken}; onloggingUserid=${mockUser.id}`)
+      .send({ token: '374829' });
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe();
   });
 });

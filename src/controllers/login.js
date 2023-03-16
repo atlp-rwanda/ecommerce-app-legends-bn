@@ -1,7 +1,12 @@
 import db from '../models';
 import { comparePassword, signToken } from '../utils/verifyPassword';
 import sendEmail from '../utils/sendEmail';
-
+import { handleCookies, getCookieInfo } from '../utils/handleCookies';
+import speakeasy from 'speakeasy';
+import JWT from 'jsonwebtoken';
+import Bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
+dotenv.config();
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -22,36 +27,116 @@ export const login = async (req, res) => {
         message: req.t('wrong_password'),
       });
     }
-    const token = await signToken({ id: user.id, role: role.name });
-    req.body.token = token;
-
-    const emailContent = {
-      email: email,
-      subject: ` Welcome to ${process.env.APP_NAME}`,
-      html: `<p> Thank you ${firstname} for logging into our app us keep enjoying our services </p>
-    <br>
-    <p> Welcome ${firstname} ${lastname}.</p>
-    <br>
-    <p>you are recieving this email because your subscribed to our app</p>
-    `,
-    };
-    if (role.name === 'buyer') {
-      await sendEmail(emailContent);
-    }
-    // res.cookie('token', token, {
-    //   expiresIn: new Date(
-    //     Date.now() + process.env.JWT_EXPIRES_IN * 24 * 60 * 60 * 1000
-    //   ),
-    //   httpOnly: true,
-    // });
-    res.status(200).json({
-      status: req.t('success'),
-      user,
-      token,
+    const token = await signToken({
+      id: user.id,
       role: role.name,
+      email: user.email,
     });
+    req.body.token = token;
+    switch (role.name) {
+      case 'buyer':
+        const emailContent = {
+          email: email,
+          subject: ` Welcome to ${process.env.APP_NAME}`,
+          html: `<p> Thank you ${firstname} for logging into our app us keep enjoying our services </p>
+        <br>
+        <p> Welcome ${firstname} ${lastname}.</p>
+        <br>
+        <p>you are recieving this email because your subscribed to our app</p>
+        `,
+        };
+        await sendEmail(emailContent);
+        res.status(200).json({
+          status: req.t('success'),
+          user,
+          token,
+          role: role.name,
+        });
+        break;
+      case 'vendor':
+        //create two factor secrete
+        const secret = await speakeasy.generateSecret({ length: 15 });
+        //generate token
+        const OTPtoken = await speakeasy.totp({
+          secret: secret.base32,
+          encoding: 'base32',
+          time: Math.floor(Date.now() / 1000 / 90),
+          step: 90,
+        });
+        //create object to save 2fa token and corresponding
+        const salt = await Bcrypt.genSalt(10);
+        const hashedToken = await Bcrypt.hash(OTPtoken, salt);
+        const mailOptions = {
+          email: email,
+          subject: 'verification code',
+          html: 'Your verification code is: ' + OTPtoken,
+        };
+        //mailer sender implemantation
+        await sendEmail(mailOptions);
+        //creating mail options object
+        const encodedToken = Buffer.from(hashedToken).toString('base64');
+        await handleCookies(
+          5,
+          'onloginToken',
+          encodedToken,
+          'onloggingUserid',
+          user.id,
+          res
+        );
+        res.json({ message: req.t('code_sent') });
+        break;
+      default:
+        res.status(200).json({
+          status: req.t('success'),
+          user,
+          token,
+          role: role.name,
+        });
+    }
   } catch (err) {
-    res.status(403).json({
+    res.status(500).json({
+      status: req.t('fail'),
+      message: err.errors ? err.errors[0].message : err.message,
+    });
+  }
+};
+//verifiy vendor's verification codes grant access token to him
+export const verifyOTP = async (req, res) => {
+  try {
+    const { verificationCode } = req.body;
+    // checking existance of cookies
+    if (req.headers.cookie) {
+      const Cookiearray = req.headers.cookie.trim().split(';');
+      const cookies = await getCookieInfo(Cookiearray);
+      const hashedToken = cookies.onloginToken;
+      //compare incomming token with created
+      const decodedToken = Buffer.from(hashedToken, 'base64').toString('utf-8');
+      const incomingToken = verificationCode.trim();
+      const isMatch = await comparePassword(incomingToken, decodedToken);
+      if (isMatch) {
+        const user = await db.user.findOne({
+          where: { id: cookies.onloggingUserid },
+        });
+        const role = await db.role.findOne({ where: { id: user.roleId } });
+        const token = JWT.sign(
+          {
+            id: user.id,
+            email: user.email,
+            role: role.name,
+          },
+          process.env.APP_SECRET,
+          { expiresIn: '3600s' }
+        );
+        res.status(200).json({ message: req.t('verified'), token });
+      } else {
+        res.status(500).json({ message: req.t('not_validated') });
+      }
+    } else {
+      res.status(403).json({ message: req.t('login') });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
       status: req.t('fail'),
       message: err.errors ? err.errors[0].message : err.message,
     });
