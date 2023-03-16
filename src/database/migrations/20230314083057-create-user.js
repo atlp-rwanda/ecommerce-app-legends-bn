@@ -6,32 +6,41 @@ module.exports = {
       id: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
       },
       firstname: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       lastname: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       email: {
         type: Sequelize.STRING,
         unique: true,
-        isEmail: true
+        isEmail: true,
       },
       password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       phone: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+      },
+      adress: {
+        type: Sequelize.STRING,
+      },
+      dateofbirth: {
+        type: Sequelize.STRING,
+      },
+      gender: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       roleId: {
         type: Sequelize.INTEGER,
@@ -41,11 +50,11 @@ module.exports = {
           key: 'id',
           onDelete: 'CASCADE',
           onUpdate: 'CASCADE',
-        }
-      }
+        },
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('users');
-  }
+  },
 };

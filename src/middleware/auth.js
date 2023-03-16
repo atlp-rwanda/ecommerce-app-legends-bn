@@ -31,6 +31,26 @@ export const auth = (arg) => {
     }
   };
 };
+export const authent = async (req, res, next) => {
+    
+    try {
+      const token = req.params.token;
+      const result = await checkToken(token);
+      if(!result.user){
+        res.json({
+          message: req.t('auth_message')
+      })
+      }else{
+        req.user= result
+        next()
+      }
+          
+  } catch (error) {
+      res.json({
+          message: req.t('auth_message')
+      })
+  }
+};
 
 export const accessCookie = async (req, res) => {
   let hashedToken;

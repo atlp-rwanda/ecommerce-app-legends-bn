@@ -5,6 +5,7 @@ import admin from './admin';
 import register from './register';
 import login from './login';
 import verifyCode from './verifyCode';
+import user from './user';
 import { Router } from 'express';
 const { serve, setup } = swagger;
 
@@ -60,7 +61,8 @@ const options = {
       description: 'endpoints that offer special priviledge functions to admin',
     },
   ],
-  paths: { ...home, ...admin, ...register, ...login,...verifyCode },
+  paths: { ...home, ...admin, ...register, ...login,...verifyCode,...user },
+ 
 };
 
 swaggerDocRouter.use('/docs', serve, setup(options));

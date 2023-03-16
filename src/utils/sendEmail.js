@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer'
 import dotenv from 'dotenv'
 dotenv.config()
 
- const sendEmail = async(reciever) =>{
+ const sendEmail = async(reciever,req, res) =>{
     const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -20,13 +20,19 @@ const options = {
     secure: true
 }
 
-     await transporter.sendMail(options, (error, info) => {
+  transporter.sendMail(options, async(error, info) => {
       if (error) {
           console.log(error);
       } else {
-          console.log('Email sent: ' + info.response);
+if (res && req){
+        res.send({status: req.t('success'),Emailsent: info.response, token: reciever.token});
+}else{
+        console.log('Email sent: ' + info.response);
+}
+        
       }
   });
+  
 }
 
 export default sendEmail
