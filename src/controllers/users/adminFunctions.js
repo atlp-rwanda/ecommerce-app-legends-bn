@@ -10,11 +10,8 @@ export const createAdmin = async (req, res) => {
       name: 'admin',
     });
     await db.user.create({
-      firstname,
-      lastname,
-      email,
+      ...req.body,
       password: hashedPassword,
-      phone,
       roleId: newRole.id,
     });
     const newPermission = await db.permission.create({

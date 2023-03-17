@@ -19,7 +19,10 @@ const options = {
       'The API documentation of all end-points ecommerce-app-legends-bn-',
   },
   api: `http://localhost:${process.env.PORT || 4000}/`,
-  security: [],
+  security: [
+    {
+      bearerAuth: [],
+    }],
   components: {
     schemas,
     securitySchemes: {
