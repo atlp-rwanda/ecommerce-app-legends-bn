@@ -57,9 +57,9 @@ const register = async (req, res) => {
   const emailContent = {
     email: email,
     subject: ` Welcome to <b> ${process.env.APP_NAME} </b>`,
-    html: `<p> Thank you ${firstname} for registrting with us <a href="www.google.com">the link </a> to sign in  </p>
+    html: `<p> Thank you ${firstname} for registrting with us <a href="">the link </a> to sign in  </p>
     <br>
-    <p> if not ${firstname} ${lastname} don,t care this email </p>
+    <p> if not ${firstname} ${lastname} don't care this email </p>
     `,
   };
   let token = '';
@@ -74,7 +74,7 @@ const register = async (req, res) => {
   }
 
   res
-    .status(201)
+    .status(200)
     .json({ message: req.t('user_created_successfully'), status: 'ok', token });
 };
 

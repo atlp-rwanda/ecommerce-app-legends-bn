@@ -1,17 +1,17 @@
-const user={
-                    firstname: 'kevchecho',
-                    lastname: 'idow',
-                    email: 'hsdggd@bff.com',
-                    password: 'pasmegaround',
-                    phone: '0787882105',
-                    permissions: [
-                      'add product',
-                      'add vendor',
-                      'add buyer',
-                      'remove vendor',
-                      'remove product',
-                    ],
-                  }
+const user = {
+  firstname: 'kevchecho',
+  lastname: 'idow',
+  email: 'hsdggd@bff.com',
+  password: 'pasmegaround',
+  phone: '0787882105',
+  permissions: [
+    'add product',
+    'add vendor',
+    'add buyer',
+    'remove vendor',
+    'remove product',
+  ],
+};
 export default {
   '/api/admin/users': {
     get: {
@@ -19,17 +19,15 @@ export default {
       description:
         'this endpoint is defined with the get HTTP method and returns a list of all users in the database. The endpoint is tagged as being only accessible to admin users and has no parameters. The response contains an HTTP status code of 200 with a JSON content-type and an array schema that defines the shape of the returned user data.',
 
-      parameters: [],
+        parameters: [],
       responses: {
         200: {
           description: 'ok',
           content: {
             'application/json': {
               schema: {
-                type: 'Array',
-                example: [
-                  user
-                ],
+                type: 'Object',
+                example: [user],
               },
             },
           },
@@ -122,14 +120,14 @@ export default {
       responses: {
         200: {
           description: 'OK',
-          constent:{
-            'application/json':{
-                schema:{
-                    type:"object",
-                    example:user
-                }
-            }
-          }
+          constent: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                example: user,
+              },
+            },
+          },
         },
       },
     },
@@ -149,11 +147,21 @@ export default {
         204: {
           description: 'OK',
         },
+        500: {
+          description: 'Internal Server Error',
+        },
+
+        401: {
+          description: "Not Authorized",
+        },
+        403: {
+          description: "Forbidden Access",
+        },
       },
     },
   },
-  '/api/vendor/users':{
-    post:{
+  '/api/vendor/users': {
+    post: {
       tags: ['admin'],
       description:
         "this endpoint is defined with the post HTTP method and allows the creation of a new Vendor. The endpoint is also tagged as being only accessible to admin users and requires a request body with the user's details, such as first name, last name, email, password, phone, and permissions. The request body schema is defined using an object with properties that match the user details, each with its own type, description, and example value",
@@ -207,20 +215,20 @@ export default {
       },
       responses: {
         201: {
-          description: 'ok',
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                example: {
-                  message: 'Vendor added',
-                  status: 'success',
-                },
-              },
-            },
-          },
+          description: 'success',
+        },
+        
+        500: {
+          description: "Internal Server Error",
+        },
+
+        401: {
+          description: "Not Authorized",
+        },
+        403: {
+          description: "Forbidden Access",
         },
       },
     },
-  }
+  },
 };
