@@ -4,27 +4,30 @@ dotenv.config();
 
 export const auth = (arg) => {
   return async (req, res, next) => {
+    console.log('here')
     const bearerHeader = req.headers.authorization;
     if (!bearerHeader)
       return res.status(403).json({
-        status: 'failed',
-        message: 'Access denied',
+        status: req.t('fail'),
+        message: req.t('unauthorized'),
       });
     const bearer = bearerHeader.split(' ');
     const token = bearer[1];
     const result = await checkToken(token);
     if (!result)
       return res.status(401).json({
-        status: 'failed',
-        message: 'Unauthorized, invalid token',
+        status: req.t('fail'),
+        message: req.t('unauthorized'),
       })
     const role = result?.user.role;
+    req.user = result?.user;
     if (role === 'admin') return next();
     else {
       if (role !== arg) {
+        console.log(role)
         return res.status(401).json({
-          status: 'failed',
-          message: 'Access dineid, provide correct credentials',
+          status: req.t('fail'),
+          message: req.t('wrong_credentials'),
         });
       }
       next();
