@@ -14,5 +14,9 @@
   "no_user":"Identifiants invalides pour n'importe quel utilisateur",
   "verified":"Vérifié...! Bienvenue",
   "not_validated":"Ce n'est pas validé",
-  "login":"Veuillez vous connecter d'abord"
+  "login":"Veuillez vous connecter d'abord",
+  "User_Updated" :"Profil mis à jour",
+  "Undiscovered": "utilisateur non trouvé",
+  "unauthorized":"Accè refuse",
+  "wrong_credentials":"Accès refusé, fournir des Informations d'indefication correctes"
 }

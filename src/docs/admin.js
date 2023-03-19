@@ -152,20 +152,11 @@ export default {
       },
     },
   },
-  '/api/users/:id': {
+  '/api/users': {
     put: {
       tags: ['user'],
       description:
         "This endpoint allows the authenticated user to update their own profile. The request body should include any fields that the user wishes to update. The 'id' parameter should match the ID of the authenticated user. The timestamp associated with the user's profile will be automatically updated upon each update.",
-      parameters: [
-        {
-          name: 'id',
-          in: 'path',
-          required: true,
-          description: 'The ID of the user to update (should match the ID of the authenticated user)',
-          example: '123',
-        },
-      ],
       requestBody: {
         content: {
           'application/json': {

@@ -5,7 +5,7 @@
   "vendor_added_message": "vendor registered",
   "success": "success" ,
   "fail":"failed",
-  "unauthorized": "Unauthorized",
+  "unauthorized": "Access denied",
   "wrong_email":"Invalid credentials, email doesn't registered",
   "wrong_password":"Invalid credentials, password is wrong",
   "user_exixted_error": "User already exists",
@@ -15,5 +15,8 @@
   "no_user":"invalid credentials for any user",
   "verified":"verified...!,welcome",
   "not_validated":"it is not validated",
-  "login":"please login first"
+  "login":"please login first",
+  "User_Updated" : "Profile updated",
+  "Undiscovered": "User not found",
+  "wrong_credentials": "Access dinied, provide correct credentials"
 }
