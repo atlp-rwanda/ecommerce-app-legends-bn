@@ -27,3 +27,14 @@ export const getCookieInfo=(Cookiearray)=>{
     const cookieObjects = obj;
     return cookieObjects;
 }
+export const saveOTPusage=(expire,Varibale,Value,res)=>{
+  //cookie expiration time
+  const expires = new Date();
+  expires.setMinutes(expires.getMinutes() + expire);
+   res.cookie(Varibale,Value, {
+    httpOnly: false,
+    sameSite: 'none',
+    secure: true,
+    expires: expires,
+  });
+}

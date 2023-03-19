@@ -15,6 +15,7 @@
   "verified":"Vérifié...! Bienvenue",
   "not_validated":"Ce n'est pas validé",
   "login":"Veuillez vous connecter d'abord",
+  "code_have_been_login_used":"Ce code a été utilisé, veuillez vous connecter à nouveau..!",
   "user_email_not_found": "email introuvable, voulez-vous vous inscrire ?",
   "500_insternal_server_error": "Erreur interne du serveur",
   "auth_message": "Authentification échoué",
