@@ -5,7 +5,7 @@
   "vendor_added_message": "vendor registered",
   "success": "success" ,
   "fail":"failed",
-  "unauthorized": "Unauthorized",
+  "unauthorized": "Access denied",
   "wrong_email":"Invalid credentials, email doesn't registered",
   "wrong_password":"Invalid credentials, password is wrong",
   "user_exixted_error": "User already exists",
@@ -22,5 +22,8 @@
   "access": "access denied",
   "email_fail": "User with that email does not exist",
   "password_updated": "User password updated!",
-  "code_have_been_login_used":"this code has been used..,login again to get new one"
+  "code_have_been_login_used":"this code has been used..,login again to get new one",
+  "User_Updated" : "Profile updated",
+  "Undiscovered": "User not found",
+  "wrong_credentials": "Access dinied, provide correct credentials"
 }

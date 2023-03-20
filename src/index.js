@@ -38,6 +38,7 @@ app.use(vendorRouter);
 app.use('/api/v1', userAuthRoutes);
 app.use(google_auth)
 
+
 app.all('*', (req, res) => {
   res.json({ error: req.t('404_error') });
 });

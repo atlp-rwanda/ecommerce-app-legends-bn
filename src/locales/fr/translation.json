@@ -21,5 +21,9 @@
   "auth_message": "Authentification échoué",
   "access": "acces refuse",
   "email_fail": "L'utilisation avec cet email n'existe pas",
-  "password_updated": "Mot de passe utilisateur mis a jour"
+  "password_updated": "Mot de passe utilisateur mis a jour",
+  "User_Updated" :"Profil mis à jour",
+  "Undiscovered": "utilisateur non trouvé",
+  "unauthorized":"Accè refuse",
+  "wrong_credentials":"Accès refusé, fournir des Informations d'indefication correctes"
 }

@@ -18,7 +18,7 @@ const register = async (req, res) => {
       req.body[key] == '' ||
       req.body[key] == null
     ) {
-      console.log(key);
+     
       validation += key + ' ,';
       isvalid = false;
     }
