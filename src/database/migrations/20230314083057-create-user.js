@@ -42,6 +42,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      status: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: 'active',
+      },
       roleId: {
         type: Sequelize.INTEGER,
         allowNull: false,

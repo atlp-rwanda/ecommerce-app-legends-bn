@@ -1,5 +1,7 @@
 import dotenv from 'dotenv';
 import { checkToken } from '../utils/verifyPassword';
+import db from '../models';
+import JWT from 'jsonwebtoken'
 dotenv.config();
 
 export const auth = (arg) => {
@@ -55,6 +57,22 @@ export const authent = async (req, res, next) => {
       })
   }
 };
+
+export const isUserEnabled= async(req, res, next) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader.split(' ')[1];
+  const decodedToken = JWT.verify(token, process.env.JWT_SECRET);
+  const userId = decodedToken.user.id;
+  const user = await db.user.findOne({ where: { id: userId } });
+  const userStatus = user.status;
+  if(userStatus == "inactive"){
+    return res.status(401).json({
+      status: req.t('fail'),
+      message: req.t('user_disabled'),
+    });
+  }
+  next();
+}
 
 export const accessCookie = async (req, res) => {
   let hashedToken;

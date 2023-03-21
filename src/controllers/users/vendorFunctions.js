@@ -10,7 +10,7 @@ export const createVendor = async (req, res) => {
     const newRole = await db.role.create({
       name: 'vendor',
     });
-    await db.user.create({
+    const vendor= await db.user.create({
       firstname,
       lastname,
       email,
@@ -32,7 +32,7 @@ export const createVendor = async (req, res) => {
       html: `<table style="border-collapse:collapse;border-spacing:0;width:100%;min-width:100%" width="100%" height="auto" cellspacing="0" cellpadding="0" bgcolor="#F0F0F0">
 <tbody><tr>
 <td style="padding-top:54px;padding-bottom:42px" align="center">
-<h2 style="color:#0090c6;font-size: xx-large;">E-commerce ATLP project</h2>
+<h2 style="color:#0090c6;font-size: xx-large;">E-commerce ATLP-Legends project</h2>
 </td>
 </tr>
 </tbody></table>
@@ -54,6 +54,7 @@ export const createVendor = async (req, res) => {
 
     res.status(201).json({
       message: req.t('vendor_added_message'),
+      data:vendor,
       status: req.t('success'),
     });
   } catch (err) {
