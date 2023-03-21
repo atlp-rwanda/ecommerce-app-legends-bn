@@ -65,7 +65,7 @@ const register = async (req, res) => {
   let token = '';
   try {
     const result = await user.create(req.body);
-    token = await signToken({ id: result.id, role: buyer.name });
+    token = await signToken({ id: result.id, role: buyer.name, email: email});
     req.body.token = token;
     await checkToken(token);
     await sendEmail(emailContent);
@@ -75,7 +75,7 @@ const register = async (req, res) => {
 
   res
     .status(200)
-    .json({ message: req.t('user_created_successfully'), status: 'ok', token });
+    .json({ message: req.t('user_created_successfully'), status: 'ok', token: token });
 };
 
 export default { register };
