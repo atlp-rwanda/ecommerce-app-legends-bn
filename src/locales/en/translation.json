@@ -25,5 +25,10 @@
   "code_have_been_login_used":"this code has been used..,login again to get new one",
   "User_Updated" : "Profile updated",
   "Undiscovered": "User not found",
-  "wrong_credentials": "Access dinied, provide correct credentials"
+  "wrong_credentials": "Access dinied, provide correct credentials",
+  "user_not_found":"user not found",
+  "already_disabled":"user already disabled",
+  "disabled_successfully":"user disabled successfully",
+  "enabled_successfuly":"user enabled successfully",
+  "already_enabled":"user already enabled"
 }

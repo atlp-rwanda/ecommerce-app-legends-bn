@@ -6,6 +6,7 @@ import register from './register';
 import login from './login';
 import verifyCode from './verifyCode';
 import user from './user';
+import user_status from './user_status';
 import { Router } from 'express';
 const { serve, setup } = swagger;
 
@@ -61,7 +62,15 @@ const options = {
       description: 'endpoints that offer special priviledge functions to admin',
     },
   ],
-  paths: { ...home, ...admin, ...register, ...login,...verifyCode,...user },
+  paths: { 
+    ...home,
+    ...admin, 
+    ...register, 
+    ...login,
+    ...verifyCode,
+    ...user,
+    ...user_status
+   },
  
 };
 
