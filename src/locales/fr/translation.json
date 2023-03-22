@@ -25,5 +25,11 @@
   "User_Updated" :"Profil mis à jour",
   "Undiscovered": "utilisateur non trouvé",
   "unauthorized":"Accè refuse",
-  "wrong_credentials":"Accès refusé, fournir des Informations d'indefication correctes"
+  "wrong_credentials":"Accès refusé, fournir des Informations d'indefication correctes",
+  "user_not_found":"utilisateur non trouvé",
+  "already_disabled":"utilisateur déjà désactivé",
+  "disabled_successfully":"utilisateur désactivé avec succès",
+  "enabled_successfuly":"utilisateur activé avec succès",
+  "already_enabled":"utilisateur déjà activé",
+  "user_disabled":"Votre compte est désactivé, veuillez contacter l'administrateur"
 }

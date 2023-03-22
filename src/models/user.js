@@ -58,6 +58,11 @@ module.exports = (sequelize, DataTypes) => {
       gender: {
          type: DataTypes.STRING,
       },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: 'active',
+      },
       roleId: {
         type: DataTypes.INTEGER,
         allowNull: false,

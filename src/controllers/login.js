@@ -22,6 +22,13 @@ export const login = async (req, res) => {
         message: req.t('wrong_email'),
       });
     }
+    const is_active = user.status;
+    if(is_active === 'inactive'){
+      return res.status(401).json({
+        status: req.t('fail'),
+        message: req.t('user_disabled'),
+      });
+    }
     const { firstname, lastname } = user;
     const verifyedPassword = await comparePassword(password, user.password);
     const role = await db.role.findOne({ where: { id: user.roleId } });
