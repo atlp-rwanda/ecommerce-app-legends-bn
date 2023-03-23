@@ -7,6 +7,8 @@ import login from './login';
 import verifyCode from './verifyCode';
 import user from './user';
 import user_status from './user_status';
+import category from './category';
+import product from './product';
 import { Router } from 'express';
 const { serve, setup } = swagger;
 
@@ -69,7 +71,9 @@ const options = {
     ...login,
     ...verifyCode,
     ...user,
-    ...user_status
+    ...user_status,
+    ...product,
+    ...category
    },
  
 };

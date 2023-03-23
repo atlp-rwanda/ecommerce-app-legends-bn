@@ -157,7 +157,6 @@ export const verifyOTP = async (req, res) => {
       res.status(403).json({ message: req.t('login') });
     }
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       status: req.t('fail'),
       message: err.errors ? err.errors[0].message : err.message,

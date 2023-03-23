@@ -5,20 +5,7 @@ export default {
       tags: ['home'],
       description: 'Home',
       parameters: [],
-      requestBody: {
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/components/schemas/User',
-            },
-            example: {
-              names: 'Anathole Ana10',
-              email: 'Ana10@webmail.com',
-              description: 'message description',
-            },
-          },
-        },
-      },
+      requestBody: {},
       responses: {
         200: {
           description: 'route success',
@@ -28,22 +15,11 @@ export default {
   },
   '/error': {
     get: {
-      tags: ['error'],
+      tags: ['error page'],
       description: '404',
       parameters: [],
       requestBody: {
-        content: {
-          'application/json': {
-            schema: {
-              $ref: '#/components/schemas/User',
-            },
-            example: {
-              names: 'Anathole Ana10',
-              email: 'Ana10@webmail.com',
-              description: 'message description',
-            },
-          },
-        },
+        content: {},
       },
       responses: {
         401: {
