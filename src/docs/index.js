@@ -9,6 +9,7 @@ import user from './user';
 import user_status from './user_status';
 import category from './category';
 import product from './product';
+import wishlist from './wishlist';
 import { Router } from 'express';
 const { serve, setup } = swagger;
 
@@ -73,7 +74,8 @@ const options = {
     ...user,
     ...user_status,
     ...product,
-    ...category
+    ...category,
+    ...wishlist
    },
  
 };

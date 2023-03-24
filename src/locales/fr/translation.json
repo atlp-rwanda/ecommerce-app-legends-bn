@@ -31,5 +31,13 @@
   "disabled_successfully":"utilisateur désactivé avec succès",
   "enabled_successfuly":"utilisateur activé avec succès",
   "already_enabled":"utilisateur déjà activé",
-  "user_disabled":"Votre compte est désactivé, veuillez contacter l'administrateur"
+  "user_disabled":"Votre compte est désactivé, veuillez contacter l'administrateur",
+  "product_exist_error" : "Le même produit est déjà dans cette liste de souhaits",
+  "no_wishlist":"aucun produit sur la liste de souhaits",
+  "wishlist_created":"Aucun produit sur la liste de souhaits",
+  "exists_in_wishlist":"Le produit existe déjà dans la liste de souhaits",
+  "added_to_wishlist":"Le produit existe déjà dans la liste de souhaits",
+  "removed_from_wishlist":"Produit retiré de la liste de souhaits",
+  "not_exists_in_wishlist":"Le produit n’existe pas dans la liste de souhaits"
+
 }
