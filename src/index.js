@@ -7,6 +7,7 @@ import vendorRouter from './api/users/vendorRoutes';
 import categoryRoutes from './api/products/category'
 import productRoutes from './api/products/productsRoutes'
 import wishlistRoutes from './api/products/wishlist';
+import buyerRoutes from './api/products/buyer.routes'
 import docs from './docs/index';
 import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
@@ -43,6 +44,7 @@ app.use('/api/v1/category', categoryRoutes);
 app.use(productRoutes);
 app.use(google_auth)
 app.use(wishlistRoutes)
+app.use('/api/v1/buyers',buyerRoutes)
 
 
 app.all('*', (req, res) => {
