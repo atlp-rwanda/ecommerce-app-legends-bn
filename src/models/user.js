@@ -66,12 +66,7 @@ module.exports = (sequelize, DataTypes) => {
       roleId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-          model: 'role',
-          key: 'id',
-          onDelete: 'CASCADE', // add cascade on delete
-          onUpdate: 'CASCADE',
-        },
+    
       },
     },
     {
