@@ -31,6 +31,7 @@
   "disabled_successfully":"utilisateur désactivé avec succès",
   "enabled_successfuly":"utilisateur activé avec succès",
   "already_enabled":"utilisateur déjà activé",
+  "product_not_found":"Produit non trouvé",
   "user_disabled":"Votre compte est désactivé, veuillez contacter l'administrateur",
   "product_exist_error" : "Le même produit est déjà dans cette liste de souhaits",
   "no_wishlist":"aucun produit sur la liste de souhaits",

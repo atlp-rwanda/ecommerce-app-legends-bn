@@ -32,11 +32,12 @@
   "enabled_successfuly":"user enabled successfully",
   "already_enabled":"user already enabled",
   "user_disabled":"Your account is disabled, please contact admin",
-  "product_exist_error" : "The same product is already in this wishlist",
   "no_wishlist":"no products on wishlist",
   "wishlist_created":"new wishlist created",
   "exists_in_wishlist":"Product already exists in wishlist",
   "added_to_wishlist":"product added to wishlist",
   "removed_from_wishlist":"removed from wishlist",
-  "not_exists_in_wishlist":"Product does not exists in wishlist"
+  "not_exists_in_wishlist":"Product does not exists in wishlist",
+  "product_not_found":"Product not found",
+  "product_exist_error" : "The same product is already in this collection"
 }

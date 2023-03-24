@@ -10,6 +10,7 @@ import user_status from './user_status';
 import category from './category';
 import product from './product';
 import wishlist from './wishlist';
+import buyerViewSingleProd from './buyerViewSingleProd';
 import { Router } from 'express';
 const { serve, setup } = swagger;
 
@@ -75,7 +76,8 @@ const options = {
     ...user_status,
     ...product,
     ...category,
-    ...wishlist
+    ...wishlist,
+    ...buyerViewSingleProd
    },
  
 };

@@ -73,6 +73,20 @@ export const isUserEnabled= async(req, res, next) => {
   next();
 }
 
+export const isVendor = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader.split(' ')[1];
+  const decodedToken = JWT.verify(token, process.env.JWT_SECRET);
+  const userRole = decodedToken.user.role;
+  if (userRole !== 'vendor' || userRole !== 'admin') {
+    return res.status(401).json({
+      status: req.t('fail'),
+      message: req.t('access'),
+    });
+  }
+  next();
+};
+
 export const accessCookie = async (req, res) => {
   let hashedToken;
 

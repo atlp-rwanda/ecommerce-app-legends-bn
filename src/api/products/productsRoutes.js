@@ -16,7 +16,7 @@ ProductRouter.post(
 //products atributes
 ProductRouter.post(
   '/api/v1/product/variation/add',
-  auth('vendor'),
+  auth('admin'),
   upload.array('attrImage', 1),
   addNewProductVariation
 );
