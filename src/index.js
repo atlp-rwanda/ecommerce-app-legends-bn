@@ -1,18 +1,18 @@
 import express from 'express';
-import rootRouter from './api/root';
-import adminRouter from './api/users/adminRoutes';
-import userAuthRoutes from './api/users/userRoutes';
-import google_auth from './api/users/google_oauth.routes'
-import vendorRouter from './api/users/vendorRoutes';
-import categoryRoutes from './api/products/category'
-import productRoutes from './api/products/productsRoutes'
-import wishlistRoutes from './api/products/wishlist';
-import buyerRoutes from './api/products/buyer.routes'
+import rootRouter from './routes/root';
+import adminRouter from './routes/users/adminRoutes';
+import userAuthRoutes from './routes/users/userRoutes';
+import google_auth from './routes/users/google_oauth.routes'
+import vendorRouter from './routes/users/vendorRoutes';
+import categoryRoutes from './routes/products/category'
+import productRoutes from './routes/products/productsRoutes'
+import wishlistRoutes from './routes/products/wishlist';
+import buyerRoutes from './routes/products/buyer.routes'
 import docs from './docs/index';
 import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
 import middleware from 'i18next-http-middleware';
-import db from './models/index';
+import db from './database/models/index';
 
 i18next
   .use(Backend)

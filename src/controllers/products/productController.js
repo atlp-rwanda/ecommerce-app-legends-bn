@@ -1,11 +1,10 @@
+import db from '../../database/models';
 import { Op } from "sequelize";
-import db from '../../models';
 import { checkEmptyFields } from '../../utils/validations/handlingEmptyFields';
 import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
 import slugify from 'slugify';
 import { grabbingImage } from '../../utils/grabbingImages';
 import { removeImageFromCloudinary } from '../../utils/handlingFileUploads';
-import { Product } from '../../models';
 
 import { SlugfyFunction } from '../../utils/textSlugfy'
 

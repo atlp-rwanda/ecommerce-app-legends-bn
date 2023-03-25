@@ -1,7 +1,7 @@
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import { signToken } from '../utils/verifyPassword';
-import db from '../models'
+import db from '../database/models'
 import { hashPassword } from '../utils/hashpassword';
 // Generate a random password
 const generatePassword =  () => {

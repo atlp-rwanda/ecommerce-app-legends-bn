@@ -1,4 +1,4 @@
-import db from '../../models';
+import db from '../../database/models';
 import sendEmail from '../../utils/sendEmail';
 import dotenv from 'dotenv'
 import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
@@ -45,7 +45,6 @@ export const loginWithGoogle = asyncWrapper(async (req, res) => {
       `
       };
       if (req.body.role === 'buyer') {
-        console.log(req.body.role);
         await sendEmail(emailOptions);
       }
       return res.status(200).json({ status: req.t('success'), email:user.email,id:user.id, token:token, role: role.name});

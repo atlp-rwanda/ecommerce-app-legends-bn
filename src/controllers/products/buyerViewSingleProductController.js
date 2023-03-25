@@ -1,5 +1,4 @@
-import db from '../../models';
-import { checkToken } from '../../utils/verifyPassword';
+import db from '../../database/models';
 import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
 import { getMostviewed } from '../../utils/handlingMostViewed';
 import { removeDuplicates } from '../../utils/handlingDuplications';
@@ -56,17 +55,14 @@ export const recommendedProducts = asyncWrapper(async (req, res) => {
   });
   await Promise.all(recommendations).then(async (result) => {
     const category = result.map((item) => item.categoryId);
-    console.log(category);
     if (category.length < 5) {
       const recommended = removeDuplicates(category);
-      console.log(recommended);
       const result = await recommended.map(async (id) => {
         const recommend = await db.Product.findAll({
           where: { categoryId: id },
         });
         return recommend;
       });
-      console.log(result);
       await Promise.all(result).then((result) => { 
         const finalResult = result.flat();
         return res.status(200).json({

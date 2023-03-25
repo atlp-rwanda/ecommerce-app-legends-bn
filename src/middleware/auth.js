@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import { checkToken } from '../utils/verifyPassword';
-import db from '../models';
+import db from '../database/models';
 import JWT from 'jsonwebtoken'
 dotenv.config();
 

@@ -1,4 +1,4 @@
-import { Category, Product } from '../../models';
+import { Category, Product } from '../../database/models';
 import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
 
 

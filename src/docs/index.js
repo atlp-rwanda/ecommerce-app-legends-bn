@@ -1,6 +1,6 @@
 import swagger from 'swagger-ui-express';
 import home from './home';
-import schemas from './shema';
+import schemas from './schema';
 import admin from './admin';
 import register from './register';
 import login from './login';

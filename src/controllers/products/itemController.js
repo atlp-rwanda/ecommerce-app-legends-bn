@@ -1,4 +1,4 @@
-import db from "../../models";
+import db from "../../database/models";
 import { asyncWrapper } from "../../utils/handlingTryCatchBlocks";
 
 

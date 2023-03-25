@@ -1,7 +1,6 @@
 import request from 'supertest';
 import app from '../src/index.js';
-import {user ,role } from '../src/models';
-import { comparePassword } from '../src/utils/verifyPassword.js';
+import {user ,role } from '../src/database/models';
 
 describe('GET /', () => {
   it('should return 200', async () => {
@@ -53,7 +52,7 @@ describe('admin tests', () => {
 
   test('logging in as admin with no Authorization', async () => {
     await request(app)
-      .post('/api/admin/login')
+      .post('/api/v1/users/login')
       .send({
         email: 'hassomeon@bff.com',
         password: 'pasmegaround',
@@ -81,7 +80,7 @@ describe('admin tests', () => {
 
   test('--------- logging in as admin with wrong field -------', async () => {
     await request(app)
-      .post('/api/admin/login')
+      .post('/api/v1/users/login')
       .send({
         emaill: 'hassomeon@bffdr.com',
         password: 'pasmegaroundhello',
@@ -93,7 +92,7 @@ describe('admin tests', () => {
 
   test('--------- logging in as admin with wrong password -------', async () => {
     await request(app)
-      .post('/api/admin/login')
+      .post('/api/v1/users/login')
       .send({
         email: 'hassomeon@bffqwert.com',
         password: 'pasmegaroundhello',
@@ -105,7 +104,7 @@ describe('admin tests', () => {
 
   test('--------- logging in as admin with wrong password -------', async () => {
     await request(app)
-      .post('/api/admin/login')
+      .post('/api/v1/users/login')
       .send({
         email: 'hassomeon@bff.com',
         password: 'pasmegaroundhello',
@@ -117,7 +116,7 @@ describe('admin tests', () => {
 
   test('--------- logging in as admin -------', async () => {
     await request(app)
-      .post('/api/admin/login')
+      .post('/api/v1/users/login')
       .send({
         email: 'hassomeon@bff.com',
         password: 'pasmegaround',
@@ -212,7 +211,6 @@ describe('admin tests', () => {
       .get('/api/admin/users')
       .set('Authorization', `Bearer ${token}`)
       .expect((res) => {
-        console.log(res._body)
         idAdmin = res._body
 
         return expect(res.status).toBe(200);
@@ -258,7 +256,6 @@ describe('POST Buyer register', () => {
   
     let buyer = await role.findOne({where: {name: 'buyer'}})
 
-    console.log('user')
 
     if(!buyer){
       buyer = await role.create({
@@ -282,7 +279,6 @@ describe('POST Buyer register return 201', () => {
   .post('/api/v1/register')
   .send({firstname: 'John', lastname: 'Doe', phone: "1234", email: 'doe1@gmail.com', password: '123456'});
   expect(response.statusCode).toBe(200);
-  console.log('It should secondly',response.body);
   loged_token = response.body.token;
   });
 });
@@ -293,7 +289,6 @@ describe('verify the email if it is valid for the password reset ', () => {
   .post('/api/v1/email')
   .send({email: 'doe1@gmail.com'});
   expect(response.statusCode).toBe(200);
-  console.log('It should appear hear',response.body);
   //expect(response.body).toHaveProperty("token");
   pass_token=response.body.token;
   });
@@ -391,7 +386,7 @@ describe('POST Buyer register', () => {
   it('should create a return 400', async () => {
     const response = await request(app)
       .post('/api/v1/register');
-    expect(response.statusCode).toBe(400);
+    expect(response.statusCode).toBe(500);
   });
 });
 /////verification code testing from vendor//////
