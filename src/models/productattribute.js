@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     color: DataTypes.STRING,
     productId: DataTypes.UUID,
     attrImage: DataTypes.STRING,
-    quantity: DataTypes.INTEGER
+    quantity: DataTypes.INTEGER,
+    cloudinaryId: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'ProductAttribute',

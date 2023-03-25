@@ -5,7 +5,7 @@ export const asyncWrapper = (fn) => {
       await fn(req, res, next);
     } catch (err) {
       console.log(err)
-    return  res.status(500).json({
+      res.status(500).json({
         status: req.t('fail'),
         message: err.errors ? err.errors[0].message : err.message,
       });

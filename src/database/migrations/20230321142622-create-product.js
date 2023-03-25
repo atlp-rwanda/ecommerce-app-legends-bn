@@ -27,7 +27,7 @@ module.exports = {
       },
       image: {
         allowNull: false,
-        type: Sequelize.ARRAY(Sequelize.STRING)
+        type: Sequelize.STRING
       },
       keyword: {
         allowNull: true,
@@ -59,6 +59,10 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      cloudinaryId:{
+        allowNull: false,
+        type: Sequelize.STRING
       }
     });
   },

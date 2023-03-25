@@ -29,6 +29,7 @@ export const addNewProductimages = asyncWrapper(async (req, res) => {
           productId,
           prodImage: element.url,
           status,
+          cloudinaryId:element.id
         });
       });
     }

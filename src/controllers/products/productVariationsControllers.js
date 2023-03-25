@@ -25,6 +25,7 @@ export const addNewProductVariation = asyncWrapper(async (req, res) => {
       productId,
       attrImage:urls.map( url => url.url)[0],
       quantity,
+      cloudinaryId:urls.map( url => url.id)[0]
     });
 
     if (product) {
