@@ -1,4 +1,4 @@
-import db from '../.././models';
+import db from '../../database/models';
 import { checkEmptyFields } from '../../utils/validations/handlingEmptyFields';
 import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
 import slugify from 'slugify';

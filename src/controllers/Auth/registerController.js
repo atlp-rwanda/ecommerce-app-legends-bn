@@ -1,38 +1,14 @@
-import { user, role } from '../../models';
+import { user, role } from '../../database/models';
 import sendEmail from '../../utils/sendEmail';
 import { signToken, checkToken } from '../../utils/verifyPassword';
 import { hashPassword } from '../../utils/hashpassword';
-
+import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
+import { checkEmptyFields } from '../../utils/validations/handlingEmptyFields';
 // eslint-disable-next-line consistent-return
-const register = async (req, res) => {
-  const { firstname, lastname, email, phone, password } = req.body;
-
-  let validation = '';
-  let isvalid = true;
-
-  let valdationArr = ['firstname', 'lastname', 'email', 'phone', 'password'];
-
-  valdationArr.forEach((key, val) => {
-    if (
-      req.body[key] == 'undefined' ||
-      req.body[key] == '' ||
-      req.body[key] == null
-    ) {
-     
-      validation += key + ' ,';
-      isvalid = false;
-    }
-  });
-
-  if (!isvalid) {
-    return res
-      .status(400)
-      .json({
-        status: 'error',
-        message: req.t('fill_out_all_fields', { validation }),
-      });
-  }
-
+const register = asyncWrapper(async (req, res) => {
+  const { firstname, lastname, email, password } = req.body;
+  const isSomeFieldEmpty = checkEmptyFields(req, res);
+  if(!isSomeFieldEmpty){
   // check for duplicate usernames in the db
   const duplicate = await user.findOne({ where: { email } });
   if (duplicate)
@@ -40,7 +16,6 @@ const register = async (req, res) => {
       status: 'error',
       message: req.t('user_exixted_error'),
     }); // Conflict
-
   // encrypt the password
   const hashedPwd = await hashPassword(password);
 
@@ -50,7 +25,6 @@ const register = async (req, res) => {
       name: 'buyer',
     });
   }
-
   req.body['roleId'] = buyer.id;
   req.body['password'] = hashedPwd;
 
@@ -63,19 +37,15 @@ const register = async (req, res) => {
     `,
   };
   let token = '';
-  try {
     const result = await user.create(req.body);
     token = await signToken({ id: result.id, role: buyer.name, email: email});
     req.body.token = token;
     await checkToken(token);
     await sendEmail(emailContent);
-  } catch (error) {
-    return res.status(500).json({ status: 'error', message: error.message });
-  }
-
   res
     .status(200)
     .json({ message: req.t('user_created_successfully'), status: 'ok', token: token });
-};
+}
+});
 
 export default { register };

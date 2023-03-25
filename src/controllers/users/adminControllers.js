@@ -1,10 +1,11 @@
-import db from '../../models';
-import { hashPassword }from '../../utils/hashpassword';
-export const createAdmin = async (req, res) => {
+import db from '../../database/models';
+import { hashPassword } from '../../utils/hashpassword';
+import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
+export const createAdmin = asyncWrapper(async (req, res) => {
   //add admins
-  try {
     const { firstname, lastname, email, password, phone, permissions } =
-      req.body;
+    req.body;
+  
     const hashedPassword = await hashPassword(password);
     const newRole = await db.role.create({
       name: 'admin',
@@ -25,15 +26,9 @@ export const createAdmin = async (req, res) => {
       message: req.t('admin_added_message'),
       status: req.t('success'),
     });
-  } catch (err) {
-    res.status(500).json({
-      message: err.errors ? err.errors[0].message : err.message,
-      status: 'failed',
-    });
-  }
-};
+});
 
-export const getAllUsers = async (req, res) => {
+export const getAllUsers =asyncWrapper(async (req, res) => {
   const users = await await db.user.findAll({
     attributes: { exclude: ['password', 'roleId'] },
     include: {
@@ -46,17 +41,13 @@ export const getAllUsers = async (req, res) => {
     },
   });
   res.status(200).json(users);
-};
+});
 
-export const deleteUsers = async (req, res) => {
-  try {
+export const deleteUsers =asyncWrapper(async (req, res) => {
     await db.user.destroy({ where: { id: req.params.id } });
     res.status(204).json({ message: 'user deleted', status: req.t('success') });
-  } catch (error) {
-    res.status(403).json({ message: error.message, status: 'failed' });
-  }
-};
-export const getSingleUser = async (req, res) => {
+});
+export const getSingleUser =asyncWrapper(async (req, res) => {
   console.log(req.params.id);
   const singleUser = await db.user.findAll({
     where: { id: req.params.id },
@@ -71,4 +62,4 @@ export const getSingleUser = async (req, res) => {
     },
   });
   res.status(200).json(singleUser);
-};
+});

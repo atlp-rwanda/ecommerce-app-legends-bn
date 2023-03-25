@@ -1,5 +1,5 @@
 import express from 'express';
-import { verifyEmail, resetPassword, resetPass} from '../../controllers/users/usersFunctions';
+import { verifyEmail, resetPassword, resetPass} from '../../controllers/users/usersControllers';
 import userAuthController from '../../controllers/Auth/registerController';
 import { updateUser } from '../../controllers/Auth/updateUser';
 import { auth, authent } from '../../middleware/auth';

@@ -6,7 +6,8 @@ import register from './register';
 import login from './login';
 import verifyCode from './verifyCode';
 import user from './user';
-import user_status from './user_status';
+import enable from './enableUser';
+import disable from './disableUser';
 import category from './category';
 import product from './product';
 import wishlist from './wishlist';
@@ -73,7 +74,8 @@ const options = {
     ...login,
     ...verifyCode,
     ...user,
-    ...user_status,
+    ...enable,
+    ...disable,
     ...product,
     ...category,
     ...wishlist,

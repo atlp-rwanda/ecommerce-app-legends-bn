@@ -53,7 +53,7 @@ describe('admin tests', () => {
 
   test('logging in as admin with no Authorization', async () => {
     await request(app)
-      .post('/api/admin/login')
+      .post('/api/v1/users/login')
       .send({
         email: 'hassomeon@bff.com',
         password: 'pasmegaround',
@@ -81,7 +81,7 @@ describe('admin tests', () => {
 
   test('--------- logging in as admin with wrong field -------', async () => {
     await request(app)
-      .post('/api/admin/login')
+      .post('/api/v1/users/login')
       .send({
         emaill: 'hassomeon@bffdr.com',
         password: 'pasmegaroundhello',
@@ -93,7 +93,7 @@ describe('admin tests', () => {
 
   test('--------- logging in as admin with wrong password -------', async () => {
     await request(app)
-      .post('/api/admin/login')
+      .post('/api/v1/users/login')
       .send({
         email: 'hassomeon@bffqwert.com',
         password: 'pasmegaroundhello',
@@ -105,7 +105,7 @@ describe('admin tests', () => {
 
   test('--------- logging in as admin with wrong password -------', async () => {
     await request(app)
-      .post('/api/admin/login')
+      .post('/api/v1/users/login')
       .send({
         email: 'hassomeon@bff.com',
         password: 'pasmegaroundhello',
@@ -117,7 +117,7 @@ describe('admin tests', () => {
 
   test('--------- logging in as admin -------', async () => {
     await request(app)
-      .post('/api/admin/login')
+      .post('/api/v1/users/login')
       .send({
         email: 'hassomeon@bff.com',
         password: 'pasmegaround',

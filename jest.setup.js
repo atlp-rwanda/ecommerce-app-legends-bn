@@ -1,11 +1,8 @@
 process.env.NODE_ENV = 'test';
-import db from './src/models';
+import db from './src/database/models';
+import { asyncWrapper } from './src/utils/handlingTryCatchBlocks';
 
-module.exports = async () => {
+module.exports = asyncWrapper(async () => {
   // export a globalSetup function
-  try {
     db.sequelize.sync();
-  } catch (error) {
-    throw error;
-  }
-};
+});
