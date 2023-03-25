@@ -420,3 +420,12 @@ describe('verifyOTP', () => {
     expect(response.body.message).toBe();
   });
 });
+
+describe('GET recommended product by user',() => { 
+  it('should return 200', async () => {
+    const response = await request(app)
+      .get('/api/v1/view/recommendations')
+      .set('Authorization', `Bearer ${loged_token}`)
+    expect(response.statusCode).toBe(200);
+  });
+})
