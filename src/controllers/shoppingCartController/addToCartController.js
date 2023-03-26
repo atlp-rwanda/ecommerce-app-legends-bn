@@ -30,92 +30,115 @@ export const addToCart = asyncWrapper(async (req, res) => {
       product: productId,
     },
   });
-  if (isAdded){
-    isAdded.quantity=isAdded.quantity+1;
+  if (isAdded) {
+    isAdded.quantity = isAdded.quantity + 1;
     isAdded.totalpricePerProduct = productUnitPrice * isAdded.quantity;
-    productINcart= await isAdded.save();
-    quantity=isAdded.quantity;
+    productINcart = await isAdded.save();
+    quantity = isAdded.quantity;
     console.log(quantity);
-    }else{
-     quantity=1;
+  } else {
+    quantity = 1;
     const totalCost = productUnitPrice * quantity;
-  //recodring information related to the cart.
+    //recodring information related to the cart.
     productINcart = await db.shoppingCarts.create({
-    buyer: buyerId,
-    product: productId,
-    quantity,
-    totalpricePerProduct: totalCost,
-    cartStatus: 'active',
-  });
-}
+      buyer: buyerId,
+      product: productId,
+      quantity,
+      totalpricePerProduct: totalCost,
+      cartStatus: 'active',
+    });
+  }
   //sending response to the the client
   if (productINcart) {
     const cart = await generateCart(buyerId);
     res.status(201).json({
       status: req.t('success'),
       message: req.t('cadded_to_cart'),
-      data:cart
+      data: cart
     });
   }
 });
 
-const generateCart = async(buyer) => {
-    const availableInCart=await db.shoppingCarts.findAll({
-    });
-    //if the product has spent more than seven days on the cart it will not be recorganised as active on that cart
-    availableInCart.forEach(cart =>{
-    const isCartActive=isAbondoned(cart.createdAt);
-    if(isCartActive){
-      cartStatus.status='abandoned';
+const generateCart = async (buyer) => {
+  const availableInCart = await db.shoppingCarts.findAll({
+  });
+  //if the product has spent more than fourteen days on the cart it will not be recorganised as active on that cart
+  availableInCart.forEach(cart => {
+    const isCartActive = isAbondoned(cart.createdAt);
+    if (isCartActive) {
+      cartStatus.status = 'abandoned';
     }
-    });
-    //non active product will not be available on shopping cart
-    const addedProducts = await db.shoppingCarts.findAll({
+  });
+  //non active product will not be available on shopping cart
+  const addedProducts = await db.shoppingCarts.findAll({
+    where: {
+      buyer: buyer,
+      cartStatus: 'active'
+    },
+  });
+  const cart = await Promise.all(addedProducts.map(async (addedProduct) => {
+    const productId = addedProduct.product;
+    const productVariation = await db.ProductAttribute.findByPk(productId);
+    const productIdentifier = productVariation.productId;
+    //check wether the products is available for sale.
+    const productAvailability = await db.Product.findOne({
       where: {
-        buyer: buyer,
-        cartStatus:'active'
+        id: productIdentifier,
+        status: 'AVAILABLE',
       },
     });
-    const cart = await Promise.all(addedProducts.map(async (addedProduct) => {
-      const productId = addedProduct.product;
-      const productVariation = await db.ProductAttribute.findByPk(productId);
-      const productIdentifier = productVariation.productId;
-      //check wether the products is available for sale.
-      const productAvailability = await db.Product.findOne({
-        where: {
-          id: productIdentifier,
-          status: 'AVAILABLE',
-        },
-      });
-      const productUnitPrice = productVariation.price;
-      const totalCost = productUnitPrice * addedProduct.quantity;
-      const productInfo = {
-        id: addedProduct.id,
-        productName: productAvailability.name,
-        productSize: productVariation.size,
-        productColor: productVariation.color,
-        productImage: productVariation.attrImage,
-        quantity: addedProduct.quantity,
-        totalPrice: totalCost,
-      };
-      return productInfo;
-    }));
-    const totalAmount = cart.map(ca=>ca.totalPrice).reduce(
-      (a, b) => a + b,
-      0
-    );
-    const data={
-      cart,
-      totalAmount
+    const productUnitPrice = productVariation.price;
+    const totalCost = productUnitPrice * addedProduct.quantity;
+    const productInfo = {
+      id: addedProduct.id,
+      productName: productAvailability.name,
+      productSize: productVariation.size,
+      productColor: productVariation.color,
+      productImage: productVariation.attrImage,
+      quantity: addedProduct.quantity,
+      totalPrice: totalCost,
     };
-    return data
+    return productInfo;
+  }));
+  const totalAmount = cart.map(ca => ca.totalPrice).reduce(
+    (a, b) => a + b,
+    0
+  );
+  const data = {
+    cart,
+    totalAmount
+  };
+  return data
 };
+//Retrive Cart Items
+
+export const viewCart = asyncWrapper(async (req, res) => {
+  const user = req.user.id;
+  const cart = await generateCart(user);
+
+  if (!cart) {
+    res.status(404).json({
+      status: req.t('fail'),
+      message: "No Product found in Cart"
+    })
+  }
+
+  res.status(200).json({
+    status: req.t('success'),
+    message: req.t('The cart has been retrieved successful!'),
+    data: cart,
+
+  })
+
+})
+
+
 //check whether the cart has been abondoned or not
- const isAbondoned =(createdAt)=>{
-const createdAtDate = new Date(createdAt);
-const currentDate = new Date();
-const timeDiffInMs = currentDate.getTime() - createdAtDate.getTime();
-const timeDiffInDays = timeDiffInMs / (24 * 60 * 60 * 1000);
-const isCreatedInLastSevenDays = timeDiffInDays >= 7;
-return isCreatedInLastSevenDays; 
+const isAbondoned = (createdAt) => {
+  const createdAtDate = new Date(createdAt);
+  const currentDate = new Date();
+  const timeDiffInMs = currentDate.getTime() - createdAtDate.getTime();
+  const timeDiffInDays = timeDiffInMs / (24 * 60 * 60 * 1000);
+  const isCreatedInLastSevenDays = timeDiffInDays >= 14;
+  return isCreatedInLastSevenDays;
 }

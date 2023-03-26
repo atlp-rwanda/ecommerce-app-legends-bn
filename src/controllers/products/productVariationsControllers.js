@@ -21,7 +21,7 @@ export const addNewProductVariation = asyncWrapper(async (req, res) => {
     const urls = await grabbingImage(req);
     const isColorExist = await db.ProductAttribute.findOne({
       where:{
-        color
+        color, productId
       }
     })
     // Create the new product
