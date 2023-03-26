@@ -14,7 +14,7 @@ const router = express.Router();
 
 router.post('/api/admin/login' ,login);
 router.post('/api/vendor/verify', verifyOTP);
-router.get('/api/admin/users', auth('admin'),isUserEnabled, getAllUsers);
+router.get('/api/admin/users', auth('admin'), isUserEnabled, getAllUsers);
 router.get('/api/admin/users/:id', auth('admin'),isUserEnabled, getSingleUser);
 router.post('/api/admin/users', createAdmin);
 router.delete('/api/admin/users/:id', auth('admin'), isUserEnabled,deleteUsers);
