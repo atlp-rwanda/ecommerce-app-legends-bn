@@ -13,6 +13,7 @@ import wishlist from './wishlist';
 import buyerViewSingleProd from './buyerViewSingleProd';
 import recommendedProduct from './recommendedProduct';
 import { Router } from 'express';
+import items from './items';
 const { serve, setup } = swagger;
 
 const swaggerDocRouter = Router();
@@ -79,7 +80,8 @@ const options = {
     ...category,
     ...wishlist,
     ...buyerViewSingleProd,
-    ...recommendedProduct
+    ...recommendedProduct,
+    ...items
    },
  
 };

@@ -23,7 +23,7 @@ export const CreateNewProduct = asyncWrapper(async (req, res) => {
       return res.status(404).json({ message: ' product Category not found.' });
     }
     if (!user) {
-      return res.status(404).json({ message: 'user not found.' });
+      return res.status(404).json({ message: req.t('Undiscovered') });
     }
 
     const productSlug = slugify(name, {
