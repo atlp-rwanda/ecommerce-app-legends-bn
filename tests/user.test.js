@@ -181,14 +181,14 @@ describe('admin tests', () => {
       expect(response.status).toBe(403);
     });
 
-    it('should return 400 if the user to enable not exist', async () => {
+    it('should return 404 if the user to enable not exist', async () => {
       const response = await request(app)
       .put(`/api/v1/users/4f315d1d-121a-493a-a7d2-2ac7aafb2bd6/enable`)
       .set('Authorization', `Bearer ${token}`);
       expect(response.status).toBe(404);
     });
   
-    it('should return 400 if the user  to disable not exist', async () => {
+    it('should return 404 if the user  to disable not exist', async () => {
       const response = await request(app)
       .put(`/api/v1/users/4f315d1d-121a-493a-a7d2-2ac7aafb2bd6/disable`)
       .set('Authorization', `Bearer ${token}`);

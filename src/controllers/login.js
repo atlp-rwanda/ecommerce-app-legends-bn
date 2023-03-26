@@ -50,11 +50,24 @@ export const login = async (req, res) => {
         const emailContent = {
           email: email,
           subject: ` Welcome to ${process.env.APP_NAME}`,
-          html: `<p> Thank you ${firstname} for logging into our app us keep enjoying our services </p>
+          html: ` <table style="border-collapse:collapse;border-spacing:0;width:100%;min-width:100%" width="100%" height="auto" cellspacing="0" cellpadding="0" bgcolor="#F0F0F0">
+          <tbody><tr>
+          <td style="padding-top:54px;padding-bottom:42px" align="center">
+          <h2 style="color:#0090c6;font-size: xx-large;">E-commerce ATLP-Legends project</h2>
+          </td>
+          </tr>
+          </tbody></table>
+          <p> Thank you ${firstname} for logging into our app us keep enjoying our services </p>
         <br>
         <p> Welcome ${firstname} ${lastname}.</p>
+        <p>Thank you for choosing ${process.env.APP_NAME}! We are excited to have you on board and look forward to providing you with top-quality service.</p>
+        <p>If you have any questions or concerns, please do not hesitate to reach out to our support team.</p>
+
         <br>
         <p>you are recieving this email because your subscribed to our app</p>
+
+        <h3>Best regards,</h3>
+        <h5><i>E-commerce ATLP-Legends project team</i></h5>
         `,
         };
         await sendEmail(emailContent);
@@ -81,7 +94,19 @@ export const login = async (req, res) => {
         const mailOptions = {
           email: email,
           subject: 'verification code',
-          html: 'Your verification code is: ' + OTPtoken,
+          html: ` <table style="border-collapse:collapse;border-spacing:0;width:100%;min-width:100%" width="100%" height="auto" cellspacing="0" cellpadding="0" bgcolor="#F0F0F0">
+          <tbody><tr>
+          <td style="padding-top:54px;padding-bottom:42px" align="center">
+          <h2 style="color:#0090c6;font-size: xx-large;">E-commerce ATLP-Legends project</h2>
+          </td>
+          </tr>
+          </tbody></table>
+          <br/>
+          <p>Your verification code is: ${OTPtoken}</p>
+          <br/>
+          <h3>Best regards,</h3>
+          <h5><i>E-commerce ATLP-Legends project team</i></h5>
+          `,
         };
         //mailer sender implemantation
         await sendEmail(mailOptions);

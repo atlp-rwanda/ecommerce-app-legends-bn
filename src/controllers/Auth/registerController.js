@@ -57,9 +57,23 @@ const register = async (req, res) => {
   const emailContent = {
     email: email,
     subject: ` Welcome to <b> ${process.env.APP_NAME} </b>`,
-    html: `<p> Thank you ${firstname} for registrting with us <a href="">the link </a> to sign in  </p>
+    html: `<table style="border-collapse:collapse;border-spacing:0;width:100%;min-width:100%" width="100%" height="auto" cellspacing="0" cellpadding="0" bgcolor="#F0F0F0">
+    <tbody><tr>
+    <td style="padding-top:54px;padding-bottom:42px" align="center">
+    <h2 style="color:#0090c6;font-size: xx-large;">E-commerce ATLP-Legends project</h2>
+    </td>
+    </tr>
+    </tbody></table>
+
+    <p> Welcome ${firstname} ${lastname}.</p>
+    <p>Thank you for choosing ${process.env.APP_NAME}! We are excited to have you on board and look forward to providing you with top-quality service.</p>
+    <p>If you have any questions or concerns, please do not hesitate to reach out to our support team.</p>
+
     <br>
     <p> if not ${firstname} ${lastname} don't care this email </p>
+
+    <h3>Best regards,</h3>
+    <h5><i>E-commerce ATLP-Legends project team</i></h5>
     `,
   };
   let token = '';
