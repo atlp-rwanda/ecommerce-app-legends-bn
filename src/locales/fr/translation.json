@@ -39,11 +39,12 @@
   "exists_in_wishlist":"Le produit existe déjà dans la liste de souhaits",
   "added_to_wishlist":"Le produit existe déjà dans la liste de souhaits",
   "removed_from_wishlist":"Produit retiré de la liste de souhaits",
-  "not_exists_in_wishlist":"Le produit n’existe pas dans la liste de souhaits"
-,
+  "not_exists_in_wishlist":"Le produit n’existe pas dans la liste de souhaits",
   "not_allowed_ToDelete": "Vous n'êtes pas autorisé à supprimer ce produit.",
   "productDeleted": "Et ses images associées ainsi que ses variations ont été supprimées",
   "is_added": "Est ajouté avec succès",
   "productRetieved":"Produits récupérés avec succès",
-  "productCategoryNotfound":"Catégorie de produit non trouvée."
+  "productCategoryNotfound":"Catégorie de produit non trouvée.",
+  "Missing_query": "requete de recherche manquante",
+  "searching": "complete avec succès!"
 }

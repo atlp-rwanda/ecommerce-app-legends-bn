@@ -154,6 +154,41 @@ export default {
           },
         },
       },
+    "/api/v1/product" : {
+      get: {
+        tags: ["Product"],
+        summary: "search product",
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+        parameters: [
+          {
+            "in": "query",
+          "name": "q",
+           required: true,
+         }
+        ],
+        responses: {
+          201: {
+            description: "found",
+          },
+          204: {
+            description: "No Content related to the keyword provided",
+          },
+          401: {
+            description: "User Not Authorized",
+          },
+          404: {
+            description: "Product doesn't exist!",
+          },
+          500: {
+            description: "Internal Server Error",
+          },
+        },
+      },
+    },
 
     "/api/v1/product/images/add" : {
       post: {
