@@ -44,7 +44,7 @@ app.use('/api/v1/category', categoryRoutes);
 app.use(productRoutes);
 app.use(google_auth)
 app.use(wishlistRoutes)
-app.use('/api/v1/buyers',buyerRoutes)
+app.use('/api/v1/products',buyerRoutes)
 
 
 app.all('*', (req, res) => {

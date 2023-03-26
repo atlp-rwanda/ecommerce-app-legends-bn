@@ -1,7 +1,7 @@
 export default {
-  '/api/v1/buyers/{id}': {
+  '/api/v1/products/{id}': {
     get: {
-      tags: ['Buyers'],
+      tags: ['Product'],
       description: 'User is able to view single product',
       parameters: [
         {

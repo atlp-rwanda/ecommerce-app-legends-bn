@@ -43,5 +43,7 @@
 ,
   "not_allowed_ToDelete": "Vous n'êtes pas autorisé à supprimer ce produit.",
   "productDeleted": "Et ses images associées ainsi que ses variations ont été supprimées",
-  "is_added": "Est ajouté avec succès"
+  "is_added": "Est ajouté avec succès",
+  "productRetieved":"Produits récupérés avec succès",
+  "productCategoryNotfound":"Catégorie de produit non trouvée."
 }

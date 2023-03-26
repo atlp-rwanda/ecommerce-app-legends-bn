@@ -42,5 +42,8 @@
   "product_exist_error": "The same product is already in this collection",
   "not_allowed_ToDelete": "you are not allowed to delete this product",
   "productDeleted": "and its associated images and variations have been deleted.",
-  "is_added": "is added successfully"
+  "is_added": "is added successfully",
+  "productRetieved":"Products retrieved successfully",
+  "productCategoryNotfound":"product Category not found."
+  
 }
