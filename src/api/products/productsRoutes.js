@@ -1,8 +1,8 @@
 import express from 'express';
 import upload from '../../utils/handlingFileUploads';
-import { CreateNewProduct ,deleteProduct, search} from '../../controllers/products/productController';
-import { addNewProductVariation } from '../../controllers/products/productVariationsControllers';
-import { addNewProductimages } from '../../controllers/products/ProductImagesController';
+import { CreateNewProduct ,deleteProduct, search, updateProduct} from '../../controllers/products/productController';
+import { addNewProductVariation, updateProductVariaton } from '../../controllers/products/productVariationsControllers';
+import { addNewProductimages, updateNewProductimages} from '../../controllers/products/ProductImagesController';
 import { auth, isUserEnabled } from '../../middleware/auth';
 import { getAllSellerItems, getAllBuyerItems } from '../../controllers/products/itemController';
 
@@ -55,3 +55,28 @@ ProductRouter.get(
 );
 ProductRouter.get('/api/v1/product', search);
 export default ProductRouter;
+
+ProductRouter.put(
+  '/api/v1/products/update/:id',
+  auth('vendor'),
+  isUserEnabled,
+  upload.array('image', 2),
+  updateProduct
+);
+
+ProductRouter.put(
+  '/api/v1/product/variation/update/:id',
+  auth('vendor'),
+  isUserEnabled,
+  upload.array('attrImage', 1),
+  updateProductVariaton
+);
+
+ProductRouter.put(
+  '/api/v1/product/images/update/:id',
+  auth('vendor'),
+  isUserEnabled,
+  upload.array('prodImage', 8),
+  updateNewProductimages
+);
+

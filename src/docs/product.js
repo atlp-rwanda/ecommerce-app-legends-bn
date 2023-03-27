@@ -1,3 +1,40 @@
+const addResponses = {
+  201: {
+    description: 'successfully',
+  },
+  204: {
+    description: 'No Content related to the ID provided',
+  },
+  401: {
+    description: 'User Not Authorized',
+  },
+  404: {
+    description: "Product doesn't exist!",
+  },
+  500: {
+    description: 'Internal Server Error',
+  },
+};
+
+const updateResponses = {
+  200: {
+    description: 'successfully',
+  },
+  204: {
+    description: 'No Content related to the ID provided',
+  },
+  401: {
+    description: 'User Not Authorized',
+  },
+  404: {
+    description: "Product doesn't exist!",
+  },
+  500: {
+    description: 'Internal Server Error',
+  },
+};
+
+
 export default {
     "/api/v1/products/add" : {
         post: {
@@ -18,23 +55,7 @@ export default {
               },
             },
           },
-          responses: {
-            200: {
-              description: "successfully",
-            },
-            204: {
-              description: "No Content related to the ID provided",
-            },
-            401: {
-              description: "User Not Authorized",
-            },
-            404: {
-              description: "Product doesn't exist!",
-            },
-            500: {
-              description: "Internal Server Error",
-            },
-          },
+          responses: addResponses
         },
       },
 
@@ -57,23 +78,7 @@ export default {
             },
           },
         },
-        responses: {
-          201: {
-            description: "created",
-          },
-          204: {
-            description: "No Content related to the ID provided",
-          },
-          401: {
-            description: "User Not Authorized",
-          },
-          404: {
-            description: "Product doesn't exist!",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        responses: addResponses
       },
     },
 
@@ -97,63 +102,10 @@ export default {
             },
           },
         },
-        responses: {
-          201: {
-            description: "created",
-          },
-          204: {
-            description: "No Content related to the ID provided",
-          },
-          401: {
-            description: "User Not Authorized",
-          },
-          404: {
-            description: "Product doesn't exist!",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        responses: addResponses
       },
     },
-    "/api/v1/products/add" : {
-        post: {
-          tags: ["Product"],
-          description: " Product ",
-          security: [
-            {
-              bearerAuth: [],
-            },
-          ],
-          parameters: [],
-          requestBody: {
-            content: {
-              "multipart/form-data": {
-                schema: {
-                  $ref: "#/components/schemas/Product",
-                },
-              },
-            },
-          },
-          responses: {
-            200: {
-              description: "successfully",
-            },
-            204: {
-              description: "No Content related to the ID provided",
-            },
-            401: {
-              description: "User Not Authorized",
-            },
-            404: {
-              description: "Product doesn't exist!",
-            },
-            500: {
-              description: "Internal Server Error",
-            },
-          },
-        },
-      },
+
     "/api/v1/product" : {
       get: {
         tags: ["Product"],
@@ -170,23 +122,7 @@ export default {
            required: true,
          }
         ],
-        responses: {
-          201: {
-            description: "found",
-          },
-          204: {
-            description: "No Content related to the keyword provided",
-          },
-          401: {
-            description: "User Not Authorized",
-          },
-          404: {
-            description: "Product doesn't exist!",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        responses: addResponses
       },
     },
 
@@ -209,23 +145,7 @@ export default {
             },
           },
         },
-        responses: {
-          201: {
-            description: "created",
-          },
-          204: {
-            description: "No Content related to the ID provided",
-          },
-          401: {
-            description: "User Not Authorized",
-          },
-          404: {
-            description: "Product doesn't exist!",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        responses: addResponses
       },
     },
 
@@ -249,23 +169,7 @@ export default {
             },
           },
         },
-        responses: {
-          201: {
-            description: "created",
-          },
-          204: {
-            description: "No Content related to the ID provided",
-          },
-          401: {
-            description: "User Not Authorized",
-          },
-          404: {
-            description: "Product doesn't exist!",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
+        responses: addResponses
       },
     },
 
@@ -301,4 +205,98 @@ export default {
         },
       },
     },
+
+    '/api/v1/products/update/{id}': {
+      put: {
+        tags: ['Product'],
+        description: ' Product ',
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+        parameters: [
+          {
+            in: 'path',
+            name: 'id',
+            required: true,
+          },
+        ],
+        requestBody: {
+          content: {
+            'multipart/form-data': {
+              schema: {
+                $ref: '#/components/schemas/Product',
+              },
+            },
+          },
+        },
+        responses: updateResponses,
+      },
+    },
+
+
+  '/api/v1/product/images/update/{id}': {
+    put: {
+      tags: ['Product Images'],
+      description: ' Product Images ',
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
+      parameters: [
+        {
+          in: 'path',
+          name: 'id',
+          required: true,
+        },
+      ],
+      requestBody: {
+        content: {
+          'multipart/form-data': {
+            schema: {
+              $ref: '#/components/schemas/ProductImage',
+            },
+          },
+        },
+      },
+      responses: updateResponses,
+    },
+  },
+
+
+  '/api/v1/product/variation/update/{id}': {
+    put: {
+      tags: ['Product Attributes'],
+      description: 'Product attr',
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
+      parameters: [
+        {
+          in: 'path',
+          name: 'id',
+          required: true,
+        },
+      ],
+      requestBody: {
+        content: {
+          'multipart/form-data': {
+            schema: {
+              $ref: '#/components/schemas/ProductAttribute',
+            },
+            default: {
+              id: '1',
+            },
+          },
+        },
+      },
+      responses: updateResponses,
+    },
+  },
     }
+
+    
