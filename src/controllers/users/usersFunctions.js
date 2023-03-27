@@ -18,10 +18,20 @@ export const verifyEmail = async (req, res) => {
         email: email,
         token: token,
         subject: ` ${process.env.APP_NAME} , Password reset`,
-        html: `<p> Hello ${user.lastname},,</p><br/>\
+        html: `<table style="border-collapse:collapse;border-spacing:0;width:100%;min-width:100%" width="100%" height="auto" cellspacing="0" cellpadding="0" bgcolor="#F0F0F0">
+        <tbody><tr>
+        <td style="padding-top:54px;padding-bottom:42px" align="center">
+        <h2 style="color:#0090c6;font-size: xx-large;">E-commerce ATLP-Legends project</h2>
+        </td>
+        </tr>
+        </tbody></table>
+        <p> Hello ${user.lastname},,</p><br/>\
         <p>http:/localhost:${process.env.PORT}/api/v1/password/${token}</p><br/>\
         <h4>If you want to reset your password then click on below link </h4><br/>\
-        <a href="http:/localhost:${process.env.PORT}/api/v1/password/${token}">Click here</a>`,
+        <a href="http:/localhost:${process.env.PORT}/api/v1/password/${token}">Click here</a>
+        <h3>Best regards,</h3>
+        <h5><i>E-commerce ATLP-Legends project team</i></h5>
+        `,
       };
    
     // Send the email
