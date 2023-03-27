@@ -2,10 +2,13 @@ import { Op } from "sequelize";
 import db from '../../models';
 import { checkEmptyFields } from '../../utils/validations/handlingEmptyFields';
 import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
-import slugify from 'slugify';
 import { grabbingImage } from '../../utils/grabbingImages';
 import { removeImageFromCloudinary } from '../../utils/handlingFileUploads';
+<<<<<<< HEAD
 import { Product } from '../../models';
+=======
+import { SlugfyFunction } from '../../utils/textSlugfy'
+>>>>>>> 991bbd1 (feat(vendor-update-product))
 //defining execution of images uploads
 export const CreateNewProduct = asyncWrapper(async (req, res) => {
   // Get the data for the new product from the request body
@@ -22,21 +25,15 @@ export const CreateNewProduct = asyncWrapper(async (req, res) => {
 
     const user = await db.user.findByPk(userId);
     if (!category) {
-      return res.status(404).json({ message: ' product Category not found.' });
+      return res.status(404).json({ message: 'Product Category not found.' });
     }
     if (!user) {
       return res.status(404).json({ message: req.t('Undiscovered') });
     }
 
-    const productSlug = slugify(name, {
-      remove: undefined,
-      lower: true,
-      strict: false,
-      locale: 'en',
-    });
 
     const existingProduct = await db.Product.findOne({
-      where: { slug: productSlug, userId },
+      where: { slug: SlugfyFunction(name), userId },
     });
     //defining slug
 
@@ -51,14 +48,14 @@ export const CreateNewProduct = asyncWrapper(async (req, res) => {
     // Create the new product
     const product = await db.Product.create({
       name,
-      slug: productSlug,
+      slug: SlugfyFunction(name),
       description,
       model,
       image: urls.map((url) => url.url)[0],
       keyword,
       status,
-      categoryId: categoryId,
-      userId: userId,
+      categoryId,
+      userId,
       cloudinaryId: urls.map((url) => url.id)[0],
     });
     res.status(201).json({
@@ -115,3 +112,27 @@ if (!q) {
   });
   return res.status(200).json({status: req.t('success'),message: req.t('searching'), data: items});
 });
+
+export const updateProduct = asyncWrapper( async (req, res) => {
+  if(!req.params.id){
+    return res.status.json({status: 'error', message:  'Id' + req.t('is_required')});
+  }
+  let userId = req.user.id;
+  const urls = await grabbingImage(req);
+
+  const row = await db.Product.findByPk(req.params.id, { where : { userId : userId }});
+  if(!row){
+    return res.status(404).json({status: 'error', message: req.t('product_does_not_exist_in_collection')});
+  }
+  if(urls){
+    req.body['imge'] = urls.map( url => url.url)[0],
+    removeImageFromCloudinary(row.cloudinaryId);
+
+  }
+  row.set({
+    ...req.body,
+    slug: SlugfyFunction(req.body.name || row.name),
+  })
+  res.status(204).json({ status: 'OK', message: req.t('product_updated_successfully'), data: row})
+}
+  );

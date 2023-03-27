@@ -61,10 +61,11 @@ export default {
       },
       model: {
         type: 'string',
+        enum: ['AVAILABLE', 'UNAVAILABLE'],
         description: 'Product Model',
       },
       status: {
-        type: 'string',
+        type: '',
         description: ' status for product ',
       },
       categoryId: {
