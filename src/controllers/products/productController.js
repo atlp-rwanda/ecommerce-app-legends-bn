@@ -122,9 +122,12 @@ export const updateProduct = asyncWrapper( async (req, res) => {
     return res.status(404).json({status: 'error', message: req.t('product_does_not_exist_in_collection')});
   }
   if(urls.length > 0){
-    req.body['imge'] = urls.map( url => url.url)[0],
+    req.body['image'] = urls.map( url => url.url)[0],
     removeImageFromCloudinary(row.cloudinaryId);
 
+  }
+  else{
+    req.body['image'] = row.image
   }
   row.set({
     ...req.body,
