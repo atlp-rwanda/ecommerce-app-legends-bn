@@ -12,6 +12,7 @@ import product from './product';
 import wishlist from './wishlist';
 import buyerViewSingleProd from './buyerViewSingleProd';
 import recommendedProduct from './recommendedProduct';
+import oauth from './oauth';
 import { Router } from 'express';
 import items from './items';
 const { serve, setup } = swagger;
@@ -73,6 +74,7 @@ const options = {
     ...admin, 
     ...register, 
     ...login,
+    ...oauth,
     ...verifyCode,
     ...user,
     ...user_status,
