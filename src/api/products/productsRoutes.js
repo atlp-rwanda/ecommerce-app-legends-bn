@@ -1,9 +1,10 @@
 import express from 'express';
 import upload from '../../utils/handlingFileUploads';
 import { CreateNewProduct ,deleteProduct, updateProduct, search} from '../../controllers/products/productController';
+import { auth, isUserEnabled } from '../../middleware/auth';
+import { getAllSellerItems, getAllBuyerItems } from '../../controllers/products/itemController';
 import { addNewProductVariation, updateProductVariaton } from '../../controllers/products/productVariationsControllers';
 import { addNewProductimages, updateNewProductimages} from '../../controllers/products/ProductImagesController';
-import { auth, isUserEnabled } from '../../middleware/auth';
 
 const ProductRouter = express.Router();
 

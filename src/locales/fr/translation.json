@@ -45,6 +45,21 @@
   "is_added": "Est ajouté avec succès",
   "productRetieved":"Produits récupérés avec succès",
   "productCategoryNotfound":"Catégorie de produit non trouvée.",
+<<<<<<< HEAD
   "Missing_query": "requete de recherche manquante",
   "searching": "complete avec succès!"
+=======
+  "product_category_not_found": "Catégorie de produit introuvable.",
+  "is_required": "est requis",
+  "product_does_not_exist_in_collection" : "Product doesn't exist in your collection",
+  "product_updated_successfully": "Le produit n'existe pas dans votre collection",
+  "product_images_updated_succefuly": "Les nouvelles images ont été téléchargées avec succès",
+  "product_image_not_found": "produit Image introuvable.",
+  "product_image_updated_successfully": "Image du produit mise à jour avec succès",
+  "new_product_variation_added": "Le nouveau produit Variaton a été ajouté avec succès",
+  "no_product_variation_found": "Aucune variation de produit trouvée"
+
+
+
+>>>>>>> b719f68 (feat(vendor-update-product))
 }

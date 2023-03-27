@@ -45,6 +45,18 @@
   "is_added": "is added successfully",
   "productRetieved":"Products retrieved successfully",
   "productCategoryNotfound":"product Category not found.",
+<<<<<<< HEAD
   "Missing_query": "Missing search query",
   "searching": "completed successfully!"
+=======
+  "product_category_not_found": "Product Category not found.",
+  "is_required": "Is required",
+  "product_does_not_exist_in_collection" : "Product does not exist in collection",
+  "product_updated_successfully": "Product updated successfully",
+  "product_images_updated_succefuly": "Product images updated successfully",
+  "product_image_not_found": "Product image not found",
+  "product_image_updated_successfully": "Product Image Updated successfully",
+  "new_product_variation_added": "New product Variaton is added successfully",
+  "no_product_variation_found" : "No Product variation found"
+>>>>>>> b719f68 (feat(vendor-update-product))
 }
