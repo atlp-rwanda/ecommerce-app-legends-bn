@@ -63,11 +63,9 @@ export const updateNewProductimages = asyncWrapper ( async(req, res) => {
 
     row.set(prodImage, cloudinaryId )
     await row.save()
-
-    return res.status(200).json({status : req.t('success'), message: req.t('product_image_updated_successfully') })
-
   }
 
   
+  return res.status(200).json({status : req.t('success'), message: req.t('product_image_updated_successfully') })
 
 } )

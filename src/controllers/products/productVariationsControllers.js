@@ -54,5 +54,5 @@ export const updateProductVariaton = asyncWrapper( async (req, res) => {
 
   row.set(req.body);
   await row.save();
-  return res.status(200).json({ststus: req.t('success'), message: req.t('no_product_variation_found')})
+  return res.status(200).json({ststus: req.t('success'), message: req.t('product_variation_updated')})
 })

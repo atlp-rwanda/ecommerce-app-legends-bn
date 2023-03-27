@@ -294,7 +294,7 @@ describe('verify the email if it is valid for the password reset ', () => {
   .send({email: 'doe1@gmail.com'});
   expect(response.statusCode).toBe(200);
   console.log('It should appear hear',response.body);
-  //expect(response.body).toHaveProperty("token");
+  expect(response.body).toHaveProperty("token");
   pass_token=response.body.token;
   });
 });

@@ -4,11 +4,8 @@ import { checkEmptyFields } from '../../utils/validations/handlingEmptyFields';
 import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
 import { grabbingImage } from '../../utils/grabbingImages';
 import { removeImageFromCloudinary } from '../../utils/handlingFileUploads';
-<<<<<<< HEAD
 import { Product } from '../../models';
-=======
 import { SlugfyFunction } from '../../utils/textSlugfy'
->>>>>>> 991bbd1 (feat(vendor-update-product))
 //defining execution of images uploads
 export const CreateNewProduct = asyncWrapper(async (req, res) => {
   // Get the data for the new product from the request body
@@ -105,7 +102,7 @@ if (!q) {
     where: {
       [Op.or]: [
         { name: { [Op.iLike]: `%${q}%` } },
-        { description: { [Op.iLike]: `%${q}%` } },,
+        { description: { [Op.iLike]: `%${q}%` } },
         { model: { [Op.iLike]: `%${q}%` } },
       ],
     },

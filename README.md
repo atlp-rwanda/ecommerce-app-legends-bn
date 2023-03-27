@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # ecommerce-app-legends-bn-   ![check-code-coverage](https://img.shields.io/badge/code--coverage-84.18%25-green) [![Node.js CI](https://github.com/atlp-rwanda/ecommerce-app-legends-bn/actions/workflows/node.js.yml/badge.svg)](https://github.com/atlp-rwanda/ecommerce-app-legends-bn/actions/workflows/node.js.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/92c706fad38b90146d03/maintainability)](https://codeclimate.com/github/atlp-rwanda/ecommerce-app-legends-bn/maintainability) [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
+=======
+# ecommerce-app-legends-bn-   ![check-code-coverage](https://img.shields.io/badge/code--coverage-83.98%25-green) [![Node.js CI](https://github.com/atlp-rwanda/ecommerce-app-legends-bn/actions/workflows/node.js.yml/badge.svg)](https://github.com/atlp-rwanda/ecommerce-app-legends-bn/actions/workflows/node.js.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/92c706fad38b90146d03/maintainability)](https://codeclimate.com/github/atlp-rwanda/ecommerce-app-legends-bn/maintainability) [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
+>>>>>>> 4404d5c (feat(vendor-update-product))
 ## Introduction
 
 This is the initial setup for the project, `ecommerce-app-legends-bn-`
