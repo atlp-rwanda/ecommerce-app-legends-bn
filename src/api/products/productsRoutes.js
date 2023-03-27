@@ -1,9 +1,10 @@
 import express from 'express';
 import upload from '../../utils/handlingFileUploads';
+import { auth, isUserEnabled } from '../../middleware/auth';
+import { getAllSellerItems, getAllBuyerItems } from '../../controllers/products/itemController';
 import { CreateNewProduct ,deleteProduct, updateProduct} from '../../controllers/products/productController';
 import { addNewProductVariation, updateProductVariaton } from '../../controllers/products/productVariationsControllers';
 import { addNewProductimages, updateNewProductimages} from '../../controllers/products/ProductImagesController';
-import { auth, isUserEnabled } from '../../middleware/auth';
 
 const ProductRouter = express.Router();
 
@@ -45,12 +46,12 @@ ProductRouter.post(
   addNewProductimages
 );
 
-ProductRouter.put(
-  '/api/v1/product/images/update/:id',
-  auth('vendor'),
-  upload.array('prodImage', 8),
-  updateNewProductimages
-);
+// ProductRouter.put(
+//   '/api/v1/product/images/update/:id',
+//   auth('vendor'),
+//   upload.array('prodImage', 8),
+//   updateNewProductimages
+// );
 
 //delete product
 ProductRouter.delete('/api/v1/products/delete/:id',

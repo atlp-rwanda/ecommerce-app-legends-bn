@@ -44,6 +44,14 @@
   "productDeleted": "and its associated images and variations have been deleted.",
   "is_added": "is added successfully",
   "productRetieved":"Products retrieved successfully",
-  "productCategoryNotfound":"product Category not found."
-  
+  "productCategoryNotfound":"product Category not found.",
+  "product_category_not_found": "Product Category not found.",
+  "is_required": "Is required",
+  "product_does_not_exist_in_collection" : "Product does not exist in collection",
+  "product_updated_successfully": "Product updated successfully",
+  "product_images_updated_succefuly": "Product images updated successfully",
+  "product_image_not_found": "Product image not found",
+  "product_image_updated_successfully": "Product Image Updated successfully",
+  "new_product_variation_added": "New product Variaton is added successfully",
+  "no_product_variation_found" : "No Product variation found"
 }
