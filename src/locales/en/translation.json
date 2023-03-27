@@ -44,6 +44,7 @@
   "productDeleted": "and its associated images and variations have been deleted.",
   "is_added": "is added successfully",
   "productRetieved":"Products retrieved successfully",
-  "productCategoryNotfound":"product Category not found."
-  
+  "productCategoryNotfound":"product Category not found.",
+  "Missing_query": "Missing search query",
+  "searching": "completed successfully!"
 }

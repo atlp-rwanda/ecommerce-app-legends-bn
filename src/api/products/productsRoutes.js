@@ -1,6 +1,6 @@
 import express from 'express';
 import upload from '../../utils/handlingFileUploads';
-import { CreateNewProduct, deleteProduct } from '../../controllers/products/productController';
+import { CreateNewProduct ,deleteProduct, search} from '../../controllers/products/productController';
 import { addNewProductVariation } from '../../controllers/products/productVariationsControllers';
 import { addNewProductimages } from '../../controllers/products/ProductImagesController';
 import { auth, isUserEnabled } from '../../middleware/auth';
@@ -53,4 +53,5 @@ ProductRouter.get(
   getAllBuyerItems
 
 );
+ProductRouter.get('/api/v1/product', search);
 export default ProductRouter;

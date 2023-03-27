@@ -1,9 +1,11 @@
-import db from '../.././models';
+import { Op } from "sequelize";
+import db from '../../models';
 import { checkEmptyFields } from '../../utils/validations/handlingEmptyFields';
 import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
 import slugify from 'slugify';
 import { grabbingImage } from '../../utils/grabbingImages';
 import { removeImageFromCloudinary } from '../../utils/handlingFileUploads';
+import { Product } from '../../models';
 //defining execution of images uploads
 export const CreateNewProduct = asyncWrapper(async (req, res) => {
   // Get the data for the new product from the request body
@@ -96,4 +98,20 @@ export const deleteProduct = asyncWrapper(async (req, res) => {
   res.status(200).json({
     message: product.name + ' ' + req.t('productDeleted'),
   });
+});
+export const search = asyncWrapper(async (req, res) => {
+  const { q } = req.query;
+if (!q) {
+  return res.status(400).send({ message: 'Missing search query' });
+}
+  const items = await Product.findAll({
+    where: {
+      [Op.or]: [
+        { name: { [Op.iLike]: `%${q}%` } },
+        { description: { [Op.iLike]: `%${q}%` } },,
+        { model: { [Op.iLike]: `%${q}%` } },
+      ],
+    },
+  });
+  return res.status(200).json({status: req.t('success'),message: req.t('searching'), data: items});
 });
