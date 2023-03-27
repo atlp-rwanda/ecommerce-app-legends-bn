@@ -86,6 +86,7 @@ export default {
       responses: updateResponses,
     },
   },
+<<<<<<< HEAD
   '/api/v1/product': {
     get: {
       tags: ['Product'],
@@ -117,10 +118,87 @@ export default {
         },
         500: {
           description: 'Internal Server Error',
+=======
+  '/api/v1/product/images/add': {
+    post: {
+      tags: ['Product'],
+      description: ' Product attr ',
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
+      parameters: [],
+      requestBody: {
+        content: {
+          'multipart/form-data': {
+            schema: {
+              $ref: '#/components/schemas/ProductImage',
+            },
+          },
+        },
+      },
+      responses: addResponses,
+    },
+  },
+
+  '/api/v1/product/variation/add': {
+    post: {
+      tags: ['Product'],
+      description: 'Product attr',
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
+      parameters: [],
+      requestBody: {
+        content: {
+          'multipart/form-data': {
+            schema: {
+              $ref: '#/components/schemas/ProductAttribute',
+            },
+          },
+        },
+      },
+      responses: addResponses,
+    },
+  },
+
+  '/api/v1/products/delete/{id}': {
+    delete: {
+      tags: ['Product'],
+      parameters: [
+        {
+          name: 'id',
+          in: 'path',
+          description: 'product id',
+          required: true,
+          type: 'string',
+          example: '3e7b7d4f-d9d0-4ee2-8413-5df9c4ec6491',
+        },
+      ],
+      responses: {
+        200: {
+          description: 'OK',
+        },
+        500: {
+          description: 'Internal Server Error',
+        },
+        404: {
+          description: 'not found',
+        },
+        401: {
+          description: 'Not Authorized',
+        },
+        403: {
+          description: 'Forbidden Access',
+>>>>>>> e1ad0d7 (feat(vendor-update-product))
         },
       },
     },
   },
+<<<<<<< HEAD
   '/api/v1/products/delete/{id}': {
     delete: {
       tags: ['Product'],
@@ -153,6 +231,8 @@ export default {
       },
     },
   },
+=======
+>>>>>>> e1ad0d7 (feat(vendor-update-product))
 
   '/api/v1/product/images/add': {
     post: {

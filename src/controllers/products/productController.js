@@ -121,7 +121,7 @@ export const updateProduct = asyncWrapper( async (req, res) => {
   if(!row){
     return res.status(404).json({status: 'error', message: req.t('product_does_not_exist_in_collection')});
   }
-  if(urls){
+  if(urls.length > 0){
     req.body['imge'] = urls.map( url => url.url)[0],
     removeImageFromCloudinary(row.cloudinaryId);
 
@@ -130,6 +130,6 @@ export const updateProduct = asyncWrapper( async (req, res) => {
     ...req.body,
     slug: SlugfyFunction(req.body.name || row.name),
   })
-  res.status(204).json({ status: 'OK', message: req.t('product_updated_successfully'), data: row})
+  res.status(200).json({ status: 'OK', message: req.t('product_updated_successfully'), data: row})
 }
   );

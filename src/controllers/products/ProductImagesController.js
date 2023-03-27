@@ -2,6 +2,8 @@ import db from '../.././models';
 import { checkEmptyFields } from '../../utils/validations/handlingEmptyFields';
 import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
 import { grabbingImage } from '../../utils/grabbingImages';
+import { removeImageFromCloudinary } from '../../utils/handlingFileUploads';
+
 //defining execution of images uploads
 
 export const addNewProductimages = asyncWrapper(async (req, res) => {
@@ -48,24 +50,23 @@ export const addNewProductimages = asyncWrapper(async (req, res) => {
 });
 
 export const updateNewProductimages = asyncWrapper ( async(req, res) => {
-  const id = !req.params.id;
+  const id = req.params?.id;
   if(!id){
     return res.status(400).json({status: req.t('fail'), message : 'Id ' + req.t('is_required') });
   }
-  const row = await db.ProductImage.findByPk()
+  const row = await db.ProductImage.findByPk(id)
   const urls = await grabbingImage(req);
 
   let prodImage, cloudinaryId;
-  if(urls){
-    prodImage = urls[0].url;
-    cloudinaryId = urls[0].id
+  if(urls.length > 0) {
+    prodImage = urls[0].url || row.prodImage
+    cloudinaryId = urls[0].id || row.cloudinaryId
     removeImageFromCloudinary(row.cloudinaryId);
 
     row.set(prodImage, cloudinaryId )
-    await row.save()
   }
+  await row.save()
 
-  
   return res.status(200).json({status : req.t('success'), message: req.t('product_image_updated_successfully') })
 
 } )

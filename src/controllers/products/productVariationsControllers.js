@@ -47,7 +47,7 @@ export const updateProductVariaton = asyncWrapper( async (req, res) => {
   if(!row) return res.status(404).json({ststus: req.t('fail'), message: req.t('no_product_variation_found')})
 
   const urls = await grabbingImage(req);
-  if(urls){
+  if(urls.length > 0){
     req.body['attrImage'] = urls[0].url;
     removeImageFromCloudinary(row.cloudinaryId);
   }
