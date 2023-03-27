@@ -6,9 +6,14 @@ export const createAdmin = async (req, res) => {
     const { firstname, lastname, email, password, phone, permissions } =
       req.body;
     const hashedPassword = await hashPassword(password);
-    const newRole = await db.role.create({
-      name: 'admin',
-    });
+    let newRole = await db.role.findOne({ where: { name: 'admin' }})
+
+    if(!newRole){
+      newRole = await db.role.create({
+        name: 'admin',
+      });
+    }
+
     await db.user.create({
       ...req.body,
       password: hashedPassword,
@@ -17,7 +22,8 @@ export const createAdmin = async (req, res) => {
     const newPermission = await db.permission.create({
       name: permissions,
     });
-    await db.rolePermission.create({
+
+    newPermission && await db.rolePermission.create({
       roleId: newRole.id,
       permissionId: newPermission.id,
     });
