@@ -1,6 +1,7 @@
 import request from 'supertest';
 import app from '../src/index.js';
-import {user ,role } from '../src/database/models';
+import { user, role } from '../src/database/models';
+import path from 'path';
 
 describe('GET /', () => {
   it('should return 200', async () => {
@@ -9,11 +10,13 @@ describe('GET /', () => {
   });
 });
 let loged_token;
+let vendorId;
+let vendorToken;
+let token;
 //admin endpoints
 describe('admin tests', () => {
   let idAdmin;
-  let token;
-  let idvendor
+  let idvendor;
   test('adding a real admin', async () => {
     await request(app)
       .post('/api/admin/users')
@@ -127,84 +130,93 @@ describe('admin tests', () => {
         return expect(res.status).toBe(200);
       });
   });
-     test('adding a real vendor', async () => {
-       await request(app)
-         .post('/api/vendor/users')
-         .set('Authorization', `bearer ${token}`)
-         .send({
-           firstname: 'joeyb',
-           lastname: 'idowa',
-           email: 'testvendor@bff.com',
-           password: 'pasmegaround',
-           phone: '0787882105',
-           permissions: [],
-         })
-         .expect(function (res) {
-          idvendor = res.body.data.id;
-           return expect(res.status).toBe(201);
-         })
-         .catch((error) => {
-           console.error(error);
-           throw error;
-         });
-     });
-
-     it('should disable an existing user', async () => {
-      const response =  await request(app)
-        .put(`/api/v1/users/${idvendor}/disable`)
-        .set('Authorization', `Bearer ${token}`);
-      expect(response.status).toBe(200);
+  test('adding a real vendor', async () => {
+    await request(app)
+      .post('/api/vendor/users')
+      .set('Authorization', `bearer ${token}`)
+      .send({
+        firstname: 'joeyb',
+        lastname: 'idowa',
+        email: 'testvendor@bff.com',
+        password: 'pasmegaround',
+        phone: '0787882105',
+        permissions: [],
+      })
+      .expect(function (res) {
+        idvendor = res.body.data.id;
+        return expect(res.status).toBe(201);
+      })
+      .catch((error) => {
+        console.error(error);
+        throw error;
+      });
+  });
+  //loggin  a vendor in
+  test('should log the token when vendor logs in', async () => {
+    let response = await request(app).post('/api/v1/users/login').send({
+      email: 'testvendor@bff.com',
+      password: 'pasmegaround',
     });
-
-    it('should return 403 if the user is already disabled', async () => {
-      const response = await request(app)
+    expect(response.body).toHaveProperty('token');
+    expect(response.body).toHaveProperty('user');
+    vendorToken = response.body.token;
+    vendorId = response.body.user.id;
+  });
+  it('should disable an existing user', async () => {
+    const response = await request(app)
       .put(`/api/v1/users/${idvendor}/disable`)
       .set('Authorization', `Bearer ${token}`);
-      expect(response.status).toBe(403);
-    });
+    expect(response.status).toBe(200);
+  });
 
-    
-    it('should enable an existing user', async () => {
-      const response = await request(app)
+  it('should return 403 if the user is already disabled', async () => {
+    const response = await request(app)
+      .put(`/api/v1/users/${idvendor}/disable`)
+      .set('Authorization', `Bearer ${token}`);
+    expect(response.status).toBe(403);
+  });
+
+  it('should enable an existing user', async () => {
+    const response = await request(app)
       .put(`/api/v1/users/${idvendor}/enable`)
-        .set('Authorization', `Bearer ${token}`);
+      .set('Authorization', `Bearer ${token}`);
 
-      expect(response.status).toBe(200);
-    });
+    expect(response.status).toBe(200);
+  });
 
-    it('should return 403 if the user is already enabled', async () => {
-      const response = await request(app)
+  it('should return 403 if the user is already enabled', async () => {
+    const response = await request(app)
       .put(`/api/v1/users/${idvendor}/enable`)
-        .set('Authorization', `Bearer ${token}`);
+      .set('Authorization', `Bearer ${token}`);
 
-      expect(response.status).toBe(403);
-    });
+    expect(response.status).toBe(403);
+  });
 
-    it('should return 404 if the user to enable not exist', async () => {
-      const response = await request(app)
+  it('should return 404 if the user to enable not exist', async () => {
+    const response = await request(app)
       .put(`/api/v1/users/4f315d1d-121a-493a-a7d2-2ac7aafb2bd6/enable`)
       .set('Authorization', `Bearer ${token}`);
-      expect(response.status).toBe(404);
-    });
-  
-    it('should return 404 if the user  to disable not exist', async () => {
-      const response = await request(app)
+    expect(response.status).toBe(404);
+  });
+
+  it('should return 404 if the user  to disable not exist', async () => {
+    const response = await request(app)
       .put(`/api/v1/users/4f315d1d-121a-493a-a7d2-2ac7aafb2bd6/disable`)
       .set('Authorization', `Bearer ${token}`);
-      expect(response.status).toBe(404);
-    });
-  
-        test('getting users by admin with wrong token', async () => {
-          await request(app)
-            .get('/api/admin/users')
-            .set('Authorization', `Bearer ${token}qwert`)
-            .expect((res) => {
-              return expect(res.status).toBe(401);
-            })
-            .catch((err) => {
-              throw err;
-            });
-        });
+    expect(response.status).toBe(404);
+  });
+
+  test('getting users by admin with wrong token', async () => {
+    await request(app)
+      .get('/api/admin/users')
+      .set('Authorization', `Bearer ${token}qwert`)
+      .expect((res) => {
+        return expect(res.status).toBe(401);
+      })
+      .catch((err) => {
+        throw err;
+      });
+  });
 
   test('getting users by admin', async () => {
     await request(app)
@@ -212,6 +224,10 @@ describe('admin tests', () => {
       .set('Authorization', `Bearer ${token}`)
       .expect((res) => {
         idAdmin = res._body
+        console.log(res._body);
+        idAdmin = res._body;
+        console.log(res._body);
+        idAdmin = res._body;
 
         return expect(res.status).toBe(200);
       })
@@ -219,7 +235,7 @@ describe('admin tests', () => {
         throw err;
       });
   });
-  
+
   test('getting single user by admin', async () => {
     await request(app)
       .get(`/api/admin/users/${idAdmin[0].id}`)
@@ -237,7 +253,7 @@ describe('admin tests', () => {
         return expect(res.status).toBe(204);
       });
   });
-  
+
   test('deleting vendor by admin', async () => {
     await request(app)
       .delete(`/api/admin/users/${idAdmin[1].id}`)
@@ -247,43 +263,121 @@ describe('admin tests', () => {
       });
   });
 
- 
+  let categoryId;
+  let productId;
+  let productName;
+  console.log('fggshgsghsSSNnsbsmn zz',vendorToken);
+  //adding new product category
+  test('should create new product category and return 201', async () => {
+    const response = await request(app)
+      .post('/api/v1/category/add')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        name: 'new category',
+      });
+    expect(response.statusCode).toBe(201);
+    expect(response.body).toHaveProperty('status');
+    expect(response.body.data).toHaveProperty('id');
+    categoryId = response.body.data.id;
+    console.log(categoryId);
+  });
+  //adding new product
+  test('should create new product and return 201 status', async () => {
+    const response =await request(app)
+      .post('/api/v1/products/add')
+      .set('Authorization', `Bearer ${vendorToken}`)
+      .attach('image', path.join(__dirname, 'test.png'))
+      .field('name', 'jest Title')
+      .field('slug', 'jest Description')
+      .field('description', 'jest Content')
+      .field('model', 'jest')
+      .field('keyword', 'jContent')
+      .field('status', 'AVAILABLE')
+      .field('categoryId', categoryId)
+      .field('userId', vendorId);
+    expect(response.statusCode).toBe(201);
+    console.log('hdhdgdgddgsjshshddg',response.body);
+  });
+
+  test('get available product by vendor', async () => {
+    const response = await request(app)
+      .get(`/api/v1/seller/products`)
+      .set('Authorization', `Bearer ${vendorToken}`);
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty('status');
+  });
+  //allow buyer to get all products
+  test('get available product by buyer', async () => {
+    const response = await request(app).get('/api/v1/buyer/products');
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty('status');
+  });
+  //search product
+  test('search product by name', async () => {
+    const response = await request(app).delete(
+      `/api/v1/products/delete/${productName}`
+    );
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty('status');
+  });
+
+
 });
 //  =========== BUYER REGISTRATION TESTS ===========
 let pass_token;
 describe('POST Buyer register', () => {
   it('should create a return 409', async () => {
-  
-    let buyer = await role.findOne({where: {name: 'buyer'}})
+    let buyer = await role.findOne({ where: { name: 'buyer' } });
 
+    console.log('user');
 
-    if(!buyer){
+    if (!buyer) {
       buyer = await role.create({
-        name: 'buyer'
+        name: 'buyer',
       });
     }
-    const newUser = await user.create({firstname: 'John', lastname: 'Doe', phone: "12345678", email: 'doe@gmail.com', password: '12345678', roleId: buyer.id});
+    const newUser = await user.create({
+      firstname: 'John',
+      lastname: 'Doe',
+      phone: '12345678',
+      email: 'doe@gmail.com',
+      password: '12345678',
+      roleId: buyer.id,
+    });
 
     const response = await request(app)
       .post('/api/v1/register')
-      .send({firstname: 'John', lastname: 'Doe', phone: "1234", email: 'doe@gmail.com', password: '123456', roleId: buyer.id});
+      .send({
+        firstname: 'John',
+        lastname: 'Doe',
+        phone: '1234',
+        email: 'doe@gmail.com',
+        password: '123456',
+        roleId: buyer.id,
+      });
     expect(response.statusCode).toBe(409);
   });
 });
-// User 
+
 describe('POST Buyer register return 201', () => {
 
   it('should create a return 201', async () => {
-    await user.destroy({where: {}});
-  const response = await request(app)
-  .post('/api/v1/register')
-  .send({firstname: 'John', lastname: 'Doe', phone: "1234", email: 'doe1@gmail.com', password: '123456'});
-  expect(response.statusCode).toBe(200);
-  loged_token = response.body.token;
+    await user.destroy({ where: {} });
+    const response = await request(app)
+      .post('/api/v1/register')
+      .send({
+        firstname: 'John',
+        lastname: 'Doe',
+        phone: '1234',
+        email: 'doe1@gmail.com',
+        password: '123456',
+      });
+    expect(response.statusCode).toBe(200);
+    console.log('It should secondly', response.body);
+    loged_token = response.body.token;
   });
 });
 describe('verify the email if it is valid for the password reset ', () => {
-
   it('should create a return 201', async () => {
   const response = await request(app)
   .post('/api/v1/email')
@@ -291,102 +385,89 @@ describe('verify the email if it is valid for the password reset ', () => {
   expect(response.statusCode).toBe(200);
   //expect(response.body).toHaveProperty("token");
   pass_token=response.body.token;
-  });
 });
+  });
 describe('the password reset ', () => {
-
   it('should create a return 201', async () => {
-    const response =await request(app)
-    
-  .post(`/api/v1/password/${pass_token}`)
-  .send({password: '123'});
-  expect(response.body).toHaveProperty("message");
+    const response = await request(app)
+      .post(`/api/v1/password/${pass_token}`)
+      .send({ password: '123' });
+    expect(response.body).toHaveProperty('message');
   });
 });
 describe('the password reset second time should fail ', () => {
-
   it('should create a return 201', async () => {
-    const response =await request(app)
-    
-  .post(`/api/v1/password/${pass_token}`)
-  .send({password: '1235'});
-  expect(response.body).toHaveProperty("message");
+    const response = await request(app)
+      .post(`/api/v1/password/${pass_token}`)
+      .send({ password: '1235' });
+    expect(response.body).toHaveProperty('message');
   });
 });
 describe('verify the email if it is valid for the password reset ', () => {
-
   it('should create a return 201', async () => {
-  const response = await request(app)
-  .post('/api/v1/email')
-  .send({email: 'doe147@gmail.com'});
-  expect(response.statusCode).toBe(200);
-  expect(response.body).toHaveProperty("message");
-  pass_token=response.body.token;
+    const response = await request(app)
+      .post('/api/v1/email')
+      .send({ email: 'doe147@gmail.com' });
+    expect(response.statusCode).toBe(200);
+    expect(response.body).toHaveProperty('message');
+    pass_token = response.body.token;
   });
 });
 
 describe('the password reset with non-valid token', () => {
-
   it('should create a return error', async () => {
-    const response =await request(app)
-  .post(`/api/v1/password/${pass_token}e`)
-  .set('Accept-Language', `fr`)
-  .send({password: '123'});
-  expect(response.body).toHaveProperty("message");
+    const response = await request(app)
+      .post(`/api/v1/password/${pass_token}e`)
+      .set('Accept-Language', `fr`)
+      .send({ password: '123' });
+    expect(response.body).toHaveProperty('message');
   });
 });
 describe('the password reset when user is already logged in', () => {
-
   it('should create a return error', async () => {
-    const response =await request(app)
-  .post(`/api/v1/password`)
-  .set('Authorization', `Bearer ${loged_token}`)
-  .set('Accept-Language', `fr`)
-  .send({xpassword: '12', npassword: '1238'});
-  expect(response.body).toHaveProperty("message");
+    const response = await request(app)
+      .post(`/api/v1/password`)
+      .set('Authorization', `Bearer ${loged_token}`)
+      .set('Accept-Language', `fr`)
+      .send({ xpassword: '12', npassword: '1238' });
+    expect(response.body).toHaveProperty('message');
   });
 });
 describe('the password reset when user is already logged in', () => {
-
   it('should create a return 201', async () => {
-    const response =await request(app)
-  .post(`/api/v1/password`)
-  .set('Authorization', `Bearer ${loged_token}`)
-  .set('Accept-Language', `fr`)
-  .send({xpassword: '123', npassword: '1238'});
-  expect(response.body).toHaveProperty("message");
+    const response = await request(app)
+      .post(`/api/v1/password`)
+      .set('Authorization', `Bearer ${loged_token}`)
+      .set('Accept-Language', `fr`)
+      .send({ xpassword: '123', npassword: '1238' });
+    expect(response.body).toHaveProperty('message');
   });
 });
 
-
 describe('the password reset with non-valid token', () => {
-
   it('should create a return error', async () => {
-    const response =await request(app)
-  .post(`/api/v1/password/${pass_token}e`)
-  .set('Accept-Language', `fr`)
-  .send({password: '123'});
-  expect(response.body).toHaveProperty("message");
+    const response = await request(app)
+      .post(`/api/v1/password/${pass_token}e`)
+      .set('Accept-Language', `fr`)
+      .send({ password: '123' });
+    expect(response.body).toHaveProperty('message');
   });
 });
 
-
 describe('the password reset with non-valid token', () => {
-
   it('should create a return error', async () => {
-    const response =await request(app)
-  .post(`/api/v1/password/${pass_token}e`)
-  .set('Accept-Language', `fr`)
-  .send({password: '123'});
-  expect(response.body).toHaveProperty("message");
+    const response = await request(app)
+      .post(`/api/v1/password/${pass_token}e`)
+      .set('Accept-Language', `fr`)
+      .send({ password: '123' });
+    expect(response.body).toHaveProperty('message');
   });
 });
 
 describe('POST Buyer register', () => {
   it('should create a return 400', async () => {
-    const response = await request(app)
-      .post('/api/v1/register');
-    expect(response.statusCode).toBe(500);
+    const response = await request(app).post('/api/v1/register');
+    expect(response.statusCode).toBe(400);
   });
 });
 /////verification code testing from vendor//////
@@ -409,19 +490,26 @@ describe('verifyOTP', () => {
     const mockToken = 'some_encoded_token';
     const response = await request(app)
       .post('/verify-otp')
-      .set('Cookie', `onloginToken=${mockToken}; onloggingUserid=${mockUser.id}`)
+      .set(
+        'Cookie',
+        `onloginToken=${mockToken}; onloggingUserid=${mockUser.id}`
+      )
       .send({ token: '374829' });
     expect(response.statusCode).toBe(200);
     expect(response.body.message).toBe();
   });
 });
 
-describe('GET recommended product by user',() => { 
+describe('GET recommended product by user', () => {
   it('should return 200', async () => {
     const response = await request(app)
       .get('/api/v1/view/recommendations')
-      .set('Authorization', `Bearer ${loged_token}`)
+      .set('Authorization', `Bearer ${loged_token}`);
     expect(response.statusCode).toBe(200);
   });
-})
+});
 
+//products tests
+describe('new product and product manipulation tests', () => {
+
+});

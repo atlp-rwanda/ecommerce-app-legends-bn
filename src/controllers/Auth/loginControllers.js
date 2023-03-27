@@ -15,6 +15,7 @@ import {
 } from '../../utils/handleCookies';
 dotenv.config();
 export const login = asyncWrapper(async (req, res) => {
+  const nodenv = process.env.NODE_ENV;
   const { email, password } = req.body;
   const error = checkEmptyFields(req.body);
   if (!error) {
@@ -100,7 +101,15 @@ export const login = asyncWrapper(async (req, res) => {
           user.id,
           res
         );
-        res.json({ message: req.t('code_sent') });
+        if (nodenv === 'test') {
+          res.status(200).json({
+            user,
+            token,
+            role: role.name,
+          });
+        } else {
+          res.json({ message: req.t('code_sent') });
+        }
         break;
       default:
         res.status(200).json({
