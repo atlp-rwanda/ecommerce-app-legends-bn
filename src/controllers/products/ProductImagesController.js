@@ -46,3 +46,28 @@ export const addNewProductimages = asyncWrapper(async (req, res) => {
     });
   }
 });
+
+export const updateNewProductimages = asyncWrapper ( async(req, res) => {
+  const id = !req.params.id;
+  if(!id){
+    return res.status(400).json({status: req.t('fail'), message : 'Id ' + req.t('is_required') });
+  }
+  const row = await db.ProductImage.findByPk()
+  const urls = await grabbingImage(req);
+
+  let prodImage, cloudinaryId;
+  if(urls){
+    prodImage = urls[0].url;
+    cloudinaryId = urls[0].id
+    removeImageFromCloudinary(row.cloudinaryId);
+
+    row.set(prodImage, cloudinaryId )
+    await row.save()
+
+    return res.status(200).json({status : req.t('success'), message: req.t('product_image_updated_successfully') })
+
+  }
+
+  
+
+} )
