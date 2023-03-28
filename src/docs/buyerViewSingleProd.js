@@ -3,11 +3,12 @@ export default {
     get: {
       tags: ['Product'],
       description: 'User is able to view single product',
+      security:[],
       parameters: [
         {
           name: 'id',
           in: 'path',
-          description: 'ID of the user to disable',
+          description: 'ID of a product user wants to view',
           required: true,
           type: 'integer',
         },

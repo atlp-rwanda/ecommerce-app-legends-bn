@@ -1,20 +1,22 @@
-import  { user } from "../../models";
-import  sendEmail from "../../utils/sendEmail";
-
-export const disableUser = async (req, res, next) => {
-    const userId = req.params.id;
-    const existingUser = await user.findByPk(userId);
-
-    if(!existingUser) {
-        return res.status(404).json({status:"fail",message:req.t('user_not_found')})
-     }
-    else if(existingUser.status === "inactive"){
-        return res.status(403).json({status:"fail",message:req.t('already_disabled')}) 
-    }
-    const sendemailOpt = {
-        email: existingUser.email,
-        subject: 'Your accont disabled',
-        html:`<table style="border-collapse:collapse;border-spacing:0;width:100%;min-width:100%" width="100%" height="auto" cellspacing="0" cellpadding="0" bgcolor="#F0F0F0">
+import { user } from '../../database/models';
+import sendEmail from '../../utils/sendEmail';
+import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
+export const disableUser = asyncWrapper(async (req, res, next) => {
+  const userId = req.params.id;
+  const existingUser = await user.findByPk(userId);
+  if (!existingUser) {
+    return res
+      .status(404)
+      .json({ status: 'fail', message: req.t('user_not_found') });
+  } else if (existingUser.status === 'inactive') {
+    return res
+      .status(403)
+      .json({ status: 'fail', message: req.t('already_disabled') });
+  }
+  const sendemailOpt = {
+    email: existingUser.email,
+    subject: 'Your accont disabled',
+    html: `<table style="border-collapse:collapse;border-spacing:0;width:100%;min-width:100%" width="100%" height="auto" cellspacing="0" cellpadding="0" bgcolor="#F0F0F0">
         <tbody><tr>
         <td style="padding-top:54px;padding-bottom:42px" align="center">
         <h2 style="color:#0090c6;font-size: xx-large;">E-commerce ATLP-Legends project</h2>
@@ -34,28 +36,33 @@ export const disableUser = async (req, res, next) => {
 
         <h3>Best regards,</h3>
         <h5><i>E-commerce ATLP-Legends project team</i></h5>
-        `
-      };
-      await sendEmail(sendemailOpt);
-    existingUser.status = "inactive";
-    res.status(200).json({status:"success",message:req.t('disabled_successfully')})
-    existingUser.save()
-}
+        `,
+  };
+  await sendEmail(sendemailOpt);
+  existingUser.status = 'inactive';
+  res
+    .status(200)
+    .json({ status: 'success', message: req.t('disabled_successfully') });
+  existingUser.save();
+});
 
-export const enableUser = async (req, res, next) => {
-    const userId = req.params.id;
-    const existingUser = await user.findByPk(userId);
+export const enableUser = asyncWrapper(async (req, res, next) => {
+  const userId = req.params.id;
+  const existingUser = await user.findByPk(userId);
 
-    if(!existingUser) {
-       return res.status(404).json({status:"fail",message:req.t('user_not_found')})
-    }
-    else if(existingUser.status === "active"){
-        return res.status(403).json({status:"fail",message:req.t('already_enabled')})
-    }
-    const sendemailOpt = {
-        email: existingUser.email,
-        subject: 'Your accont disabled',
-        html:`<table style="border-collapse:collapse;border-spacing:0;width:100%;min-width:100%" width="100%" height="auto" cellspacing="0" cellpadding="0" bgcolor="#F0F0F0">
+  if (!existingUser) {
+    return res
+      .status(404)
+      .json({ status: 'fail', message: req.t('user_not_found') });
+  } else if (existingUser.status === 'active') {
+    return res
+      .status(403)
+      .json({ status: 'fail', message: req.t('already_enabled') });
+  }
+  const sendemailOpt = {
+    email: existingUser.email,
+    subject: 'Your accont disabled',
+    html: `<table style="border-collapse:collapse;border-spacing:0;width:100%;min-width:100%" width="100%" height="auto" cellspacing="0" cellpadding="0" bgcolor="#F0F0F0">
         <tbody><tr>
         <td style="padding-top:54px;padding-bottom:42px" align="center">
         <h2 style="color:#0090c6;font-size: xx-large;">E-commerce ATLP-Legends project</h2>
@@ -72,10 +79,12 @@ export const enableUser = async (req, res, next) => {
 
         <h3>Best regards,</h3>
         <h5><i>E-commerce ATLP-Legends project team</i></h5>
-        `
-      };
-      await sendEmail(sendemailOpt);
-    existingUser.status = "active";
-    res.status(200).json({status:"success",message:req.t('enabled_successfuly')})
-    existingUser.save()
-}
+        `,
+  };
+  await sendEmail(sendemailOpt);
+  existingUser.status = 'active';
+  res
+    .status(200)
+    .json({ status: 'success', message: req.t('enabled_successfuly') });
+  existingUser.save();
+});

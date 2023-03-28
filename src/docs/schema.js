@@ -44,7 +44,7 @@ export default {
     properties: {
       name: {
         type: 'string',
-        description: 'name name',
+        description: 'name of the product',
       },
       image: {
         type: 'string',

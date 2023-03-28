@@ -1,5 +1,5 @@
 export default {
-  '/api/v1/buyers/view/recommendations': {
+  '/api/v1/products/view/recommendations': {
     get: {
       tags: ['Buyers'],
       description: 'User should be able to view recommended products',

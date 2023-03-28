@@ -1,5 +1,5 @@
 export default {
-  '/api/admin/login': {
+  '/api/v1/users/login': {
     post: {
       tags: ['Auth'],
       description: 'User login',

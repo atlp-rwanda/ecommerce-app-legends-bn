@@ -1,4 +1,4 @@
-import db from '../.././models';
+import db from '../../database/models';
 import { checkEmptyFields } from '../../utils/validations/handlingEmptyFields';
 import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
 import { grabbingImage } from '../../utils/grabbingImages';
@@ -26,7 +26,6 @@ export const addNewProductimages = asyncWrapper(async (req, res) => {
 
     if (product) {
       urls.forEach(async (element) => {
-        console.log(element);
         await db.ProductImage.create({
           productId,
           prodImage: element.url,
@@ -37,10 +36,9 @@ export const addNewProductimages = asyncWrapper(async (req, res) => {
     }
 
     const productimageDetails = await db.Product.findByPk(productId, {
-      include: [{ model: db.ProductImage }],
+      include: [{ model: await db.ProductImage }],
       attributes: { exclude: ['createdAt', 'updatedAt'] },
     });
-
     res.status(201).json({
       status: req.t('success'),
       data: productimageDetails,
