@@ -23,6 +23,7 @@ export const auth = (arg) => {
     const role = result?.user.role;
     req.user = result?.user;
     if (role === 'admin') return next();
+    else if(arg.includes(role)) return next();
     else {
       if (role !== arg) {
         if(arg !== 'all'){
@@ -58,18 +59,20 @@ export const authent = async (req, res, next) => {
 };
 
 export const isUserEnabled= async(req, res, next) => {
+  const nodenv =process.env.NODENV;
   const authHeader = req.headers.authorization;
   const token = authHeader.split(' ')[1];
   const decodedToken = JWT.verify(token, process.env.JWT_SECRET);
   const userId = decodedToken.user.id;
   const user = await db.user.findOne({ where: { id: userId } });
-  const userStatus = user.status;
-  if(userStatus == "inactive"){
+  if(nodenv=='development'||nodenv=='production'){
+  const userStatus = user?.status;
+  if(!userStatus ||userStatus == "inactive"){
     return res.status(401).json({
       status: req.t('fail'),
       message: req.t('user_disabled'),
     });
   }
-  next();
 }
-
+next();
+}

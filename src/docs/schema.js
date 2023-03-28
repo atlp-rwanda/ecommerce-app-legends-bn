@@ -127,5 +127,14 @@ export default {
       },
     },
   },
+  shoppingCart: {
+    type: 'object',
+    properties: {
+      productId: {
+        type: 'string',
+        description: 'product attribute Id',
+      },
+    },
+  }
   
 };

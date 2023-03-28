@@ -57,5 +57,9 @@
   "product_image_updated_successfully": "Product Image Updated successfully",
   "new_product_variation_added": "New product Variaton is added successfully",
   "no_product_variation_found" : "No Product variation found",
-  "product_variation_updated": "Product Variation is updated successfully"
+  "product_variation_updated": "Product Variation is updated successfully",
+  "not_available_ForSale" : "product is not available for sale",
+  "hasbeenAddtoCart":"has been added ,please update quantity on the shopping cart",
+  "cadded_to_cart":"product added to cart successfully",
+  "ColorbeenAddtoCart":"has been added"
 }

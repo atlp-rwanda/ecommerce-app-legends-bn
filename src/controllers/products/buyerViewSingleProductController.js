@@ -15,6 +15,7 @@ export const viewSingleProduct = asyncWrapper(async (req, res) => {
         model: db.ProductAttribute,
         attributes: { exclude: ['createdAt', 'updatedAt', 'productId'] },
       },
+      
     ],
   });
   if (!product) {

@@ -13,6 +13,7 @@ import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
 import middleware from 'i18next-http-middleware';
 import db from './database/models/index';
+import CartRoutes from './routes/shoppingCart/shoppingCartRoutes';
 
 i18next
   .use(Backend)
@@ -37,6 +38,7 @@ app.use(middleware.handle(i18next));
 // routes
 app.use('/', rootRouter);
 app.use(docs);
+app.use(CartRoutes);
 app.use(adminRouter);
 app.use(vendorRouter);
 app.use('/api/v1', userAuthRoutes);
