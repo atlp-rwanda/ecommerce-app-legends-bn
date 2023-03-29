@@ -12,6 +12,7 @@ import product from './product';
 import wishlist from './wishlist';
 import buyerViewSingleProd from './buyerViewSingleProd';
 import recommendedProduct from './recommendedProduct';
+import Cart from './Cart';
 import oauth from './oauth';
 import { Router } from 'express';
 import items from './items';
@@ -83,7 +84,8 @@ const options = {
     ...wishlist,
     ...buyerViewSingleProd,
     ...recommendedProduct,
-    ...items
+    ...items,
+    ...Cart
    },
  
 };

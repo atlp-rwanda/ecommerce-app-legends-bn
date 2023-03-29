@@ -1,4 +1,4 @@
-# ecommerce-app-legends-bn-   ![check-code-coverage](https://img.shields.io/badge/code--coverage-83.12%25-green) [![Node.js CI](https://github.com/atlp-rwanda/ecommerce-app-legends-bn/actions/workflows/node.js.yml/badge.svg)](https://github.com/atlp-rwanda/ecommerce-app-legends-bn/actions/workflows/node.js.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/92c706fad38b90146d03/maintainability)](https://codeclimate.com/github/atlp-rwanda/ecommerce-app-legends-bn/maintainability) [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
+# ecommerce-app-legends-bn-   ![check-code-coverage](https://img.shields.io/badge/code--coverage-73.75%25-yellow) [![Node.js CI](https://github.com/atlp-rwanda/ecommerce-app-legends-bn/actions/workflows/node.js.yml/badge.svg)](https://github.com/atlp-rwanda/ecommerce-app-legends-bn/actions/workflows/node.js.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/92c706fad38b90146d03/maintainability)](https://codeclimate.com/github/atlp-rwanda/ecommerce-app-legends-bn/maintainability) [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 ## Introduction
 
 This is the initial setup for the project, `ecommerce-app-legends-bn-`
@@ -99,5 +99,7 @@ to discuss what you would like to change.
 - ch-project-initialization
 - ch-setup-database
 - develop
+-ft-add-to-cart
+-ft-two-factor-auths
 
 ### License

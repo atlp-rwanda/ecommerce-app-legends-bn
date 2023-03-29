@@ -19,7 +19,13 @@ export const addNewProductVariation = asyncWrapper(async (req, res) => {
     }
 
     const urls = await grabbingImage(req);
+    const isColorExist = await db.ProductAttribute.findOne({
+      where:{
+        color
+      }
+    })
     // Create the new product
+    if(!isColorExist){
     const productVariaton = await db.ProductAttribute.create({
       price,
       size,
@@ -29,14 +35,17 @@ export const addNewProductVariation = asyncWrapper(async (req, res) => {
       quantity,
       cloudinaryId:urls.map( url => url.id)[0]
     });
-
-    if (product) {
-    }
     res.status(201).json({
       status: req.t('success'),
       data: productVariaton,
-      message: `new product Variaton with ${productVariaton.sizeId} is added successfully`,
+      message: `new product Variaton with ${productVariaton.color} is added successfully`,
     });
+  } else{
+    return res.status(409).json({
+      status: req.t('fail'),
+      message: color + ' ' + req.t('ColorbeenAddtoCart'),
+    });
+  }
   }
 });
 

@@ -86,7 +86,22 @@ export const login = asyncWrapper(async (req, res) => {
         const mailOptions = {
           email: email,
           subject: 'verification code',
-          html: 'Your verification code is: ' + OTPtoken,
+          html: `<table style="border-collapse:collapse;border-spacing:0;width:100%;min-width:100%" width="100%" height="auto" cellspacing="0" cellpadding="0" bgcolor="#F0F0F0">
+          <tbody><tr>
+          <td style="padding-top:54px;padding-bottom:42px" align="center">
+          <h2 style="color:#0090c6;font-size: xx-large;">E-commerce ATLP-Legends project</h2>
+          </td>
+          </tr>
+          </tbody></table>
+          <p class="m_73160151937089879size-16" style="Margin-top:0;Margin-bottom:0;font-size:16px;line-height:24px" lang="x-size-16"><strong><span style="color:#000000">Congratulations for comming back our estemmed vendors! </span></strong></p><p style="Margin-top:20px;Margin-bottom:0"><span style="color:#000000">You are in safe hands.</span></p>
+          <p style="Margin-top:10px;Margin-bottom:0"><span style="color:#000000">Here at our ecommerce we have extensive experience in connecting customers to businesses.</span></p>
+          <p style="Margin-top:20px;Margin-bottom:20px"><span style="color:#000000">Thank you for sign in the system, kindly find your verification code below </span></p>
+          
+          <p style="Margin-top:0px;Margin-bottom:10px"><span style="color:#000000">log into your account with these credentials</span></p>
+          <div style="margin:0%;background:#fcfcfc;padding:1% 2%">
+          <p><h4>Your verification code is: ${OTPtoken}</h6></p>
+          </div>     
+          `,
         };
         //mailer sender implemantation
         await sendEmail(mailOptions);

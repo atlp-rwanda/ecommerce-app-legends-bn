@@ -57,5 +57,9 @@
   "product_image_updated_successfully": "Image du produit mise à jour avec succès",
   "new_product_variation_added": "Le nouveau produit Variaton a été ajouté avec succès",
   "no_product_variation_found": "Aucune variation de produit trouvée",
-  "product_variation_updated": "Variante de produit mise à jour avec succès"
+  "product_variation_updated": "Variante de produit mise à jour avec succès",
+  "not_available_ForSale" : "Le produit n'est pas disponible à la vente.",
+  "hasbeenAddtoCart":"a été ajouté, veuillez mettre à jour la quantité dans le panier d'achats",
+  "cadded_to_cart":"Produit ajouté au panier avec succès",
+  "ColorbeenAddtoCart":"a été ajouté"
 }
