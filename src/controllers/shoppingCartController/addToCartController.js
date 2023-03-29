@@ -119,13 +119,13 @@ export const viewCart = asyncWrapper(async (req, res) => {
   if (!cart) {
     res.status(404).json({
       status: req.t('fail'),
-      message: "No Product found in Cart"
+      message: req.t('cart_already_empty'),
     })
   }
 
   res.status(200).json({
     status: req.t('success'),
-    message: req.t('The cart has been retrieved successful!'),
+    message: req.t('cart_retrieved'),
     data: cart,
 
   })
