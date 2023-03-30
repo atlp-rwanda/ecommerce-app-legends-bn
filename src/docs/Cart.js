@@ -116,7 +116,7 @@ export default {
               $ref: '#/components/schemas/shoppingCart',
             },
             example: {
-              id: '1'
+              id: '1',
             },
           },
         },
@@ -133,6 +133,46 @@ export default {
         },
         500: {
           description: 'Internal Server Error',
+        },
+      },
+    },
+  },
+
+  '/api/v1/shoppingCart/clear': {
+    delete: {
+      tags: ['Shopping Cart'],
+      summary: "Clear the buyer's shopping cart",
+      description:
+        "Clears all the items from the buyer's shopping cart and resets the cart total to zero.",
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
+      responses: {
+        200: {
+          description: 'Success',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  status: {
+                    type: 'string',
+                    description: 'Success status message',
+                  },
+                  data: {
+                    type: 'string',
+                    description: 'Total price of the cart',
+                  },
+                  message: {
+                    type: 'string',
+                    description: 'Success message',
+                  },
+                },
+              },
+            },
+          },
         },
       },
     },

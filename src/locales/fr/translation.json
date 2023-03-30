@@ -65,5 +65,9 @@
   "The cart has been retrieved successful!": "Le panier a été récupéré avec succès!",
     "cart_item_updated":"article du panier mis à jour avec succès",
   "cart_item_deleted":"article du panier supprimé avec succès",
-  "exceeds_stock":"La quantité demandée dépasse la quantité en stock"
+  "exceeds_stock":"La quantité demandée dépasse la quantité en stock",
+  "cart_cleared": "Panier vidé avec succès",
+  "cart_already_empty": "Le panier est vide",
+  "total_price": "Montant total : {{totalAmount}}",
+  "cart_retrieved": "Le panier a été récupéré avec succès!"
 }

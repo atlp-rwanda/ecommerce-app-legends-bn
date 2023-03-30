@@ -64,5 +64,9 @@
   "ColorbeenAddtoCart":"has been added",
   "cart_item_updated":"cart item updated successfully",
   "cart_item_deleted":"cart item deleted successfully",
-  "exceeds_stock":"quantity you want exceeds our stock"
+  "exceeds_stock":"quantity you want exceeds our stock",
+  "cart_cleared": "Cart cleared successfully",
+  "cart_already_empty": "cart is empty",
+  "total_price": "Total Amount: {{totalAmount}}",
+  "cart_retrieved": "Cart retrieved successfully"
 }
