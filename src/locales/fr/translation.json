@@ -60,7 +60,7 @@
   "product_variation_updated": "Variante de produit mise à jour avec succès",
   "not_available_ForSale" : "Le produit n'est pas disponible à la vente.",
   "hasbeenAddtoCart":"a été ajouté, veuillez mettre à jour la quantité dans le panier d'achats",
-  "cadded_to_cart":"Produit ajouté au panier avec succès",
+  "cadded_to_cart": "Produit ajouté au panier avec succès",
   "ColorbeenAddtoCart":"a été ajouté",
   "The cart has been retrieved successful!": "Le panier a été récupéré avec succès!",
     "cart_item_updated":"article du panier mis à jour avec succès",
@@ -69,5 +69,13 @@
   "cart_cleared": "Panier vidé avec succès",
   "cart_already_empty": "Le panier est vide",
   "total_price": "Montant total : {{totalAmount}}",
-  "cart_retrieved": "Le panier a été récupéré avec succès!"
+  "cart_retrieved": "Le panier a été récupéré avec succès!",
+  "related_product_attributte_not_found": "Attribut de produit lié à {{element}} introuvable",
+  "coupon_expiration_error" : "La période de validité du coupon doit être d'au moins un jour après",
+  "coupon_code_created" : "Coupon ajouté avec succès",
+  "coupon_code_required": "code promo requis",
+  "coupon_not_exist": "Le code promo n'existe pas",
+  "coupon_expiration_exipired": "Le code promo a expiré",
+  "coupon_maximum_usage_error" : "Le code promo a atteint sa limite d'utilisation maximale",
+  "new_discounted_cart": "Nouveau panier à prix réduit"
 }

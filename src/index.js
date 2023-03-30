@@ -8,6 +8,7 @@ import categoryRoutes from './routes/products/category'
 import productRoutes from './routes/products/productsRoutes'
 import wishlistRoutes from './routes/products/wishlist';
 import buyerRoutes from './routes/products/buyer.routes'
+import couponRoutes from './routes/coupon/couponRoutes';
 import docs from './docs/index';
 import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
@@ -43,6 +44,7 @@ app.use(adminRouter);
 app.use(vendorRouter);
 app.use('/api/v1', userAuthRoutes);
 app.use('/api/v1/category', categoryRoutes);
+app.use('/api/v1/coupons', couponRoutes);
 app.use(productRoutes);
 app.use(google_auth)
 app.use(wishlistRoutes)
