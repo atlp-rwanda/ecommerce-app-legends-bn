@@ -9,7 +9,7 @@ const addResponses = {
     description: 'User Not Authorized',
   },
   404: {
-    description: "Product doesn't exist!",
+    description: "doesn't exist!",
   },
   500: {
     description: 'Internal Server Error',
@@ -27,7 +27,7 @@ const updateResponses = {
     description: 'User Not Authorized',
   },
   404: {
-    description: "Product doesn't exist!",
+    description: " doesn't exist!",
   },
   500: {
     description: 'Internal Server Error',

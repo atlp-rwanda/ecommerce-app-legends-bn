@@ -4,7 +4,7 @@ export default {
 
     properties: {
       id: {
-        type: 'string',
+        type: 'uuid',
         description: 'The auto-generated id ',
       },
       names: {
@@ -53,7 +53,7 @@ export default {
       },
       description: {
         type: 'string',
-        description: ' Product description ',
+        description: ' Product description',
       },
       keyword: {
         type: 'string',
@@ -135,6 +135,41 @@ export default {
         description: 'product attribute Id',
       },
     },
-  }
+  },
+
+  Coupon: {
+    type: 'object',
+    properties: {
+      discount_rate: {
+        type: 'integer',
+        description: ' Discount rate ',
+        minimum: 1,
+        maximum: 100
+      },
+      expire_at: {
+        type: 'string',
+        description: 'Will be valueing until ',
+        format: 'date-time',
+      },
+      max_usage: {
+        type: 'integer',
+        description: 'Maximum number usage possible',
+      },
+      usage: {
+        type: 'integer',
+        description: 'Maximum used',
+      },
+      productAttributes: {
+        type: 'Array(integer)',
+        description: 'Array of product attributes',
+        default: ['1']
+      },
+      status: {
+        type: 'string',
+        "enum": ["ACTIVE", "INACTIVE"],
+        description: ' status for product ',
+      }
+    },
+  },
   
 };

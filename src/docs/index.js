@@ -16,6 +16,7 @@ import Cart from './Cart';
 import oauth from './oauth';
 import { Router } from 'express';
 import items from './items';
+import coupon from './coupon';
 const { serve, setup } = swagger;
 
 const swaggerDocRouter = Router();
@@ -85,7 +86,8 @@ const options = {
     ...buyerViewSingleProd,
     ...recommendedProduct,
     ...items,
-    ...Cart
+    ...Cart,
+    ...coupon
    },
  
 };

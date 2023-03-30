@@ -15,6 +15,7 @@ describe('admin tests', () => {
   let token;
   let idvendor
   test('adding a real admin', async () => {
+
     await request(app)
       .post('/api/admin/users')
       .send({
@@ -42,6 +43,7 @@ describe('admin tests', () => {
         email: 'hassomeon@bff.com',
       })
       .expect(function (res) {
+        console.log(res.body)
         return expect(res.status).toBe(500);
       })
       .catch((error) => {

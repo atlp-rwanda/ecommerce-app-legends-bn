@@ -68,5 +68,14 @@
   "cart_cleared": "Cart cleared successfully",
   "cart_already_empty": "cart is empty",
   "total_price": "Total Amount: {{totalAmount}}",
-  "cart_retrieved": "Cart retrieved successfully"
+  "cart_retrieved": "Cart retrieved successfully",
+
+  "related_product_attributte_not_found": "Product attribute related to {{element}} not found",
+  "coupon_expiration_error":"The Coupon valid period should at be least one day after",
+  "coupon_code_created": "Coupon added successfully",
+  "coupon_code_required": "coupon code required",
+  "coupon_not_exist": "Coupon code not exist",
+  "coupon_expiration_exipired": "The coupon code had expired",
+  "coupon_maximum_usage_error" : "The coupon code has reached its maximum usage limit",
+  "new_discounted_cart" : "New Cart discounted"
 }
