@@ -61,5 +61,6 @@
   "not_available_ForSale" : "Le produit n'est pas disponible à la vente.",
   "hasbeenAddtoCart":"a été ajouté, veuillez mettre à jour la quantité dans le panier d'achats",
   "cadded_to_cart":"Produit ajouté au panier avec succès",
-  "ColorbeenAddtoCart":"a été ajouté"
+  "ColorbeenAddtoCart":"a été ajouté",
+  "The cart has been retrieved successful!": "Le panier a été récupéré avec succès!"
 }
