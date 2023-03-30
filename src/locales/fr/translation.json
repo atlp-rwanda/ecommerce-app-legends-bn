@@ -62,5 +62,8 @@
   "hasbeenAddtoCart":"a été ajouté, veuillez mettre à jour la quantité dans le panier d'achats",
   "cadded_to_cart":"Produit ajouté au panier avec succès",
   "ColorbeenAddtoCart":"a été ajouté",
-  "The cart has been retrieved successful!": "Le panier a été récupéré avec succès!"
+  "The cart has been retrieved successful!": "Le panier a été récupéré avec succès!",
+    "cart_item_updated":"article du panier mis à jour avec succès",
+  "cart_item_deleted":"article du panier supprimé avec succès",
+  "exceeds_stock":"La quantité demandée dépasse la quantité en stock"
 }

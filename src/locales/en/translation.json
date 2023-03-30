@@ -61,5 +61,8 @@
   "not_available_ForSale" : "product is not available for sale",
   "hasbeenAddtoCart":"has been added ,please update quantity on the shopping cart",
   "cadded_to_cart":"product added to cart successfully",
-  "ColorbeenAddtoCart":"has been added"
+  "ColorbeenAddtoCart":"has been added",
+  "cart_item_updated":"cart item updated successfully",
+  "cart_item_deleted":"cart item deleted successfully",
+  "exceeds_stock":"quantity you want exceeds our stock"
 }
