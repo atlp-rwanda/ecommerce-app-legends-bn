@@ -7,6 +7,7 @@ import vendorRouter from './routes/users/vendorRoutes';
 import categoryRoutes from './routes/products/category'
 import productRoutes from './routes/products/productsRoutes'
 import wishlistRoutes from './routes/products/wishlist';
+import payment from './routes/payment/striperoutes';
 import buyerRoutes from './routes/products/buyer.routes'
 import couponRoutes from './routes/coupon/couponRoutes';
 import docs from './docs/index';
@@ -48,7 +49,8 @@ app.use('/api/v1/coupons', couponRoutes);
 app.use(productRoutes);
 app.use(google_auth)
 app.use(wishlistRoutes)
-app.use('/api/v1/products',buyerRoutes)
+app.use('/api/v1/products', buyerRoutes)
+app.use('/api/v1',payment);
 
 
 app.all('*', (req, res) => {
