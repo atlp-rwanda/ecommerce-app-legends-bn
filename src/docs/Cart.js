@@ -57,7 +57,7 @@ export default {
       },
     },
   },
-
+  
   '/api/v1/shoppingCart/update': {
     patch: {
       tags: ['Shopping Cart'],

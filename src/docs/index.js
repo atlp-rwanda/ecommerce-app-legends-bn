@@ -12,6 +12,7 @@ import product from './product';
 import wishlist from './wishlist';
 import buyerViewSingleProd from './buyerViewSingleProd';
 import recommendedProduct from './recommendedProduct';
+import paymentCheckout from './paymentCheckout';
 import Cart from './Cart';
 import oauth from './oauth';
 import { Router } from 'express';
@@ -87,7 +88,8 @@ const options = {
     ...recommendedProduct,
     ...items,
     ...Cart,
-    ...coupon
+    ...coupon,
+    ...paymentCheckout
    },
  
 };
