@@ -1,3 +1,4 @@
+import Stripe from 'stripe';
 import db from '../../database/models';
 import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
 
@@ -91,7 +92,7 @@ const generateCart = async (buyer) => {
       const productUnitPrice = productVariation.price;
       const totalCost = productUnitPrice * addedProduct.quantity;
       const productInfo = {
-        id: addedProduct.id,
+        id: productVariation.id,
         productName: productAvailability.name,
         productSize: productVariation.size,
         productColor: productVariation.color,
@@ -121,9 +122,8 @@ export const viewCart = asyncWrapper(async (req, res) => {
     res.status(404).json({
       status: req.t('fail'),
       message: req.t('cart_already_empty'),
-    })
+    });
   }
-
   res.status(200).json({
     status: req.t('success'),
     message: req.t('cart_retrieved'),
@@ -131,6 +131,176 @@ export const viewCart = asyncWrapper(async (req, res) => {
   });
 });
 
+export const pay = asyncWrapper(async (req, res) => {
+  const user = req.user.id;
+  const { cvcNumber, cardNumber, exp_month, exp_year, currency } = req.body;
+  const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+    const cartItems = await cart_process(req, res);
+  const totalPrice = cartItems.totalAmount;;
+  console.log(totalPrice);
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: totalPrice,
+    currency: currency,
+    payment_method_types: ['card'],
+  });
+
+  const card = {
+    number: cardNumber,
+    exp_month: exp_month,
+    exp_year: exp_year,
+    cvc: cvcNumber,
+  };
+  console.log(card);
+  const paymentMethod = await stripe.paymentMethods.create({
+    type: 'card',
+    card,
+    billing_details: {
+      email: user.email,
+    },
+  });
+
+  // Update payment intent with payment method
+  const paymentIntentUpdate = await stripe.paymentIntents.update(
+    paymentIntent.id,
+    {
+      payment_method: paymentMethod.id,
+    }
+  );
+
+  // Confirm payment intent
+  const paymentIntentConfirmation = await stripe.paymentIntents.confirm(
+    paymentIntent.id
+  );
+  const paymentIntentStatus = paymentIntentConfirmation.status;
+  console.log(paymentIntentStatus);
+
+  await db.Order.findOne({ where: { userId: user, status: 'pending' } }).then(
+    async (order) => {
+      order.status = 'paid';
+      return order.save();
+    }
+    );
+    await checkout_End(req, res, paymentIntentStatus);
+});
+export const checkout = asyncWrapper(async (req, res) => {
+  const buyerId = req.user.id;
+  const { location } = req.body;
+  let ids = [];
+  let order;
+  const cart = await cart_process(req, res);
+  const totalAmount = cart.totalAmount;
+  let counter = 0;
+  const dupArr = await db.Order.findOne({
+    where: { userId: buyerId, status: 'pending' },
+  })
+
+  if (dupArr) {
+    return res.status(200).json({
+      status: req.t('fail'),
+      message: req.t('checkout-already-started'),
+      data: dupArr,
+    });
+   }
+
+
+  await cart.cart.forEach(async (item) => {
+    await db.OrderDetails.create({
+      name: item.productName,
+      quantity: item.quantity,
+      size: item.productSize,
+      color: item.productColor,
+      price: item.totalPrice,
+    }).then((data) => {
+        ids.push(data.dataValues.id);
+    });
+    counter++;
+
+    if (counter === cart.cart.length) {
+      order = await db.Order.create({
+        amount: totalAmount,
+        userId: req.user.id,
+        status: 'pending',
+        location: location,
+        products: ids,
+      });
+      res.status(200).json({
+        status: req.t('success'),
+        message: req.t('checkout-started'),
+        data: order,
+      });
+    }
+  });
+});
+
+export const checkout_End = asyncWrapper(async (req, res, data) => {
+  const cart = await cart_process(req, res);
+  let counter = 0;
+  if (data !== 'succeeded') {
+    return res.status(404).json({
+      status: req.t('fail'),
+      message: req.t('payment_fail'),
+    });
+  }
+  // delete everything from the cart
+  const buyerId = req.user.id;
+  await db.shoppingCarts.destroy({
+    where: {
+      buyer: buyerId,
+      cartStatus: 'active',
+    },
+  });
+  cart.cart.forEach(async (item) => {
+    db.ProductAttribute.findOne({ where: { id: item.id } }).then(
+      async (product) => {
+        let quantity = item.quantity;
+        product.quantity = product.quantity - quantity;
+        return product.save();
+      }
+    );
+    counter++;
+
+    if (counter === cart.cart.length) {
+      let invoice = [];
+      let counter2 = 0;
+      const ordersList = await db.Order.findOne({
+        where: {
+          userId: req.user.id,
+          status: 'paid',
+        },
+      });
+      ordersList.products.forEach(async (product) => {
+        const detail = await db.OrderDetails.findOne({
+          attributes: [
+            'name',
+            'size',
+            'color',
+            'quantity',
+            'price',
+            'createdAt',
+          ],
+          where: {
+            id: product,
+          },
+        });
+        invoice.push(detail);
+        counter2++;
+        if (counter2 === ordersList.products.length) {
+            db.Order.findOne({
+              where: { userId: buyerId, status: 'paid' },
+            }).then(async (order) => {
+              order.status = 'shipping';
+              return order.save();
+            });
+          res.status(200).json({
+            status: req.t('success'),
+            message: req.t('payment_succeed'),
+            data: invoice,
+          });
+        }
+      });
+    }
+  });
+});
 //check whether the cart has been abondoned or not
 const isAbondoned = (createdAt) => {
   const createdAtDate = new Date(createdAt);
@@ -139,4 +309,15 @@ const isAbondoned = (createdAt) => {
   const timeDiffInDays = timeDiffInMs / (24 * 60 * 60 * 1000);
   const isCreatedInLastSevenDays = timeDiffInDays >= 14;
   return isCreatedInLastSevenDays;
+};
+const cart_process = async (req, res) => {
+  const user = req.user.id;
+  const cart = await generateCart(user);
+  if (!cart) {
+    res.status(404).json({
+      status: req.t('fail'),
+      message: req.t('cart_already_empty'),
+    });
+  }
+  return cart;
 };

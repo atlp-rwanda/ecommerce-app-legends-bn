@@ -52,7 +52,8 @@
     "sequelize-cli": "^6.6.0",
     "shortid": "^2.2.16",
     "slugify": "^1.6.5",
-    "speakeasy": "^2.0.0"
+    "speakeasy": "^2.0.0",
+    "stripe": "^11.17.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.21.0",

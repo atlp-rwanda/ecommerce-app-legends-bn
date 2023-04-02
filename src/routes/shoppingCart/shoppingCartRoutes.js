@@ -5,6 +5,8 @@ import { isUserEnabled } from '../../middleware/auth';
 import {
   addToCart,
   viewCart,
+  checkout,
+  pay
 } from '../../controllers/shoppingCartController/addToCartController';
 import {
   updateCart,
@@ -40,6 +42,18 @@ CartRoutes.delete(
   auth(['vendor', 'buyer', 'admin']),
   isUserEnabled,
   clearCart
+);
+CartRoutes.post(
+  '/api/v1/checkout',
+  auth(['vendor', 'buyer', 'admin']),
+  isUserEnabled,
+  checkout
+);
+CartRoutes.post(
+  '/api/v1/checkout/payment',
+  auth(['vendor', 'buyer', 'admin']),
+  isUserEnabled,
+  pay
 );
 
 export default CartRoutes;

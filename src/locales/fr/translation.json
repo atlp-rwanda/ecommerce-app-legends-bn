@@ -77,5 +77,9 @@
   "coupon_not_exist": "Le code promo n'existe pas",
   "coupon_expiration_exipired": "Le code promo a expiré",
   "coupon_maximum_usage_error" : "Le code promo a atteint sa limite d'utilisation maximale",
-  "new_discounted_cart": "Nouveau panier à prix réduit"
+  "new_discounted_cart": "Nouveau panier à prix réduit",
+  "checkout-started": "le processus de paiement a commencé",
+  "payment_fail": "paiement échoué",
+  "payment_succeed": "paiement succès!",
+  "checkout-already-started": "Le processus de paiement a déjà commencé"
 }

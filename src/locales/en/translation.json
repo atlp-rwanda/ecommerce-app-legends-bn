@@ -77,5 +77,9 @@
   "coupon_not_exist": "Coupon code not exist",
   "coupon_expiration_exipired": "The coupon code had expired",
   "coupon_maximum_usage_error" : "The coupon code has reached its maximum usage limit",
-  "new_discounted_cart" : "New Cart discounted"
+  "new_discounted_cart" : "New Cart discounted",
+  "checkout-started": "checkout process started",
+  "payment_fail": "payment failed",
+  "payment_succeed": "payment successfully!",
+  "checkout-already-started": "checkout process already started"
 }
