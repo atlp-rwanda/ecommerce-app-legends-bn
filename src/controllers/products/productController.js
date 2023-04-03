@@ -4,23 +4,19 @@ import { checkEmptyFields } from '../../utils/validations/handlingEmptyFields';
 import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
 import { grabbingImage } from '../../utils/grabbingImages';
 import { removeImageFromCloudinary } from '../../utils/handlingFileUploads';
-
+import emitter from '../../events/notifications';
+import cron from 'node-cron';
+import moment from 'moment';
 import { SlugfyFunction } from '../../utils/textSlugfy'
 
-//defining execution of images uploads
 export const CreateNewProduct = asyncWrapper(async (req, res) => {
-  // Get the data for the new product from the request body
-  const { name, description, model, keyword, status, categoryId } = req.body;
+
+  const { name, description, model, keyword, status, categoryId, expiryDate } = req.body;
   const userId = req.user.id;
-  // Check if the required fields are provided
   const areAllNotFilled = checkEmptyFields(req, res);
 
   if (!areAllNotFilled) {
-    // Check if the category and user exist
     const category = await db.Category.findByPk(categoryId);
-
-    // const user = await db.user.findByPk(req.user.id);
-
     const user = await db.user.findByPk(userId);
     if (!category) {
       return res.status(404).json({ message: ' product Category not found.' });
@@ -28,9 +24,6 @@ export const CreateNewProduct = asyncWrapper(async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: req.t('Undiscovered') });
     }
-
-
-
     const existingProduct = await db.Product.findOne({
       where: { slug: SlugfyFunction(name), userId },
     });
@@ -56,7 +49,9 @@ export const CreateNewProduct = asyncWrapper(async (req, res) => {
       categoryId: categoryId,
       userId: userId,
       cloudinaryId: urls.map((url) => url.id)[0],
+      expiredAt: expiryDate 
     });
+    emitter.emit('newProduct', product.name, user, category.name);
     res.status(201).json({
       status: req.t('success'),
       data: product,
@@ -68,7 +63,6 @@ export const CreateNewProduct = asyncWrapper(async (req, res) => {
 // adding  deleting product functionality
 export const deleteProduct = asyncWrapper(async (req, res) => {
   const productId = req.params.id;
-  // find the product and include its associated models
   const product = await db.Product.findByPk(productId, {
     include: [db.ProductAttribute, db.ProductImage],
   });
@@ -77,7 +71,6 @@ export const deleteProduct = asyncWrapper(async (req, res) => {
   if (product.userId !== req.user.id) {
     return res.status(403).json({ message: req.t('not_allowed_ToDelete') });
   }
-  // delete the associated images and attributes first
   await Promise.all([
     ...product.ProductAttributes.map((attr) => {
       attr.destroy();
@@ -88,13 +81,15 @@ export const deleteProduct = asyncWrapper(async (req, res) => {
       removeImageFromCloudinary(img.cloudinaryId);
     }),
   ]);
-  // then delete the product
   await product.destroy();
   await removeImageFromCloudinary(product.cloudinaryId);
+  const user = await db.user.findOne({ where: { id: req.user.id } });
+  emitter.emit('productRemoved', product.name, user);
   res.status(200).json({
     message: product.name + ' ' + req.t('productDeleted'),
   });
 });
+
 export const search = asyncWrapper(async (req, res) => {
   const { q } = req.query;
 if (!q) {
@@ -139,3 +134,25 @@ export const updateProduct = asyncWrapper( async (req, res) => {
   res.status(200).json({ status: req.t('success'), message: req.t('product_updated_successfully'), data: row})
 }
   );
+
+
+cron.schedule('30 17 * * *', async () => {
+  const today = moment().startOf('day').toISOString();
+  const todayWithTimeZone = moment.tz(today, 'UTC').tz('Africa/Cairo').format("YYYY-MM-DDTHH:mm:ss.SSSZ");
+  const expiredProducts = await db.Product.findAll({
+    where: {
+      expiredAt: {
+        [Op.lte]: todayWithTimeZone
+      }
+    }
+  });
+  console.log(`=========${todayWithTimeZone}=========`);
+  for (const product of expiredProducts) {
+    const productOwnerUser = await db.user.findOne({ where: { id: product.userId } });
+    emitter.emit('productExpired', product.name,productOwnerUser);
+  }
+
+});
+
+
+  

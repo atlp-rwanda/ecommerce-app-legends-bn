@@ -1,5 +1,6 @@
 import { Category, Product } from '../../database/models';
 import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
+import emitter from '../../events/notifications';
 
 
 const store = asyncWrapper (async (req, res) => {
@@ -10,6 +11,7 @@ const store = asyncWrapper (async (req, res) => {
       .json({ status: 'fail', message: 'Category name is required' });
 
   const data = await Category.create(req.body);
+  emitter.emit('newCategoryAdded', data);
   return res.status(201).json({ status: 'success', data });
 });
 

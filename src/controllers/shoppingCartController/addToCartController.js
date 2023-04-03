@@ -1,6 +1,8 @@
 import Stripe from 'stripe';
 import db from '../../database/models';
 import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
+import emitter from '../../events/notifications';
+
 
 //function to handle product addition to cart
 export const addToCart = asyncWrapper(async (req, res) => {
@@ -291,6 +293,7 @@ export const checkout_End = asyncWrapper(async (req, res, data) => {
               order.status = 'shipping';
               return order.save();
             });
+          emitter.emit('productPurchased', invoice);
           res.status(200).json({
             status: req.t('success'),
             message: req.t('payment_succeed'),

@@ -71,8 +71,14 @@ export default {
         type: 'integer',
         description: ' category that product belongs to',
       },
+      expiryDate: {
+        type: 'string',
+        format: 'date-time',
+        description: 'Expiration date of the product'
+      }
     },
   },
+  
 
   ProductAttribute: {
     type: 'object',

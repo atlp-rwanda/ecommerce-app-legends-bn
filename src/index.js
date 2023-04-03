@@ -15,6 +15,9 @@ import Backend from 'i18next-fs-backend';
 import middleware from 'i18next-http-middleware';
 import db from './database/models/index';
 import CartRoutes from './routes/shoppingCart/shoppingCartRoutes';
+import { Server } from "socket.io";
+import http from "http";
+import cors from "cors";
 
 i18next
   .use(Backend)
@@ -25,14 +28,13 @@ i18next
       loadPath: './src/locales/{{lng}}/translation.json',
     },
     interpolation: {
-      escapeValue: false, // allows for nested translations
+      escapeValue: false,
       prefix: '{{',
       suffix: '}}'
     }
   });
 const app = express();
-
-// built-in middleware to handle urlencoded form data
+app.use(cors());
 app.use(express.json());
 app.use(middleware.handle(i18next));
 
@@ -56,11 +58,22 @@ app.all('*', (req, res) => {
 });
 
 const PORT = process.env.PORT || 4000;
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: true
+});
+io.on("connection", (socket) => {
+  console.log("A client has connected");
+  socket.on("notification", (data) => {
+    io.emit("notification", data);
+  });
+});
 
 db.dbConnection;
 db.sequelize.sync({ force: false }).then(async () => {
   console.log('DB synced');
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
 
 export default app;

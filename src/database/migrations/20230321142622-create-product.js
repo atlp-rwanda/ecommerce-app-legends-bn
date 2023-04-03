@@ -60,6 +60,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+      expiredAt: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
       cloudinaryId:{
         allowNull: false,
         type: Sequelize.STRING

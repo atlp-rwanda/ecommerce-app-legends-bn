@@ -58,6 +58,7 @@ export default {
               exp_month: 12,
               exp_year: 2024,
               cvcNumber: '123',
+              currency: 'rwf'
             },
           },
         },
