@@ -82,6 +82,11 @@
   "payment_fail": "paiement échoué",
   "payment_succeed": "paiement succès!",
   "checkout-already-started": "Le processus de paiement a déjà commencé",
-  "Order_details_has_been_retrieved_successfully": "récupérer les détails de commande"
+  "Order_details_has_been_retrieved_successfully": "récupérer les détails de commande",
+
+  "product_id_and_rating_is_required" : "L'identifiant et l'évaluation du produit sont requis.",
+  "the_rating_must_be_1_to_5": "La note doit être comprise entre 1 et 5.",
+  "product_review_posted" : "L'avis a été posté avec succès."
+
  
 }

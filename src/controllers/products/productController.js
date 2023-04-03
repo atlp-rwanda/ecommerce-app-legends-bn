@@ -155,4 +155,50 @@ cron.schedule('30 17 * * *', async () => {
 });
 
 
+export const rateProduct = asyncWrapper(async (req, res) => {
+  // Validate request body
+  const { productId, rating, comment } = req.body;
+ 
+  if (!productId || !rating) {
+    return res
+      .status(400)
+        .json({ error: 'Product ID and rating are required.' });
+  }
+  if (rating < 1 || rating > 5) {
+    return res.status(400).json({ error: 'the_rating_must_be_1_to_5' });
+  }
+
+  if(! await db.Product.findByPk(productId)){
+    return res.status(404).json({ error: request.t('fail'), message: req.t('product_not_found')});
+  }
+
+  const user = req.user;
+  // Create new ProductRating object
+
+  const productRating = await db.ProductRating.create({
+    productId: productId,
+    userId: user.id,
+    rating: rating,
+    comment: comment,
+  });
+
+      // Update product average rating
+      const productRatings = await db.ProductRating.findAll({
+        where: { productId: productId }
+      });
+
+      const numRatings = productRatings.length;
+      const totalRating = productRatings.reduce((sum, rating) => sum + rating.rating, 0);
+      const newAvgRating = totalRating / numRatings;
+      await db.Product.update({ avgRating: newAvgRating }, {
+        where: { id: productId }
+      });
+
+        // Send confirmation message to frontend
+    return res.status(201).json({status: req.t('success'), data: productRating,  message: req.t('product_review_posted') });
+  
+});
+
+
+
   
