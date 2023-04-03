@@ -32,8 +32,7 @@ const create = asyncWrapper(async (req, res) => {
     // check if the coupon expiration date is valid it should be next to 1 day form the time of creation
     const givenDate = new Date(req.body.expire_at);
     let currentDate = new Date();
-    
-    const nextDay = new Date(currentDate.setDate(currentDate.getDate() + 1));
+    const nextDay = new Date(currentDate.setDate(currentDate + 1));
 
     if (givenDate < nextDay || givenDate < currentDate) {
       return res.status(400).json({

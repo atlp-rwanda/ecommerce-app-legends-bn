@@ -2,13 +2,14 @@ import express from 'express';
 import rootRouter from './routes/root';
 import adminRouter from './routes/users/adminRoutes';
 import userAuthRoutes from './routes/users/userRoutes';
-import google_auth from './routes/users/google_oauth.routes'
+import google_auth from './routes/users/google_oauth.routes';
 import vendorRouter from './routes/users/vendorRoutes';
-import categoryRoutes from './routes/products/category'
-import productRoutes from './routes/products/productsRoutes'
+import categoryRoutes from './routes/products/category';
+import productRoutes from './routes/products/productsRoutes';
 import wishlistRoutes from './routes/products/wishlist';
-import buyerRoutes from './routes/products/buyer.routes'
+import buyerRoutes from './routes/products/buyer.routes';
 import couponRoutes from './routes/coupon/couponRoutes';
+import orderRoutes from './routes/order/orderStatusRoutes';
 import docs from './docs/index';
 import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
@@ -32,9 +33,10 @@ i18next
     },
     interpolation: {
       escapeValue: false,
+      escapeValue: false,
       prefix: '{{',
-      suffix: '}}'
-    }
+      suffix: '}}',
+    },
   });
 const app = express();
 app.use(express.json());
@@ -64,15 +66,19 @@ app.all('*', (req, res) => {
 const PORT = process.env.PORT || 4000;
 const server = http.createServer(app);
 
-const io = new Server(server, {
-  cors: true
+export const io = new Server(server, {
+  cors: true,
 });
 // listening events using socket.io instance
-io.on("connection", (socket) => {
-  console.log("A client has connected");
+io.on('connection', (socket) => {
+  console.log('A client has connected');
   //notifications events
-  socket.on("notification", (data) => {
-    io.emit("notification", data);
+  socket.on('notification', (data) => {
+    io.emit('notification', data);
+  });
+  socket.on('status', (data) => {
+    console.log('_______status changing______________',data);
+    io.emit("status",data)
   });
   //lesting to chats events
   
