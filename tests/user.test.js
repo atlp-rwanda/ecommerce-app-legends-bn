@@ -310,8 +310,16 @@ describe('POST Buyer register return 201', () => {
   loged_token = response.body.token;
   });
 });
+
 describe('verify the email if it is valid for the password reset ', () => {
-  it('should create a return 201', async () => {
+
+
+  it('should verify Email and return   200', async () => {
+
+  await request(app)
+  .post('/api/v1/register')
+  .send({firstname: 'John', lastname: 'Doe', phone: "1234", email: 'doe1@gmail.com', password: '123456'});
+  
   const response = await request(app)
   .post('/api/v1/email')
   .send({email: 'doe1@gmail.com'});
@@ -353,23 +361,14 @@ describe('the password reset with non-valid token', () => {
 });
 describe('the password reset when user is already logged in', () => {
 
+
+
   it('should create a return error', async () => {
     const response =await request(app)
   .post(`/api/v1/password`)
   .set('Authorization', `Bearer ${loged_token}`)
   .set('Accept-Language', `fr`)
   .send({xpassword: '12', npassword: '1238'});
-  expect(response.body).toHaveProperty("message");
-  });
-});
-describe('the password reset when user is already logged in', () => {
-
-  it('should create a return 201', async () => {
-    const response =await request(app)
-  .post(`/api/v1/password`)
-  .set('Authorization', `Bearer ${loged_token}`)
-  .set('Accept-Language', `fr`)
-  .send({xpassword: '123', npassword: '1238'});
   expect(response.body).toHaveProperty("message");
   });
 });

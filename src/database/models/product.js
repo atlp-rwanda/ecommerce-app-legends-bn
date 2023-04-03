@@ -33,6 +33,11 @@ module.exports = (sequelize, DataTypes) => {
       categoryId: DataTypes.INTEGER,
       userId: DataTypes.UUID,
       expiredAt: DataTypes.DATE,
+      avgRating: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        allowNull: false
+      },
       cloudinaryId: DataTypes.STRING
     },
     {

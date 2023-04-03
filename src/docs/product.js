@@ -61,7 +61,7 @@ export default {
 
     "/api/v1/product/images/add" : {
       post: {
-        tags: ["Product"],
+        tags: ["Product Images"],
         description: " Product attr ",
         security: [
           {
@@ -85,7 +85,7 @@ export default {
 
     "/api/v1/product/variation/add" : {
       post: {
-        tags: ["Product"],
+        tags: ["Product Attributes"],
         description: "Product attr",
         security: [
           {
@@ -128,7 +128,7 @@ export default {
 
     "/api/v1/product/images/add" : {
       post: {
-        tags: ["Product"],
+        tags: ["Product Images"],
         description: " Product attr ",
         security: [
           {
@@ -152,7 +152,7 @@ export default {
 
     "/api/v1/product/variation/add" : {
       post: {
-        tags: ["Product"],
+        tags: ["Product Attributes"],
         description: "Product attr",
         security: [
           {
@@ -165,6 +165,29 @@ export default {
             "multipart/form-data": {
               schema: {
                 $ref: "#/components/schemas/ProductAttribute",
+              },
+            },
+          },
+        },
+        responses: addResponses
+      },
+    },
+
+    "/api/v1/product/rating" : {
+      post: {
+        tags: ["Product"],
+        description: " Product rating ",
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+        parameters: [],
+        requestBody: {
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/ProductRating",
               },
             },
           },
