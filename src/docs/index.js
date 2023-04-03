@@ -18,6 +18,7 @@ import oauth from './oauth';
 import { Router } from 'express';
 import items from './items';
 import coupon from './coupon';
+import viewOrderDetails from './viewOrderDetails';
 const { serve, setup } = swagger;
 
 const swaggerDocRouter = Router();
@@ -89,7 +90,9 @@ const options = {
     ...items,
     ...Cart,
     ...coupon,
-    ...paymentCheckout
+    ...paymentCheckout,
+    ...viewOrderDetails
+
    },
  
 };

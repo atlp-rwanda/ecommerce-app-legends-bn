@@ -81,5 +81,7 @@
   "checkout-started": "le processus de paiement a commencé",
   "payment_fail": "paiement échoué",
   "payment_succeed": "paiement succès!",
-  "checkout-already-started": "Le processus de paiement a déjà commencé"
+  "checkout-already-started": "Le processus de paiement a déjà commencé",
+  "Order_details_has_been_retrieved_successfully": "récupérer les détails de commande"
+ 
 }

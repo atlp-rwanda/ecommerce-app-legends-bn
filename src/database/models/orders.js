@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.user, { foreignKey: 'userId' });
+    
     }
   }
   Order.init(
@@ -24,7 +25,8 @@ module.exports = (sequelize, DataTypes) => {
       products: DataTypes.ARRAY(DataTypes.STRING),
       status:  DataTypes.STRING,
       location:  DataTypes.STRING,
-      userId: DataTypes.UUID
+      userId: DataTypes.UUID,
+      trackingNumber: DataTypes.STRING
     },
     {
       sequelize,

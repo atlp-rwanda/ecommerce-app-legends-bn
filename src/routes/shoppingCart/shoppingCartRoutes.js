@@ -2,6 +2,7 @@ import express from 'express';
 import { auth } from '../../middleware/auth';
 import { clearCart } from '../../controllers/shoppingCartController/clearCartController';
 import { isUserEnabled } from '../../middleware/auth';
+import { viewOrderDetails } from '../../controllers/shoppingCartController/viewing';
 import {
   addToCart,
   viewCart,
@@ -55,5 +56,9 @@ CartRoutes.post(
   isUserEnabled,
   pay
 );
+CartRoutes.get(
+  '/api/v1/orderDetails/:trackingId',
+  viewOrderDetails
+)
 
 export default CartRoutes;

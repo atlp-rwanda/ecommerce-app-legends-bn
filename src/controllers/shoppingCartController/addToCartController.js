@@ -1,17 +1,21 @@
 import Stripe from 'stripe';
 import db from '../../database/models';
 import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
+import sendEmail from '../../utils/sendEmail';
+import { Op } from 'sequelize';
 import emitter from '../../events/notifications';
-
-
 //function to handle product addition to cart
 export const addToCart = asyncWrapper(async (req, res) => {
   //grabbing data from request
   const { productId } = req.body;
   const buyerId = req.user.id;
   // checking if the product has been added in database also well as being available for sale
-  const productVariation = await db.ProductAttribute.findByPk(productId);
-
+  const productVariation = await db.ProductAttribute.findOne({
+    where: {
+      id: productId,
+      quantity: {[Op.gt]:0}
+    }
+  })
   const productIdentifier = productVariation.productId;
   //check wether the function is available for sale.
   const productAvailability = await db.Product.findOne({
@@ -132,14 +136,12 @@ export const viewCart = asyncWrapper(async (req, res) => {
     data: cart,
   });
 });
-
 export const pay = asyncWrapper(async (req, res) => {
   const user = req.user.id;
   const { cvcNumber, cardNumber, exp_month, exp_year, currency } = req.body;
   const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-    const cartItems = await cart_process(req, res);
-  const totalPrice = cartItems.totalAmount;;
-  console.log(totalPrice);
+  const cartItems = await cart_process(req, res);
+  const totalPrice = cartItems.totalAmount;
   const paymentIntent = await stripe.paymentIntents.create({
     amount: totalPrice,
     currency: currency,
@@ -174,15 +176,16 @@ export const pay = asyncWrapper(async (req, res) => {
     paymentIntent.id
   );
   const paymentIntentStatus = paymentIntentConfirmation.status;
-  console.log(paymentIntentStatus);
 
-  await db.Order.findOne({ where: { userId: user, status: 'pending' } }).then(
+
+  const data = await db.Order.findOne({ where: { userId: user, status: 'pending' } }).then(
     async (order) => {
       order.status = 'paid';
       return order.save();
     }
-    );
-    await checkout_End(req, res, paymentIntentStatus);
+  );
+  await checkout_End(req, res, paymentIntentStatus);
+
 });
 export const checkout = asyncWrapper(async (req, res) => {
   const buyerId = req.user.id;
@@ -202,9 +205,7 @@ export const checkout = asyncWrapper(async (req, res) => {
       message: req.t('checkout-already-started'),
       data: dupArr,
     });
-   }
-
-
+  }
   await cart.cart.forEach(async (item) => {
     await db.OrderDetails.create({
       name: item.productName,
@@ -213,7 +214,7 @@ export const checkout = asyncWrapper(async (req, res) => {
       color: item.productColor,
       price: item.totalPrice,
     }).then((data) => {
-        ids.push(data.dataValues.id);
+      ids.push(data.dataValues.id);
     });
     counter++;
 
@@ -245,6 +246,7 @@ export const checkout_End = asyncWrapper(async (req, res, data) => {
   }
   // delete everything from the cart
   const buyerId = req.user.id;
+  const email = req.user.email;
   await db.shoppingCarts.destroy({
     where: {
       buyer: buyerId,
@@ -285,6 +287,8 @@ export const checkout_End = asyncWrapper(async (req, res, data) => {
           },
         });
         invoice.push(detail);
+        // Getting Total aamount per invoice
+       
         counter2++;
         if (counter2 === ordersList.products.length) {
             db.Order.findOne({
@@ -324,3 +328,56 @@ const cart_process = async (req, res) => {
   }
   return cart;
 };
+
+
+// Sending order Confirmation email
+
+export const orderConfirmation = async (buyerID, email,res) => {
+  const myOrder = await db.Order.findOne({
+    where: { userId: buyerID }
+  });
+  // verify payment
+  if (myOrder.status !== 'shipping') {
+    res.status(409).json({message:'Payment was not successful'});
+  }
+  let trackingNumber = 'Tr';
+  const trackingNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  for (let i = 0; i <= 5; i++) {
+    trackingNumber += trackingNumbers[Math.floor(Math.random() * trackingNumbers.length
+    )]
+  }
+  //Assigning tracking number on product with the same order
+  const activeOrder = await db.Order.findOne({
+   where: { userId: buyerID },
+   order: [['createdAt', 'DESC']]
+  });
+  activeOrder.trackingNumber = trackingNumber;
+  await activeOrder.save();
+  const amount = activeOrder.amount
+  
+  // prepare email message
+  const emailData = {
+    email,
+    subject: 'Order Confirmation',
+    html: `<table style="border-collapse:collapse;border-spacing:0;width:100%;min-width:100%" width="100%" height="auto" cellspacing="0" cellpadding="0" bgcolor="#F0F0F0">
+      <tbody><tr>
+      <td style="padding-top:54px;padding-bottom:42px" align="center">
+      <h2 style="color:#0090c6;font-size: xx-large;">E-commerce ATLP-Legends project</h2>
+      </td>
+      </tr>
+      </tbody></table>
+      <p class="m_73160151937089879size-16" style="Margin-top:0;Margin-bottom:0;font-size:16px;line-height:24px" lang="x-size-16"><strong><span style="color:#000000">You sent a payment of ${amount} to Legends E-commerce </span></strong></p><p style="Margin-top:20px;Margin-bottom:0"><span style="color:#000000">You are in safe hands.</span></p>
+      <p><h4><b>Your tracking number is ${trackingNumber}.<b></h4></p>
+      <p style="Margin-top:10px;Margin-bottom:0"><span style="color:#000000">Here is your order details click on view link below!</span></p>
+      <p style="Margin-top:20px;Margin-bottom:20px"><span style="color:#000000"> link <a href= "http://${process.env.HOST}:5000/api/v1/orderDetails/${trackingNumber}">view</a></span></p>
+      
+      <p style="Margin-top:0px;Margin-bottom:10px"><span style="color:#000000">Thank you for shopping with us</span></p>
+      <div style="margin:0%;background:#fcfcfc;padding:1% 2%">
+      <p><h4>We are honored to gain you as Customer and Hope to serve you long time!</h4></p>
+      </div>`,
+  };
+  // send email to customer
+  await sendEmail(emailData);
+};
+
+
