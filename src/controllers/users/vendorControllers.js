@@ -7,9 +7,12 @@ export const createVendor = async (req, res) => {
     const { firstname, lastname, email, phone, permissions } = req.body;
     const password = await generatePassword();
     const hashedPassword = await hashPassword(password);
-    const newRole = await db.role.create({
-      name: 'vendor',
-    });
+    let newRole = await db.role.findOne({ where: { name : 'vendor'} })
+    if(!newRole){
+      newRole = await db.role.create({
+        name: 'vendor',
+      });
+    }
     const vendor= await db.user.create({
       firstname,
       lastname,

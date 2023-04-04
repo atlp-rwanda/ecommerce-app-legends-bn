@@ -85,6 +85,6 @@ export const enableUser = asyncWrapper(async (req, res, next) => {
   existingUser.status = 'active';
   res
     .status(200)
-    .json({ status: 'success', message: req.t('enabled_successfuly') });
+    .json({ status: 'success', message: req.t('enabled_successfully') });
   existingUser.save();
 });

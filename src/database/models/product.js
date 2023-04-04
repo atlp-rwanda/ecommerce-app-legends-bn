@@ -32,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       status: DataTypes.ENUM('AVAILABLE', 'UNAVAILABLE'),
       categoryId: DataTypes.INTEGER,
       userId: DataTypes.UUID,
+      expiredAt: DataTypes.DATE,
       cloudinaryId: DataTypes.STRING
     },
     {
