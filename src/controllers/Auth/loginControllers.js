@@ -48,6 +48,7 @@ export const login = asyncWrapper(async (req, res) => {
       id: user.id,
       role: role.name,
       email: user.email,
+      name: user.firstname,
     });
     req.body.token = token;
     switch (role.name) {
@@ -157,6 +158,7 @@ export const verifyOTP = asyncWrapper(async (req, res) => {
           id: user.id,
           role: role.name,
           email: user.email,
+          name:user.lastname
         });
         res
           .status(200)

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Socket.IO Notifications Test</title>
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+    <style>
+      .charts-container {
+        margin: 20px auto;
+        padding: 20px 15px;
+        background-color: deepskyblue;
+        color: white;
+        width: 70%;
+        border-radius: 2%;
+        height: 50%;
+      }
+      #chat-form {
+        width: 40%;
+        border-radius: 2%;
+      }
+      li {
+        list-style: none;
+      }
+      #chat-form {
+        margin-left: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="charts-container">
+      <ul id="messages"></ul>
+      <form id="chat-form" action="">
+        <input id="message-input" type="text" autocomplete="off" />
+        <button>Send</button>
+      </form>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script>
+      const socket = io('http://localhost:5000');
+      const name = prompt('Enter your name:');
+      socket.emit('user joined', name);
+      console.log(name + ' has joined the chat');
+      socket.on('user joined', (name) => {
+        console.log('user joined event received:', name);
+        const li = document.createElement('li');
+        li.textContent = `${name} has joined the chat`;
+        messages.appendChild(li);
+      });
+      const messages = document.getElementById('messages');
+      const chatForm = document.getElementById('chat-form');
+      const messageInput = document.getElementById('message-input');
+      messages.innerHTML = '';
+      // Prompt for user's name
+      axios
+        .get('http://localhost:5000/api/v1/chat/messages/all')
+        .then((response) => {
+          // Loop through the messages and append them to the chat log
+          console.log('Messages received:', response.data.data);
+          response.data.data.forEach((message) => {
+            const now = moment();
+            // assume that the action happened on this date
+            const actionDate = moment(message.createdAt);
+            console.log(actionDate);
+            let time
+            // check if the action happened today or not
+            if (now.diff(actionDate, 'days') === 0) {
+              // if it happened today, show the time in the format "10:00 am"
+              time = actionDate.format('h:mm a');
+              console.log(`The action happened today at ${time}`);
+            } else {
+              // if it happened more than a day ago, show the date in the format "Last week, Thursday"
+              time = actionDate.calendar();
+              console.log(`The action happened ${time}`);
+            }
+            const li = document.createElement('li');
+            li.innerHTML = `<small>${actionDate.fromNow()}</small> <br> <b>${message.sender}</b>: ${message.message}`;
+            messages.appendChild(li);
+          });
+        })
+        .catch((error) => {
+          console.error('Failed to fetch messages:', error);
+        });
+      chatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const message = messageInput.value;
+        socket.emit('chat message', message);
+        const postMessageEndpoint =
+          'http://localhost:5000/api/v1/chat/messages/send';
+        // The data to post (replace with actual message and sender)
+        const postData = {
+          message: message,
+          sender: name,
+        };
+        axios
+          .post(postMessageEndpoint, postData)
+          .then((response) => {
+            console.log('Message posted:', response.data);
+            messageInput.value = '';
+          })
+          .catch((error) => {
+            console.error('Error posting message:', error);
+          });
+      });
+      socket.on('chat message', (data) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<b>${data.name}</b>:${data.message}`;
+        messages.appendChild(li);
+      });
+    </script>
+  </body>
+</html>

@@ -18,6 +18,7 @@ import oauth from './oauth';
 import { Router } from 'express';
 import items from './items';
 import coupon from './coupon';
+import chat from './chat';
 import viewOrderDetails from './viewOrderDetails';
 const { serve, setup } = swagger;
 
@@ -91,8 +92,8 @@ const options = {
     ...Cart,
     ...coupon,
     ...paymentCheckout,
-    ...viewOrderDetails
-
+    ...viewOrderDetails,
+    ...chat
    },
  
 };

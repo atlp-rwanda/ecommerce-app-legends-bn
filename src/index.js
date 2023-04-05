@@ -15,10 +15,10 @@ import Backend from 'i18next-fs-backend';
 import middleware from 'i18next-http-middleware';
 import db from './database/models/index';
 import CartRoutes from './routes/shoppingCart/shoppingCartRoutes';
+import chatRoutes from './routes/liveChat/chatRoutes';
 import { Server } from "socket.io";
 import http from "http";
 import cors from "cors";
-
 i18next
   .use(Backend)
   .use(middleware.LanguageDetector)
@@ -49,7 +49,8 @@ app.use('/api/v1/category', categoryRoutes);
 app.use('/api/v1/coupons', couponRoutes);
 app.use(productRoutes);
 app.use(google_auth)
-app.use(wishlistRoutes)
+app.use(wishlistRoutes);
+app.use(chatRoutes);
 app.use('/api/v1/products',buyerRoutes)
 
 
@@ -63,13 +64,30 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: true
 });
+// listening events using socket.io instance
 io.on("connection", (socket) => {
   console.log("A client has connected");
+  //notifications events
   socket.on("notification", (data) => {
     io.emit("notification", data);
   });
-});
+  //lesting to chats events
+  
+   socket.on('disconnect', () => {
+     console.log('User disconnected');
+   });
 
+   socket.on('chat message', (msg) => {
+     console.log('message: ' + msg);
+     io.emit('chat message', { name: socket.name, message: msg });
+   });
+
+   socket.on('user joined', (name) => {
+     console.log(`${name} has joined the chat`);
+     socket.name = name;
+     io.emit('user joined', name);
+   });
+ });
 db.dbConnection;
 db.sequelize.sync({ force: false }).then(async () => {
   console.log('DB synced');
