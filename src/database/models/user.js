@@ -45,6 +45,10 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         type: DataTypes.STRING,
       },
+      lastPasswordUpdate: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
       phone: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -66,7 +70,6 @@ module.exports = (sequelize, DataTypes) => {
       roleId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-    
       },
     },
     {

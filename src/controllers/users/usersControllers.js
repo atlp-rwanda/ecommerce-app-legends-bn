@@ -2,7 +2,12 @@ import db from '../../database/models';
 import sendEmail from '../../utils/sendEmail';
 import { hashPassword } from '../../utils/hashpassword';
 import { comparePassword, signToken } from '../../utils/verifyPassword';
+import emitter from '../../events/notifications';
+import bcrypt from 'bcrypt';
+import cron from 'node-cron';
+import JWT from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
 dotenv.config();
 let status = 'denied';
 export const verifyEmail = async (req, res) => {
@@ -97,3 +102,48 @@ export const resetPass = async (req, res) => {
       });
     });
 };
+
+const updatedPassword = async (userId) => {
+  const user = await db.user.findByPk(userId);
+  user.update({ lastPasswordUpdate: new Date() });
+};
+
+export const updatePassword = asyncWrapper(async (req, res) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader.split(' ')[1];
+  const decodedToken = JWT.verify(token, process.env.JWT_SECRET);
+  const userId = decodedToken.user.id;
+  const user = await db.user.findOne({ where: { id: userId } });
+  const existingUserPassword = user.password;
+  const { existingPassword, newPassword } = req.body;
+
+  const isPasswordCorrect = await bcrypt.compare(existingPassword, existingUserPassword);
+  if (!isPasswordCorrect) {
+    return res.status(401).json({
+      status: req.t('fail'),
+      message: req.t('existing_password'),
+    });
+  }
+  const hashedPwd = await hashPassword(newPassword);
+  user.update({ password: hashedPwd });
+  updatedPassword(userId);
+
+  return res.status(200).json({
+    status: req.t('success'),
+    message: req.t('password_updated'),
+  });
+});
+
+cron.schedule('30 17 * * *', async () => {
+  const users = await db.user.findAll();
+  for (const allUsers of users) {
+    const lastUpdate = new Date(allUsers.lastPasswordUpdate);
+    const currentTime = new Date();
+    const timeDiffInDays = Math.round(
+      (currentTime - lastUpdate) / (1000 * 60 * 60 * 24)
+    );
+    if (timeDiffInDays >= 365) {
+      emitter.emit('updatePassword', allUsers);
+    }
+  }
+});
