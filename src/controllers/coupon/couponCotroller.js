@@ -31,8 +31,8 @@ const create = asyncWrapper(async (req, res) => {
 
     // check if the coupon expiration date is valid it should be next to 1 day form the time of creation
     const givenDate = new Date(req.body.expire_at);
-    let currentDate = new Date().toUTCString();
-
+    let currentDate = new Date();
+    
     const nextDay = new Date(currentDate.setDate(currentDate.getDate() + 1));
 
     if (givenDate < nextDay || givenDate < currentDate) {
@@ -88,9 +88,7 @@ const index = asyncWrapper(async (req, res) => {
   return res.status(200).json({ status: req.t('success'), data });
 });
 
-
-
-const applyCoupon = asyncWrapper( async (req, res) => {
+const applyCoupon = asyncWrapper(async (req, res) => {
   const buyer = req.user.id;
   const couponCode = req.body?.couponCode;
 
@@ -119,8 +117,6 @@ const applyCoupon = asyncWrapper( async (req, res) => {
   const expireAt = new Date(coupon.expire_at);
   let currentDate = new Date().toUTCString();
 
-
-
   if (expireAt < currentDate) {
     return res.status(400).json({
       status: req.t('fail'),
@@ -137,33 +133,40 @@ const applyCoupon = asyncWrapper( async (req, res) => {
 
   const cart = await db.shoppingCarts.findAll({ where: { buyer } });
 
-  let discountedCart = cart.map(item => item.toJSON()).map((element, elementIndex, arr) => {
+  let discountedCart = cart
+    .map((item) => item.toJSON())
+    .map((element, elementIndex, arr) => {
+      let productAttId = coupon.CouponProducts.filter(
+        (product) => product.id === element.product
+      );
+      if (productAttId) {
+        return {
+          ...element,
+          totalpriceDiscounted:
+            element.totalpricePerProduct -
+            (element.totalpricePerProduct * coupon.discount_rate) / 100,
+        };
+      } else {
+        return {
+          ...element,
+          totalpriceDiscounted: element.totalpricePerProduct,
+        };
+      }
+    });
+  const discountedTotal = discountedCart.reduce(
+    (acc, current) => acc + current.totalpriceDiscounted,
+    0
+  );
+  await db.shoppingCarts.update(
+    { totalpricePerProduct: `${Math.floor(discountedTotal)}` },
+    { where: { buyer } }
+  );
 
-
-    let productAttId = coupon.CouponProducts.filter(
-      (product) => product.id === element.product
-    );
-    if (productAttId) {
-      return {
-        ...element,
-        totalpriceDiscounted:
-          element.totalpricePerProduct -
-          (element.totalpricePerProduct * coupon.discount_rate) / 100,
-      };
-    } else {
-      return { ...element, totalpriceDiscounted: element.totalpricePerProduct };
-    }
-  });
-  const discountedTotal = discountedCart.reduce((acc, current) => (acc + current.totalpriceDiscounted), 0 )
-  return res
-  .status(200)
-  .json({
+  return res.status(200).json({
     status: req.t('success'),
-    data: {discountedCart, discountedTotal },
+    data: { discountedCart, discountedTotal },
     message: req.t('new_discounted_cart'),
   });
-
 });
-
 
 export default { create, index, applyCoupon };
