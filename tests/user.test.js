@@ -195,7 +195,33 @@ describe('admin tests', () => {
       .set('Authorization', `Bearer ${token}`);
       expect(response.status).toBe(404);
     });
-  
+
+    test('should return 401 if old password does not much any', async () => {
+      const response = await request(app)
+        .put('/api/v1/users/password/update')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          existingPassword: 'whynot',
+          newPassword: 'newpassword',
+        });
+    
+      expect(response.status).toBe(401);
+    });
+
+    test('should update user password', async () => {
+      const response = await request(app)
+        .put('/api/v1/users/password/update')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          existingPassword: 'pasmegaround',
+          newPassword: 'newpassword',
+        });
+    
+      expect(response.status).toBe(200);
+    });
+    
+   
+
         test('getting users by admin with wrong token', async () => {
           await request(app)
             .get('/api/admin/users')
