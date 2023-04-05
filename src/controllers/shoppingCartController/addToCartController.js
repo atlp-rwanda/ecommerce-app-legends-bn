@@ -374,7 +374,9 @@ export const orderConfirmation = async (buyerID, email,res) => {
       <p style="Margin-top:0px;Margin-bottom:10px"><span style="color:#000000">Thank you for shopping with us</span></p>
       <div style="margin:0%;background:#fcfcfc;padding:1% 2%">
       <p><h4>We are honored to gain you as Customer and Hope to serve you long time!</h4></p>
-      </div>`,
+      </div>
+      <h3>Best regards,</h3>
+      <h5><i>E-commerce ATLP-Legends project team</i></h5>`,
   };
   // send email to customer
   await sendEmail(emailData);

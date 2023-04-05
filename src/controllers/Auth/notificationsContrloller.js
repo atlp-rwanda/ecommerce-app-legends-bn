@@ -17,9 +17,10 @@ const templateFotter = `<h3>Best regards,</h3>
 
 export const emitCategoryAdded = async (category) => {
   const vendorRole = await db.role.findOne({ where: { name: 'vendor' } });
+  if(!vendorRole) return
   const vendor = await db.user.findAll({ where: { roleId: vendorRole.id } });
   const socket = socketIOClient('http://localhost:5000');
-  if(!vendorRole || !vendor) return
+  if(!vendor) return
   for(const user of vendor){
       const notification = await db.notification.create({
           subject: `📢 New category added`,
@@ -58,7 +59,7 @@ export const emitProductAdded = async (productName, vendor, categoryName) => {
         };
 
         await sendEmail(sendemailOpt);
-      socket.emit("notification", {
+        socket.emit("notification", {
         message: notification.message,
         userId: vendor.id
       });
@@ -140,3 +141,38 @@ export const emitProductRemoved = async (productName, vendor) => {
 
     }
 };
+
+
+
+
+export const emitUpdatePassword = async (user) => {
+
+  const socket = socketIOClient('http://localhost:5000');
+      const notification = await db.notification.create({
+          subject: `🔐 Update your password`,
+          message: `🔐 Hello ${user.firstname} your password need to be updated!, check you email for more details 🔐`,
+          type: 'passwordUpdate',
+          userId: user.id,
+      });
+      const sendemailOpt = {
+          email: user.email,
+          subject: notification.subject,
+          html: `${templateHeader} <p> Dear <h2>${user.firstname}</h2> We are writing to inform you that for security purposes, 
+          it is necessary for you to update your password. 
+          This will help to ensure the protection of your personal and account information. </p>
+          <p>Click on the link below to update your password.</p>
+          <a http://localhost:5000/docs/#/Auth/put_api_v1_users_password__userId__update">Update Password</a>
+          <p>We recommend that you choose a strong and unique password that you have not used before. 
+          Do not share your password with anyone or write it down.</p>
+          <p>If you have any questions or concerns regarding this process, 
+          please do not hesitate to contact our customer support team.</p>
+          <p>Thank you for your cooperation in helping to keep your account secure. </p> ${templateFotter}`,
+      };
+
+      await sendEmail(sendemailOpt);
+      socket.emit("notification", {
+      message: notification.message,
+      userId: user.id
+    });
+};
+

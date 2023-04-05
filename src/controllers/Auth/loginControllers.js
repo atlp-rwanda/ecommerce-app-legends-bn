@@ -100,7 +100,9 @@ export const login = asyncWrapper(async (req, res) => {
           <p style="Margin-top:0px;Margin-bottom:10px"><span style="color:#000000">log into your account with these credentials</span></p>
           <div style="margin:0%;background:#fcfcfc;padding:1% 2%">
           <p><h4>Your verification code is: ${OTPtoken}</h6></p>
-          </div>     
+          </div> 
+          <h3>Best regards,</h3>
+          <h5><i>E-commerce ATLP-Legends project team</i></h5>    
           `,
         };
         //mailer sender implemantation

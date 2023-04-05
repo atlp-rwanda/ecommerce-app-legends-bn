@@ -22,6 +22,10 @@ module.exports = {
       password: {
         type: Sequelize.STRING,
       },
+      lastPasswordUpdate: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+      },
       phone: {
         type: Sequelize.STRING,
       },
