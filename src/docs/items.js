@@ -47,7 +47,7 @@ export default {
                     items: {
                       type: "array",
                       items: {
-                        $ref: "#/components/schemas/Item",
+                        $ref: "#/components/schemas/Product",
                       },
                     },
                   },
@@ -60,7 +60,7 @@ export default {
             content: {
               "application/json": {
                 schema: {
-                  $ref: "#/components/schemas/Error",
+                  $ref: "#/components/schemas/Product",
                 },
               },
             },
@@ -70,7 +70,7 @@ export default {
             content: {
               "application/json": {
                 schema: {
-                  $ref: "#/components/schemas/Error",
+                  $ref: "#/components/schemas/Product",
                 },
               },
             },
@@ -80,7 +80,7 @@ export default {
             content: {
               "application/json": {
                 schema: {
-                  $ref: "#/components/schemas/Error",
+                  $ref: "#/components/schemas/Product",
                 },
               },
             },
@@ -133,7 +133,7 @@ export default {
                     items: {
                       type: "array",
                       items: {
-                        $ref: "#/components/schemas/Item",
+                        $ref: "#/components/schemas/Product",
                       },
                     },
                   },
@@ -146,7 +146,7 @@ export default {
             content: {
               "application/json": {
                 schema: {
-                  $ref: "#/components/schemas/Error",
+                  $ref: "#/components/schemas/Product",
                 },
               },
             },

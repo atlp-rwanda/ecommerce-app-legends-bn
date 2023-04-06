@@ -13,7 +13,7 @@ export const getAllSellerItems = asyncWrapper(async (req, res) => {
     const products = await db.Product.findAndCountAll({
         where: {
             userId: req.user.id,
-            status: 'AVAILABLE'
+           // status: 'AVAILABLE'
         },
 
         limit,
@@ -57,9 +57,12 @@ export const getAllSellerItems = asyncWrapper(async (req, res) => {
         const offset = (page - 1) * limit;
         // Find all products registered by the user with pagination
         const products = await db.Product.findAndCountAll({
-
+          where: {
+            status :'AVAILABLE'
+          },
             limit,
             offset,
+         
         });
         // Return the paginated results
         const totalPages = Math.ceil(products.count / limit);
