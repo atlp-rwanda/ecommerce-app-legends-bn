@@ -102,7 +102,7 @@ export const emitProductRemoved = async (productName, vendor) => {
     const sendemailOpt = {
       email: productOwnerUser.email,
       subject: notification.subject,
-      html: `${templateHeader} <p> Dear <h2> ${productOwnerUser.firstname} </h2> We want to inform you that your <b>${productName}</b> has expired 🍎, <i>⚠️ Please go and remove it into the stock ASP!</i></p> ${templateFotter}`,
+      html: `${templateHeader} <p> Dear <h2> ${productOwnerUser.firstname} </h2> We want to inform you that your <b>${productName}</b> has expired 🍎, <i>Please go and remove it into the stock ASP!</i></p> ${templateFotter}`,
     };
     await sendEmail(sendemailOpt);
     socket.emit('notification', {

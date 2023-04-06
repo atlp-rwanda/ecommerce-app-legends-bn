@@ -148,8 +148,11 @@ cron.schedule('30 17 * * *', async () => {
   });
   console.log(`=========${todayWithTimeZone}=========`);
   for (const product of expiredProducts) {
+    product.status = 'UNAVAILABLE';
+    await product.save();
     const productOwnerUser = await db.user.findOne({ where: { id: product.userId } });
     emitter.emit('productExpired', product.name,productOwnerUser);
+   
   }
 
 });
