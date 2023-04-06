@@ -311,7 +311,6 @@ describe('POST Buyer register return 201', () => {
   });
 });
 describe('verify the email if it is valid for the password reset ', () => {
-
   it('should create a return 201', async () => {
   const response = await request(app)
   .post('/api/v1/email')
@@ -339,17 +338,6 @@ describe('the password reset second time should fail ', () => {
   .post(`/api/v1/password/${pass_token}`)
   .send({password: '1235'});
   expect(response.body).toHaveProperty("message");
-  });
-});
-describe('verify the email if it is valid for the password reset ', () => {
-
-  it('should create a return 201', async () => {
-  const response = await request(app)
-  .post('/api/v1/email')
-  .send({email: 'doe147@gmail.com'});
-  expect(response.statusCode).toBe(200);
-  expect(response.body).toHaveProperty("message");
-  pass_token=response.body.token;
   });
 });
 
