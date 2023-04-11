@@ -1,6 +1,6 @@
 import express from 'express';
 import upload from '../../utils/handlingFileUploads';
-import { CreateNewProduct ,deleteProduct, search, updateProduct} from '../../controllers/products/productController';
+import { CreateNewProduct ,deleteProduct, rateProduct, search, updateProduct} from '../../controllers/products/productController';
 import { addNewProductVariation, updateProductVariaton } from '../../controllers/products/productVariationsControllers';
 import { addNewProductimages, updateNewProductimages} from '../../controllers/products/ProductImagesController';
 import { auth, isUserEnabled } from '../../middleware/auth';
@@ -22,6 +22,14 @@ ProductRouter.post(
   isUserEnabled,
   upload.array('attrImage', 1),
   addNewProductVariation
+);
+
+//products atributes
+ProductRouter.post(
+  '/api/v1/product/rating',
+  auth('buyer'),
+  isUserEnabled,
+  rateProduct
 );
 
 //product images
@@ -54,7 +62,6 @@ ProductRouter.get(
 
 );
 ProductRouter.get('/api/v1/product', search);
-export default ProductRouter;
 
 ProductRouter.put(
   '/api/v1/products/update/:id',
@@ -80,3 +87,4 @@ ProductRouter.put(
   updateNewProductimages
 );
 
+export default ProductRouter;

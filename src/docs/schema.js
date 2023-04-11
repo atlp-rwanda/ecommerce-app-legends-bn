@@ -178,4 +178,25 @@ export default {
     },
   },
   
+  ProductRating: {
+    type: 'object',
+    properties: {
+      rating: {
+        type: 'integer',
+        description: ' rating for product ',
+        minimum: 1,
+        maximum: 5,
+        default: 3
+      },
+      comment: {
+        type: 'string',
+        description: ' comment for product ',
+      },
+      productId: {
+        type : 'uuid',
+        description: ' product id for product being reted',
+        example: 'product',
+      }
+    }
+  }
 };

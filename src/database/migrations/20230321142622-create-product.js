@@ -47,6 +47,11 @@ module.exports = {
           onUpdate: 'CASCADE'
         }
       },
+      avgRating: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
       status: {
         allowNull: false,
         defaultValue: "ACTIVE",
