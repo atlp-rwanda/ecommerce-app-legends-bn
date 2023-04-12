@@ -55,7 +55,7 @@ app.use('/api/v1/products',buyerRoutes)
 
 
 app.all('*', (req, res) => {
-  res.json({ error: req.t('404_error') });
+  res.status(404).json({ error: req.t('404_error') });
 });
 
 const PORT = process.env.PORT || 4000;

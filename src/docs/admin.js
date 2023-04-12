@@ -19,7 +19,7 @@ export default {
       description:
         'this endpoint is defined with the get HTTP method and returns a list of all users in the database. The endpoint is tagged as being only accessible to admin users and has no parameters. The response contains an HTTP status code of 200 with a JSON content-type and an array schema that defines the shape of the returned user data.',
 
-        parameters: [],
+      parameters: [],
       responses: {
         200: {
           description: 'ok',
@@ -152,15 +152,15 @@ export default {
         },
 
         401: {
-          description: "Not Authorized",
+          description: 'Not Authorized',
         },
         403: {
-          description: "Forbidden Access",
+          description: 'Forbidden Access',
         },
       },
     },
   },
-  '/api/vendor/users': {
+  '/api/v1/vendors/register': {
     post: {
       tags: ['admin'],
       description:
@@ -218,20 +218,20 @@ export default {
           description: 'success',
         },
         500: {
-          description: "Internal Server Error",
+          description: 'Internal Server Error',
         },
         401: {
-          description: "Not Authorized",
+          description: 'Not Authorized',
         },
         403: {
-          description: "Forbidden Access",
+          description: 'Forbidden Access',
         },
       },
     },
   },
 
-  '/api/v1/users':  {
-    put:  {
+  '/api/v1/users': {
+    put: {
       tags: ['user'],
       description:
         "This endpoint allows the authenticated user to update their own profile. The request body should include any fields that the user wishes to update. The 'id' parameter should match the ID of the authenticated user. The timestamp associated with the user's profile will be automatically updated upon each update.",
@@ -346,61 +346,64 @@ export default {
       },
     },
   },
-          'application/json': {
-            schema: {
-              type: 'object',
-              properties: {
-                firstname: {
-                  type: 'string',
-                  description: 'firstname',
-                  example: 'kevchecho',
-                },
-                lastname: {
-                  type: 'string',
-                  description: 'lastname',
-                  example: 'rustage',
-                },
-                email: {
-                  type: 'string',
-                  description: 'email',
-                  example: 'koksa@gmail.com ',
-                },
-                password: {
-                  type: 'string',
-                  description: 'password',
-                  example: 'pasword ',
-                },
-                phone: {
-                  type: 'string',
-                  description: 'phone',
-                  example: '250787882105',
-                },
-                permissions: {
-                  type: 'string',
-                  description: 'title',
-                  example: [
-                    'add product',
-                    'add vendor',
-                    'add buyer',
-                    'remove vendor',
-                    'remove product',
-                  ],
-                },
-              
-      responses: {
-        201: {
-          description: 'success',
+  'application/json': {
+    schema: {
+      type: 'object',
+      properties: {
+        firstname: {
+          type: 'string',
+          description: 'firstname',
+          example: 'kevchecho',
         },
-        
-        500: {
-          description: "Internal Server Error",
+        lastname: {
+          type: 'string',
+          description: 'lastname',
+          example: 'rustage',
+        },
+        email: {
+          type: 'string',
+          description: 'email',
+          example: 'koksa@gmail.com ',
+        },
+        password: {
+          type: 'string',
+          description: 'password',
+          example: 'pasword ',
+        },
+        phone: {
+          type: 'string',
+          description: 'phone',
+          example: '250787882105',
+        },
+        permissions: {
+          type: 'string',
+          description: 'title',
+          example: [
+            'add product',
+            'add vendor',
+            'add buyer',
+            'remove vendor',
+            'remove product',
+          ],
         },
 
-        401: {
-          description: "Not Authorized",
-        },
-        403: {
-          description: "Forbidden Access",
+        responses: {
+          201: {
+            description: 'success',
+          },
+
+          500: {
+            description: 'Internal Server Error',
+          },
+
+          401: {
+            description: 'Not Authorized',
+          },
+          403: {
+            description: 'Forbidden Access',
+          },
         },
       },
-    }}}}
+    },
+  },
+};

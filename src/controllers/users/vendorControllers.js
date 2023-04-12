@@ -1,11 +1,19 @@
 import db from '../../database/models';
 import sendEmail from '../../utils/sendEmail';
 import { hashPassword, generatePassword } from '../../utils/hashpassword';
+import dotenv from 'dotenv';
+dotenv.config();
 export const createVendor = async (req, res) => {
   //add admins
   try {
     const { firstname, lastname, email, phone, permissions } = req.body;
-    const password = await generatePassword();
+    const nodeEnv = process.env.NODE_ENV;
+    let password;
+    if (nodeEnv == 'test') { 
+      password = '12345678';
+    } else {
+      password = generatePassword();
+    }
     const hashedPassword = await hashPassword(password);
     let newRole = await db.role.findOne({ where: { name : 'vendor'} })
     if(!newRole){
@@ -56,9 +64,9 @@ export const createVendor = async (req, res) => {
     await sendEmail(mail);
 
     res.status(201).json({
-      message: req.t('vendor_added_message'),
-      data:vendor,
       status: req.t('success'),
+      message: req.t('vendor_added_message'),
+      data: vendor
     });
   } catch (err) {
     res.status(500).json({

@@ -17,10 +17,13 @@ export const updateCart = asyncWrapper(async (req, res) => {
   const itemToUpdate = cartData.find((item) => {
     return item == id;
   });
+  console.log(`====================${cartData}=============${id}==========`);
   const cartItem = await db.shoppingCarts.findByPk(itemToUpdate);
   const productVariation = await db.ProductAttribute.findByPk(
     cartItem.dataValues.product
   );
+  console.log(`====================${cartItem}=============${id}==========`);
+
   if (productVariation.dataValues.quantity < quantity) {
     return res.status(404).json({
       status: req.t('fail'),
@@ -57,6 +60,7 @@ export const deleteCartItem = asyncWrapper(async (req, res) => {
     return item == id;
   });
   const cartItem = await db.shoppingCarts.findByPk(itemToDelete);
+  if(!cartItem) return res.status(404).json({status:req.t('fail'), message:req.t('not_found')})
     const deletedItem = await cartItem.destroy();
     const newCart = await getCarts(buyerId);
     const totalPrice = CalculateTotalPrice(newCart);

@@ -9,15 +9,16 @@ export const getWishlist = asyncWrapper(async (req, res) => {
   const { productId } = wishlist;
   if (productId === null) {
     return res
-      .status(200)
+      .status(404)
       .json({ status: req.t('success'), message: req.t('no_wishlist') });
   }
   const products = await db.Product.findAll({
     where: { id: { [Op.in]: productId } },
     include: [{ model: db.Category }],
   });
-  res.status(200).json({ status: req.t('success'), products });
+  res.status(200).json({ status: req.t('success'), data:products });
 });
+
 export const addToWishlist = asyncWrapper(async (req, res) => {
   const product = req.body.productId;
   const emptyFields = checkEmptyFields(req.body);
