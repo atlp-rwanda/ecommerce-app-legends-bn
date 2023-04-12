@@ -56,9 +56,12 @@ const register = asyncWrapper(async (req, res) => {
     req.body.token = token;
     await checkToken(token);
     await sendEmail(emailContent);
-  res
-    .status(200)
-    .json({ message: req.t('user_created_successfully'), status: 'ok', token: token });
+  res.status(201).json({
+    status: req.t('seccuss'),
+    message: req.t('user_created_successfully'),
+    token: token,
+    data: result,
+  });
 }
 });
 

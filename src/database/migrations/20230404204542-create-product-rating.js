@@ -7,13 +7,13 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       rating: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       comment: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
       },
       productId: {
         type: Sequelize.UUID,
@@ -22,8 +22,8 @@ module.exports = {
           model: 'Products',
           key: 'id',
           onDelete: 'RESTRICT',
-          onUpdate: 'CASCADE'
-        }
+          onUpdate: 'CASCADE',
+        },
       },
       userId: {
         type: Sequelize.UUID,
@@ -33,19 +33,19 @@ module.exports = {
           key: 'id',
           onUpdate: 'CASCADE',
           onDelete: 'RESTRICT',
-        }
+        },
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('ProductRatings');
-  }
+  },
 };

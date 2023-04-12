@@ -47,7 +47,7 @@ export const verifyEmail = async (req, res) => {
 
     .catch((error) => {
       console.log(error);
-      res.json({
+      res.status(404).json({
         status: req.t('fail'),
         message: req.t('email_fail'),
       });

@@ -13,7 +13,7 @@ export const createAdmin = asyncWrapper(async (req, res) => {
     while(!newRole){
       newRole = await db.role.create({name: 'admin'});
     }
-    await db.user.create({
+    const admin = await db.user.create({
       ...req.body,
       password: hashedPassword,
       roleId: newRole.id,
@@ -29,6 +29,7 @@ export const createAdmin = asyncWrapper(async (req, res) => {
     res.status(201).json({
       message: req.t('admin_added_message'),
       status: req.t('success'),
+      data: admin
     });
 });
 
@@ -44,12 +45,19 @@ export const getAllUsers =asyncWrapper(async (req, res) => {
       },
     },
   });
-  res.status(200).json(users);
+  res.status(200).json({
+    status: req.t('success'),
+    message: req.t('users_fetched'),
+    data: users
+  });
 });
 
 export const deleteUsers =asyncWrapper(async (req, res) => {
     await db.user.destroy({ where: { id: req.params.id } });
-    res.status(204).json({ message: 'user deleted', status: req.t('success') });
+  res.status(200).json({
+    status: req.t('success'),
+    message: req.t('user_deleted')
+  });
 });
 export const getSingleUser =asyncWrapper(async (req, res) => {
   console.log(req.params.id);
@@ -65,5 +73,9 @@ export const getSingleUser =asyncWrapper(async (req, res) => {
       },
     },
   });
-  res.status(200).json(singleUser);
+  res.status(200).json({
+    status: req.t('success'),
+    message: req.t('single_user_fetched'),
+    data:singleUser
+  });
 });

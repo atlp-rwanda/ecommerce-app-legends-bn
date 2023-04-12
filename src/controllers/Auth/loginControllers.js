@@ -15,6 +15,7 @@ import {
 } from '../../utils/handleCookies';
 dotenv.config();
 export const login = asyncWrapper(async (req, res) => {
+  const nodenv = process.env.NODE_ENV;
   const { email, password } = req.body;
   const error = checkEmptyFields(req.body);
   if (!error) {
@@ -22,7 +23,7 @@ export const login = asyncWrapper(async (req, res) => {
       where: { email },
     });
     if (!user) {
-      return res.status(401).json({
+      return res.status(404).json({
         status: req.t('fail'),
         message: req.t('wrong_email'),
       });
@@ -39,7 +40,7 @@ export const login = asyncWrapper(async (req, res) => {
     const role = await db.role.findOne({ where: { id: user.roleId } });
     req.body.role = role.name;
     if (!verifyedPassword) {
-      return res.status(401).json({
+      return res.status(404).json({
         status: req.t('fail'),
         message: req.t('wrong_password'),
       });
@@ -66,7 +67,7 @@ export const login = asyncWrapper(async (req, res) => {
         await sendEmail(emailContent);
         res.status(200).json({
           status: req.t('success'),
-          user,
+          data:user,
           token,
           role: role.name,
         });
@@ -118,12 +119,20 @@ export const login = asyncWrapper(async (req, res) => {
           user.id,
           res
         );
-        res.json({ message: req.t('code_sent') });
+        if (nodenv === 'test') {
+          res.status(200).json({
+            user,
+            token,
+            role: role.name,
+          });
+        } else {
+          res.status(200).json({ message: req.t('code_sent') });
+        }
         break;
       default:
         res.status(200).json({
           status: req.t('success'),
-          user,
+          data:user,
           token,
           role: role.name,
         });

@@ -87,7 +87,8 @@
 
   "product_id_and_rating_is_required" : "L'identifiant et l'évaluation du produit sont requis.",
   "the_rating_must_be_1_to_5": "La note doit être comprise entre 1 et 5.",
-  "product_review_posted" : "L'avis a été posté avec succès."
-
- 
+  "product_review_posted" : "L'avis a été posté avec succès.",
+  "users_fetched":"utilisateurs récupérés avec succès",
+  "single_user_fetched":"utilisateur récupéré avec succès",
+  "user_deleted":"utilisateur supprimé avec succès"
 }
