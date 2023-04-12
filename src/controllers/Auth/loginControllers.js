@@ -22,7 +22,7 @@ export const login = asyncWrapper(async (req, res) => {
       where: { email },
     });
     if (!user) {
-      return res.status(401).json({
+      return res.status(404).json({
         status: req.t('fail'),
         message: req.t('wrong_email'),
       });
@@ -39,7 +39,7 @@ export const login = asyncWrapper(async (req, res) => {
     const role = await db.role.findOne({ where: { id: user.roleId } });
     req.body.role = role.name;
     if (!verifyedPassword) {
-      return res.status(401).json({
+      return res.status(404).json({
         status: req.t('fail'),
         message: req.t('wrong_password'),
       });
@@ -65,7 +65,7 @@ export const login = asyncWrapper(async (req, res) => {
         await sendEmail(emailContent);
         res.status(200).json({
           status: req.t('success'),
-          user,
+          data:user,
           token,
           role: role.name,
         });
@@ -122,7 +122,7 @@ export const login = asyncWrapper(async (req, res) => {
       default:
         res.status(200).json({
           status: req.t('success'),
-          user,
+          data:user,
           token,
           role: role.name,
         });
