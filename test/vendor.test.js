@@ -8,6 +8,8 @@ import { where } from 'sequelize';
 chai.use(chaiHttp);
 chai.should();
 
+export let vendorId;
+export let categoryId;
 describe('VENDORS', () => {
   let token;
   let adminId;
@@ -21,6 +23,10 @@ describe('VENDORS', () => {
   };
 
   before(async () => {
+    await db.ProductImage.destroy({where:{}});
+    await db. ProductAttribute.destroy({where:{}});
+    await db.Product.destroy({where:{}});
+    await db.Category.destroy({where:{}});
     await db.user.destroy({where:{}});
   });
 
@@ -61,5 +67,22 @@ describe('VENDORS', () => {
       res.body.should.be.a('object');
       res.body.should.have.property('status');
       res.body.should.have.property('message');
+      vendorId=res.body.data.id;
+  });
+
+  it('it should create new product category',async()=>{
+    const category={
+      name: 'clothes and jewellery',
+      status: 'AVAILABLE',
+    };
+    const res = await chai
+        .request(app)
+        .post('/api/v1/category/add')
+        .set('Authorization', `Bearer ${token}`)
+        .send(category);
+      res.statusCode.should.equal(201);
+      res.body.should.be.a('object');
+      res.body.should.have.property('status');
+      categoryId=res.body.data.id;
   });
 });
