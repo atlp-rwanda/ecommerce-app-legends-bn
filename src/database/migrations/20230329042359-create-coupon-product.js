@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       couponId: {
-        type: Sequelize.UUID
+        type: Sequelize.INTEGER
       },
       prodcutAttributeId: {
         type: Sequelize.INTEGER,
