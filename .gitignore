@@ -4,3 +4,4 @@ dist
 coverage
 /src/index.html
 /src/send.html
+.nyc_output
