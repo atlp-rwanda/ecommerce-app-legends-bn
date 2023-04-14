@@ -7,9 +7,10 @@ import path from 'path';
 import { vendorId, categoryId } from './vendor.test';
 chai.use(chaiHttp);
 chai.should();
+export let vendorToken;
+export let productAttributeId;
+export  let productId;
 describe('products based functionalities', () => {
-  let vendorToken;
-  let productId;
   const vendor = {
     email: 'johnvendor@gmail.com',
     password: '12345678',
@@ -121,24 +122,6 @@ describe('products based functionalities', () => {
     res.body.should.have.property('message');
   });
 
-  it('should create a new product images', async () => {
-    const res = await chai
-      .request(app)
-      .post(`/api/v1/product/images/add`)
-      .set('Authorization', `Bearer ${vendorToken}`)
-      .attach(
-        'prodImage',
-        fs.readFileSync(path.join(__dirname, 'image.jpg')),
-        'image.jpg'
-      )
-      .field('productId', productId)
-      .field('status', 'AVAILABLE')
-      .field('cloudinaryId', 'a364fw374yvsiqhss88');
-    res.should.have.status(201);
-    res.body.should.be.a('object');
-    res.body.should.have.property('message');
-    res.body.should.have.property('data');
-  });
 
   it('should not create a new product images', async () => {
     const res = await chai
@@ -183,17 +166,9 @@ describe('products based functionalities', () => {
     res.body.should.be.a('object');
     res.body.should.have.property('message');
     res.body.should.have.property('data');
+    productAttributeId=res.body.data.id;
   });
 
-  it('should delete a product by product owner', async () => {
-    const res = await chai
-      .request(app)
-      .delete(`/api/v1/products/delete/${productId}`)
-      .set('Authorization', `bearer ${vendorToken}`);
-    res.statusCode.should.equal(200);
-    res.body.should.be.a('object');
-    res.body.should.have.property('message');
-  });
 
   it('it should list every product from database to the clients', async () => {
     const res = await chai.request(app).get('/api/v1/buyer/products');

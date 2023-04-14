@@ -16,6 +16,10 @@ export const addToCart = asyncWrapper(async (req, res) => {
       quantity: {[Op.gt]:0}
     }
   })
+  if (!productVariation)
+    return res
+      .status(404)
+      .json({ status: req.t('fail'), message: req.t('not_available_ForSale') });
   const productIdentifier = productVariation.productId;
   //check wether the function is available for sale.
   const productAvailability = await db.Product.findOne({
