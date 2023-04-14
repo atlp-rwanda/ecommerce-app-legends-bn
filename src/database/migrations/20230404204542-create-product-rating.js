@@ -16,20 +16,20 @@ module.exports = {
         type: Sequelize.TEXT
       },
       productId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         references: {
-          model: 'Product',
+          model: 'Products',
           key: 'id',
           onDelete: 'RESTRICT',
           onUpdate: 'CASCADE'
         }
       },
       userId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false,
         references: {
-          model: 'user',
+          model: 'users',
           key: 'id',
           onUpdate: 'CASCADE',
           onDelete: 'RESTRICT',
