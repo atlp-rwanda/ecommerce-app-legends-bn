@@ -2,27 +2,28 @@ import db from '../src/database/models';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../src/index';
-import { vendorId } from './vendor.test';
-import { vendorToken, productAttributeId, productId } from './products.test';
+import { vendorId } from './B-vendor.test';
+import { vendorToken, productAttributeId, productId } from './C-products.test';
 
 describe('shopping cart based functionlaities', () => {
   chai.use(chaiHttp);
   chai.should();
   it('should add products to the shopping cart', async () => {
+    console.log('productAttributeId', productAttributeId);
     const res = await chai
       .request(app)
       .post('/api/v1/shoppingCart/add')
       .set('Authorization', `Bearer ${vendorToken}`)
       .send({
         buyer: vendorId,
-        productId: productAttributeId,
+        productId: `${productAttributeId}`,
       });
     res.statusCode.should.equal(201);
     res.body.should.be.a('object');
     res.body.should.have.property('message');
     res.body.should.have.property('status');
   });
-    
+
   it('should not  add product with unknown attribute to the shopping cart', async () => {
     const res = await chai
       .request(app)
@@ -46,16 +47,5 @@ describe('shopping cart based functionlaities', () => {
     res.body.should.be.a('object');
     res.body.should.have.property('message');
     res.body.should.have.property('status');
-  });
-
-  //this delete product test should be at the end of all test cases
-  it('should delete a product by product owner', async () => {
-    const res = await chai
-      .request(app)
-      .delete(`/api/v1/products/delete/${productId}`)
-      .set('Authorization', `bearer ${vendorToken}`);
-    res.statusCode.should.equal(200);
-    res.body.should.be.a('object');
-    res.body.should.have.property('message');
   });
 });

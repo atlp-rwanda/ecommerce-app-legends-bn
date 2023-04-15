@@ -4,12 +4,12 @@ import chaiHttp from 'chai-http';
 import app from '../src/index';
 import fs from 'fs';
 import path from 'path';
-import { vendorId, categoryId } from './vendor.test';
+import { vendorId, categoryId } from './B-vendor.test';
 chai.use(chaiHttp);
 chai.should();
 export let vendorToken;
 export let productAttributeId;
-export  let productId;
+export let productId;
 describe('products based functionalities', () => {
   const vendor = {
     email: 'johnvendor@gmail.com',
@@ -26,7 +26,6 @@ describe('products based functionalities', () => {
     res.body.should.be.a('object');
     res.body.should.have.property('role');
     res.body.should.have.property('token');
-
   });
 
   it('should create new product in database', async () => {
@@ -122,7 +121,6 @@ describe('products based functionalities', () => {
     res.body.should.have.property('message');
   });
 
-
   it('should not create a new product images', async () => {
     const res = await chai
       .request(app)
@@ -166,9 +164,9 @@ describe('products based functionalities', () => {
     res.body.should.be.a('object');
     res.body.should.have.property('message');
     res.body.should.have.property('data');
-    productAttributeId=res.body.data.id;
+    productAttributeId = res.body.data.id;
+    console.log(productAttributeId, 'qwertyuiobn');
   });
-
 
   it('it should list every product from database to the clients', async () => {
     const res = await chai.request(app).get('/api/v1/buyer/products');
