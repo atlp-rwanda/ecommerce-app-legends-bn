@@ -53,6 +53,7 @@ export const getAllUsers =asyncWrapper(async (req, res) => {
 });
 
 export const deleteUsers =asyncWrapper(async (req, res) => {
+   await db.Order.destroy({ where: { userId: req.params.id } })
     await db.user.destroy({ where: { id: req.params.id } });
   res.status(200).json({
     status: req.t('success'),

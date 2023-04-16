@@ -47,7 +47,7 @@ export const verifyEmail = async (req, res) => {
 
     .catch((error) => {
       console.log(error);
-      res.json({
+      res.status(404).json({
         status: req.t('fail'),
         message: req.t('email_fail'),
       });
@@ -67,41 +67,41 @@ export const resetPassword = async (req, res) => {
       })
       .then(() => {
         status = 'denied';
-        res.send({
+        res.status(200).json({
           status: req.t('success'),
           message: req.t('password_updated'),
         });
       });
   } else {
-    res.send({ status: req.t('fail'), message: req.t('auth_message') });
+    res.status(404).json({ status: req.t('fail'), message: req.t('auth_message') });
   }
 };
 
-export const resetPass = async (req, res) => {
-  const { xpassword, npassword } = req.body;
-  const email = req.user.email;
-  const userr = await db.user.findOne({ where: { email: email } });
-  const verifyedPassword = await comparePassword(xpassword, userr.password);
-  if (!verifyedPassword) {
-    return res.status(401).json({
-      status: req.t('fail'),
-      message: req.t('wrong_password'),
-    });
-  }
-  const hashedPwd = await hashPassword(npassword);
-  db.user
-    .findOne({ where: { email: email } })
-    .then(async (user) => {
-      user.password = hashedPwd;
-      return user.save();
-    })
-    .then(() => {
-      res.send({
-        status: req.t('success'),
-        message: req.t('password_updated'),
-      });
-    });
-};
+// export const resetPass = async (req, res) => {
+//   const { xpassword, npassword } = req.body;
+//   const email = req.user.email;
+//   const userr = await db.user.findOne({ where: { email: email } });
+//   const verifyedPassword = await comparePassword(xpassword, userr.password);
+//   if (!verifyedPassword) {
+//     return res.status(401).json({
+//       status: req.t('fail'),
+//       message: req.t('wrong_password'),
+//     });
+//   }
+//   const hashedPwd = await hashPassword(npassword);
+//   db.user
+//     .findOne({ where: { email: email } })
+//     .then(async (user) => {
+//       user.password = hashedPwd;
+//       return user.save();
+//     })
+//     .then(() => {
+//       res.send({
+//         status: req.t('success'),
+//         message: req.t('password_updated'),
+//       });
+//     });
+// };
 
 const updatedPassword = async (userId) => {
   const user = await db.user.findByPk(userId);
@@ -116,7 +116,6 @@ export const updatePassword = asyncWrapper(async (req, res) => {
   const user = await db.user.findOne({ where: { id: userId } });
   const existingUserPassword = user.password;
   const { existingPassword, newPassword } = req.body;
-
   const isPasswordCorrect = await bcrypt.compare(existingPassword, existingUserPassword);
   if (!isPasswordCorrect) {
     return res.status(401).json({

@@ -4,12 +4,13 @@ import chaiHttp from 'chai-http';
 import app from '../src/index';
 import fs from 'fs';
 import path from 'path';
-import { vendorId, categoryId } from './vendor.test';
+import { vendorId, categoryId } from './B-vendor.test';
 chai.use(chaiHttp);
 chai.should();
 export let vendorToken;
 export let productAttributeId;
-export  let productId;
+export let productId;
+export let productVarId;
 describe('products based functionalities', () => {
   const vendor = {
     email: 'johnvendor@gmail.com',
@@ -26,7 +27,6 @@ describe('products based functionalities', () => {
     res.body.should.be.a('object');
     res.body.should.have.property('role');
     res.body.should.have.property('token');
-
   });
 
   it('should create new product in database', async () => {
@@ -66,7 +66,6 @@ describe('products based functionalities', () => {
     res.body.should.have.property('data');
     productId = res.body.data.id;
   });
-
   it('it should update product', async () => {
     const product = {
       name: 'shoes',
@@ -122,7 +121,6 @@ describe('products based functionalities', () => {
     res.body.should.have.property('message');
   });
 
-
   it('should not create a new product images', async () => {
     const res = await chai
       .request(app)
@@ -141,7 +139,7 @@ describe('products based functionalities', () => {
     res.body.should.have.property('message');
   });
 
-  it('should add new product attributes', async () => {
+  it('should add new product variation', async () => {
     const product = {
       model: 'air max',
     };
@@ -166,9 +164,9 @@ describe('products based functionalities', () => {
     res.body.should.be.a('object');
     res.body.should.have.property('message');
     res.body.should.have.property('data');
-    productAttributeId=res.body.data.id;
+    productAttributeId = res.body.data.id;
+    console.log(productAttributeId, 'qwertyuiobn');
   });
-
 
   it('it should list every product from database to the clients', async () => {
     const res = await chai.request(app).get('/api/v1/buyer/products');
@@ -188,4 +186,23 @@ describe('products based functionalities', () => {
     res.body.should.have.property('message');
     res.body.should.have.property('data');
   });
+  it('User should be able to view a single product', async () => {
+    const res = await chai
+      .request(app)
+      .get(`/api/v1/products/${productId}`);
+    res.statusCode.should.equal(200);
+    res.body.should.be.a('object');
+    res.body.should.have.property('status');
+    res.body.should.have.property('data');
+  });
+  // it('View recommended products with no wishlist', async () => {
+  //   const res = await chai
+  //     .request(app)
+  //     .get('/api/v1/products/view/recommendations')
+  //     .set('Authorization', `bearer ${vendorToken}`)
+  //   res.statusCode.should.equal(200);
+  //   res.body.should.be.a('object');
+  //   res.body.should.have.property('data');
+  //   res.body.should.have.property('status');
+  // });
 });

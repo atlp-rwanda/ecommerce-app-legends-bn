@@ -212,7 +212,7 @@ describe('ADMINS', () => {
   })
 
 
-  it('deleting a single user with Authorization. it should return 200', async () => {
+  it('deleting an admin user with Authorization. it should return 200', async () => {
     const res = await chai
       .request(app)
       .delete(`/api/admin/users/${adminId}`)
