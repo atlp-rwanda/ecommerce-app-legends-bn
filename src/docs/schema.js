@@ -142,7 +142,15 @@ export default {
       },
     },
   },
-
+  chat: {
+    type: 'object',
+    properties: {
+      message: {
+        type: 'string',
+        description: 'type a message',
+      },
+    },
+  },
   Coupon: {
     type: 'object',
     properties: {
