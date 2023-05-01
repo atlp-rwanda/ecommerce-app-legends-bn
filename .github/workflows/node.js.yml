@@ -44,3 +44,4 @@ env:
   CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
   REDIRECT_URI: ${{secrets.REDIRECT_URI}}
   PASS_EXPIRES_IN: ${{secrets.PASS_EXPIRES_IN}}
+  DOMAIN: ${{secrets.DOMAIN}}

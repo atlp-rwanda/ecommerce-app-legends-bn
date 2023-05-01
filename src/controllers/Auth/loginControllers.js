@@ -126,7 +126,7 @@ export const login = asyncWrapper(async (req, res) => {
             role: role.name,
           });
         } else {
-          res.status(200).json({ message: req.t('code_sent') });
+          res.status(200).json({ status: req.t('success'),message: req.t('code_sent'),role: role.name });
         }
         break;
       default:

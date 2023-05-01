@@ -16,9 +16,12 @@ import middleware from 'i18next-http-middleware';
 import db from './database/models/index';
 import CartRoutes from './routes/shoppingCart/shoppingCartRoutes';
 import chatRoutes from './routes/liveChat/chatRoutes';
+import { origin } from './middleware/x-originConfig';
 import { Server } from "socket.io";
 import http from "http";
 import cors from "cors";
+import dotenv from 'dotenv';
+dotenv.config();
 i18next
   .use(Backend)
   .use(middleware.LanguageDetector)
@@ -34,10 +37,10 @@ i18next
     }
   });
 const app = express();
-app.use(cors());
 app.use(express.json());
 app.use(middleware.handle(i18next));
-
+app.use(origin);
+app.use(cors({ origin: process.env.DOMAIN, credentials: true }));
 // routes
 app.use('/', rootRouter);
 app.use(docs);
