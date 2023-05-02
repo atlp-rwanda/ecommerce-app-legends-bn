@@ -40,7 +40,7 @@ const app = express();
 app.use(express.json());
 app.use(middleware.handle(i18next));
 app.use(origin);
-app.use(cors({ origin: process.env.DOMAIN, credentials: true }));
+app.use(cors({ origin:  [process.env.HOSTED_DOMAIN ,process.env.LOCAL_DOMAIN], credentials: true }));
 // routes
 app.use('/', rootRouter);
 app.use(docs);
