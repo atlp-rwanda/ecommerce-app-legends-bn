@@ -7,7 +7,7 @@ export const updateUser = asyncWrapper(async (req, res) => {
   if (!emptyFields) {
     const user = await db.user.findByPk(req.user.id);
     if (!user) {
-      return res.status(404).json({ message: req.t('Undiscovered'), status: req.t('fail') });
+      return res.status(401).json({ message: req.t('Undiscovered'), status: req.t('fail') });
     }
     await user.update({
       firstname,

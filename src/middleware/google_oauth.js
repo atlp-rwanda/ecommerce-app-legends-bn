@@ -3,6 +3,7 @@ import GoogleStrategy from 'passport-google-oauth20';
 import { signToken } from '../utils/verifyPassword';
 import db from '../database/models'
 import { hashPassword } from '../utils/hashpassword';
+import login from '../docs/login';
 // Generate a random password
 const generatePassword =  () => {
   const length = 8;
@@ -24,6 +25,10 @@ passport.use(new GoogleStrategy({
     const user = { id: profile.id, email: profile.emails[0].value };
     const existingUser = await db.user.findOne({ where: { email: user.email } });
     if (existingUser) {
+      const userRole = await db.role.findOne({ where: { id: existingUser.roleId } });
+      const userId = await db.user.findOne({ where: { email: user.email } });
+      user.role = userRole.name;
+      user.id = userId.id
       const token = await signToken(user);
       done(null, { user, token });
     } else {
@@ -46,6 +51,10 @@ passport.use(new GoogleStrategy({
         roleId: buyer.id,
       });
       
+      const userRole = await db.role.findOne({ where: { id: newUser.roleId } });
+      const userId = await db.user.findOne({ where: { email: newUser.email } });
+      newUser.role = userRole.name;
+      newUser.id = userId.id
       const token = await signToken(newUser);
       done(null, { user: newUser, token });
     }
