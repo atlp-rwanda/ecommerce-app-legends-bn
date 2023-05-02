@@ -13,6 +13,7 @@ export const handleCookies=(duration,cookieVaribale,cookieValue,idBasedVariables
       sameSite: 'none',
       secure: true,
       expires: expires,
+       path: '/'
     });
 }
 export const getCookieInfo=(Cookiearray)=>{
