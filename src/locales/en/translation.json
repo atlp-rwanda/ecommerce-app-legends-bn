@@ -14,7 +14,7 @@
   "code_sent": "the verification code is sent to email",
   "no_user": "invalid credentials for any user",
   "verified": "verified...!,welcome",
-  "not_validated": "it is not validated",
+  "not_validated": "you typed the verification code miss match the actual one",
   "login": "please login first",
   "user_email_not_found": "email not found, do you want to signup?",
   "500_insternal_server_error": "internal server error",
