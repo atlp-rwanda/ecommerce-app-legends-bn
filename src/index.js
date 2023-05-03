@@ -37,10 +37,11 @@ i18next
     }
   });
 const app = express();
+const domainName = process.env.NODE_ENV === 'production' ? process.env.HOSTED_DOMAIN : process.env.LOCAL_DOMAIN;
 app.use(express.json());
 app.use(middleware.handle(i18next));
 app.use(origin);
-app.use(cors({ origin:  [process.env.HOSTED_DOMAIN ,process.env.LOCAL_DOMAIN], credentials: true }));
+app.use(cors({ origin: domainName, credentials: true }));
 // routes
 app.use('/', rootRouter);
 app.use(docs);
