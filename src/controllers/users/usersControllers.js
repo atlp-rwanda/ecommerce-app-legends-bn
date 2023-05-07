@@ -32,10 +32,9 @@ export const verifyEmail = async (req, res) => {
         </td>
         </tr>
         </tbody></table>
-        <p> Hello ${user.lastname},,</p><br/>\
-        <p>http:/localhost:${process.env.PORT}/api/v1/password/${token}</p><br/>\
+        <p> Hello ${user.lastname},</p><br/>\
         <h4>If you want to reset your password then click on below link </h4><br/>\
-        <a href="http:/localhost:${process.env.PORT}/api/v1/password/${token}">Click here</a>
+        <a href="${process.env.HOSTED_DOMAIN}/reset?token=${token}">Click here</a>
         <h3>Best regards,</h3>
         <h5><i>E-commerce ATLP-Legends project team</i></h5>
         `,

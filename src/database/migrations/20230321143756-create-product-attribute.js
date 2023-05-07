@@ -10,6 +10,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      varitationName :{
+        type: Sequelize.STRING
+      },
       price: {
         type: Sequelize.INTEGER
       },

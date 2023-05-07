@@ -87,6 +87,10 @@ export default {
         type: 'integer',
         description: ' product price',
       },
+      varitationName:{
+        type: 'string',
+        description: ' product variation name',
+      },
       size: {
         type: 'string',
         description: ' product size',

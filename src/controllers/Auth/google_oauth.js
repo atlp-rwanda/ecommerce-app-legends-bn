@@ -47,6 +47,6 @@ export const loginWithGoogle = asyncWrapper(async (req, res) => {
       if (req.body.role === 'buyer') {
         await sendEmail(emailOptions);
       }
-      return res.redirect(`${process.env.FRONT_END_URL}/login?token=${token}&role=${role.name}`);
+      return res.redirect(`${process.env.FRONT_END_URL}/login?token=${token}&role=${role.name}&username=${existingUser.firstname}`);
         }
 });
