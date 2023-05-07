@@ -8,7 +8,7 @@ import { removeImageFromCloudinary } from '../../utils/handlingFileUploads';
 export const addNewProductVariation = asyncWrapper(async (req, res) => {
 
   // Get the data for the new product from the request body
-  const { price, size, color, productId,quantity } = req.body;
+  const { price, size, color, productId,quantity,varitationName } = req.body;
   // Check if the required fields are provided
   const areAllNotFilled = checkEmptyFields(req, res);
   if (!areAllNotFilled) {
@@ -27,6 +27,7 @@ export const addNewProductVariation = asyncWrapper(async (req, res) => {
     // Create the new product
     if(!isColorExist){
     const productVariaton = await db.ProductAttribute.create({
+      varitationName,
       price,
       size,
       color,
