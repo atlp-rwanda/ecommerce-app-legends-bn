@@ -20,6 +20,7 @@ export const auth = (arg) => {
         status: req.t('fail'),
         message: req.t('unauthorized'),
       })
+      else{
     const role = result?.user.role;
     req.user = result?.user;
     if (role === 'admin') return next();
@@ -35,13 +36,15 @@ export const auth = (arg) => {
       }
       next();
     }
+    }
   };
 };
 export const authent = async (req, res, next) => {
     
     try {
-      const token = req.params.token;
+      const token = req.query.token;
       const result = await checkToken(token);
+      console.log({result});
       if(!result.user){
         res.json({
           message: req.t('auth_message')

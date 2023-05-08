@@ -9,8 +9,8 @@ import JWT from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
 dotenv.config();
-let status = 'denied';
 export const verifyEmail = async (req, res) => {
+  let status = 'denied';
   const { email } = req.body;
   await db.user
     .findOne({ where: { email: email } })
@@ -42,8 +42,11 @@ export const verifyEmail = async (req, res) => {
 
       // Send the email
       await sendEmail(emailContent, req, res);
+      res.status(200).json({
+        status: 'success',
+        message: 'Email sent successfully',
+      });
     })
-
     .catch((error) => {
       console.log(error);
       res.status(404).json({
@@ -57,23 +60,21 @@ export const resetPassword = async (req, res) => {
   const hashedPwd = await hashPassword(password);
   const u = req.user;
   const email = u.user.email;
-  if (status === 'access') {
-    db.user
-      .findOne({ where: { email: email } })
-      .then(async (user) => {
-        user.password = hashedPwd;
-        return user.save();
-      })
-      .then(() => {
-        status = 'denied';
-        res.send({
-          status: req.t('success'),
-          message: req.t('password_updated'),
-        });
+
+  db.user
+    .findOne({ where: { email: email } })
+    .then(async (user) => {
+      user.password = hashedPwd;
+      return user.save();
+    })
+    .then(() => {
+      res.send({
+        status: req.t('success'),
+        message: req.t('password_updated'),
       });
-  } else {
-    res.send({ status: req.t('fail'), message: req.t('auth_message') });
-  }
+    }).catch(() => {
+      res.send({ status: req.t('fail'), message: req.t('auth_message') });
+    });
 };
 
 export const resetPass = async (req, res) => {
