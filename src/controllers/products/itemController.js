@@ -15,7 +15,17 @@ export const getAllSellerItems = asyncWrapper(async (req, res) => {
             userId: req.user.id,
            // status: 'AVAILABLE'
         },
-
+        include: [
+            {
+              model: db.ProductImage,
+              attributes: { exclude: ['createdAt', 'updatedAt', 'productId'] },
+            },
+            {
+              model: db.ProductAttribute,
+              attributes: { exclude: ['createdAt', 'updatedAt', 'productId'] },
+            },
+            
+          ],
         limit,
         offset,
     });
@@ -60,6 +70,17 @@ export const getAllSellerItems = asyncWrapper(async (req, res) => {
           where: {
             status :'AVAILABLE'
           },
+          include: [
+            {
+              model: db.ProductImage,
+              attributes: { exclude: ['createdAt', 'updatedAt', 'productId'] },
+            },
+            {
+              model: db.ProductAttribute,
+              attributes: { exclude: ['createdAt', 'updatedAt', 'productId'] },
+            },
+            
+          ],
             limit,
             offset,
          
