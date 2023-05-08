@@ -169,8 +169,8 @@ describe('BUYERS based functionlaities', () => {
     res.statusCode.should.equal(200);
     res.body.should.be.a('object');
     res.body.should.have.property('status');
-    res.body.should.have.property('token');
-    emailToken = res.body.token;
+    res.body.should.have.property('message');
+    res.body.should.not.have.property('token');
   });
   it('A user should be able to reset password after email verification', async () => {
     console.log(buyerToken, 'buyerToken');
