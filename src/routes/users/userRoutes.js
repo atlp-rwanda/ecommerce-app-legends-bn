@@ -9,7 +9,7 @@ import { isUserEnabled } from '../../middleware/auth';
 const router = express.Router();
 
 router.post('/register', userAuthController.register)
-router.put('/users', auth(['buyer','vendor','admin']),isUserEnabled, updateUser); // update endpoint for user's own profile
+router.patch('/users', auth(['buyer','vendor','admin']),isUserEnabled, updateUser); // update endpoint for user's own profile
 router.post('/email', verifyEmail);
 router.post('/password/:token',authent, resetPassword);
 router.post('/password',auth('all'), isUserEnabled, resetPass);

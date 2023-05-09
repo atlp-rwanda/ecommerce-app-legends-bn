@@ -125,7 +125,7 @@ describe('BUYERS based functionlaities', () => {
     console.log(buyerToken, 'buyerToken');
     const res = await chai
       .request(app)
-      .put('/api/v1/users')
+      .patch('/api/v1/users')
       .set('Authorization', `bearer ${buyerToken}`)
       .send(user);
     res.statusCode.should.equal(200);
@@ -138,7 +138,7 @@ describe('BUYERS based functionlaities', () => {
     console.log(buyerToken, 'buyerToken');
     const res = await chai
       .request(app)
-      .put('/api/v1/users')
+      .patch('/api/v1/users')
       .set('Authorization', `bearer ${buyerToken}e`)
       .send(user);
     res.statusCode.should.equal(401);

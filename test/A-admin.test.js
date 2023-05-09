@@ -179,7 +179,7 @@ describe('ADMINS', () => {
   it(' should update user profile', async () => {
     const res = await chai
       .request(app)
-      .put(`/api/v1/users`)
+      .patch(`/api/v1/users`)
       .set('Authorization', `bearer ${token}`)
       .send({
         firstname: 'newfirstname',
@@ -197,7 +197,7 @@ describe('ADMINS', () => {
   it('should return a 404 status code if the user is not found when updating', async () => {
     const res = await chai
       .request(app)
-      .put(`/api/v1/users`)
+      .patch(`/api/v1/users`)
       .set('Authorization', `bearer e${token}`)
       .send({
         firstname: 'newfirstname',
