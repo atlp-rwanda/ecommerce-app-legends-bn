@@ -231,7 +231,7 @@ export default {
   },
 
   '/api/v1/users': {
-    put: {
+    patch: {
       tags: ['user'],
       description:
         "This endpoint allows the authenticated user to update their own profile. The request body should include any fields that the user wishes to update. The 'id' parameter should match the ID of the authenticated user. The timestamp associated with the user's profile will be automatically updated upon each update.",
