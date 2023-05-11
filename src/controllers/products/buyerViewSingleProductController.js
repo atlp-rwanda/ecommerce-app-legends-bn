@@ -15,8 +15,10 @@ export const viewSingleProduct = asyncWrapper(async (req, res) => {
         model: db.ProductAttribute,
         attributes: { exclude: ['createdAt', 'updatedAt', 'productId'] },
       },
-      
     ],
+  });
+  const productReviews = await db.ProductRating.findAll({
+    where: { productId: id}
   });
   if (!product) {
     return res.status(404).json({
@@ -27,9 +29,9 @@ export const viewSingleProduct = asyncWrapper(async (req, res) => {
   return res.status(200).json({
     status: req.t('success'),
     data: product,
+    reviews:productReviews
   });
 });
-
 export const recommendedProducts = asyncWrapper(async (req, res) => {
   const { id } = req.user;
   const wishList = await db.wishlist.findOne({

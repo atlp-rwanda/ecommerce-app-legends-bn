@@ -27,7 +27,7 @@ ProductRouter.post(
 //products atributes
 ProductRouter.post(
   '/api/v1/product/rating',
-  auth('buyer'),
+  auth('all'),
   isUserEnabled,
   rateProduct
 );
