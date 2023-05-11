@@ -13,9 +13,9 @@ export const addToCart = asyncWrapper(async (req, res) => {
   const productVariation = await db.ProductAttribute.findOne({
     where: {
       id: productId,
-      quantity: {[Op.gt]:0}
-    }
-  })
+      quantity: { [Op.gt]: 0 },
+    },
+  });
   if (!productVariation)
     return res
       .status(404)
@@ -47,7 +47,6 @@ export const addToCart = asyncWrapper(async (req, res) => {
     isAdded.totalpricePerProduct = productUnitPrice * isAdded.quantity;
     productINcart = await isAdded.save();
     quantity = isAdded.quantity;
-    console.log(quantity);
   } else {
     quantity = 1;
     const totalCost = productUnitPrice * quantity;
@@ -63,7 +62,7 @@ export const addToCart = asyncWrapper(async (req, res) => {
   //sending response to the the client
   if (productINcart) {
     const cart = await generateCart(buyerId);
-    res.status(201).json({
+        res.status(201).json({
       status: req.t('success'),
       message: req.t('cadded_to_cart'),
       data: cart,
@@ -90,6 +89,7 @@ const generateCart = async (buyer) => {
   const cart = await Promise.all(
     addedProducts.map(async (addedProduct) => {
       const productId = addedProduct.product;
+      const cartId = addedProduct.id;
       const productVariation = await db.ProductAttribute.findByPk(productId);
       const productIdentifier = productVariation.productId;
       //check wether the products is available for sale.
@@ -102,6 +102,7 @@ const generateCart = async (buyer) => {
       const productUnitPrice = productVariation.price;
       const totalCost = productUnitPrice * addedProduct.quantity;
       const productInfo = {
+        cartId: cartId,
         id: productVariation.id,
         productName: productAvailability.name,
         productSize: productVariation.size,
@@ -127,13 +128,22 @@ const generateCart = async (buyer) => {
 export const viewCart = asyncWrapper(async (req, res) => {
   const user = req.user.id;
   const cart = await generateCart(user);
-
+  
   if (!cart) {
-    res.status(404).json({
+    return res.status(404).json({
       status: req.t('fail'),
       message: req.t('cart_already_empty'),
     });
   }
+  console.log(`===================> ${cart}==================`);
+
+  // console.log(`===================> ${cartProduct}==================`);  
+  // cartProduct.forEach((cart) => { 
+  //   const product = db.ProductAttribute.findOne({
+  //     where: {}
+  //   })
+  // })
+  
   res.status(200).json({
     status: req.t('success'),
     message: req.t('cart_retrieved'),
@@ -181,15 +191,13 @@ export const pay = asyncWrapper(async (req, res) => {
   );
   const paymentIntentStatus = paymentIntentConfirmation.status;
 
-
-  const data = await db.Order.findOne({ where: { userId: user, status: 'pending' } }).then(
-    async (order) => {
-      order.status = 'paid';
-      return order.save();
-    }
-  );
+  const data = await db.Order.findOne({
+    where: { userId: user, status: 'pending' },
+  }).then(async (order) => {
+    order.status = 'paid';
+    return order.save();
+  });
   await checkout_End(req, res, paymentIntentStatus);
-
 });
 export const checkout = asyncWrapper(async (req, res) => {
   const buyerId = req.user.id;
@@ -201,7 +209,7 @@ export const checkout = asyncWrapper(async (req, res) => {
   let counter = 0;
   const dupArr = await db.Order.findOne({
     where: { userId: buyerId, status: 'pending' },
-  })
+  });
 
   if (dupArr) {
     return res.status(200).json({
@@ -292,15 +300,15 @@ export const checkout_End = asyncWrapper(async (req, res, data) => {
         });
         invoice.push(detail);
         // Getting Total aamount per invoice
-       
+
         counter2++;
         if (counter2 === ordersList.products.length) {
-            db.Order.findOne({
-              where: { userId: buyerId, status: 'paid' },
-            }).then(async (order) => {
-              order.status = 'shipping';
-              return order.save();
-            });
+          db.Order.findOne({
+            where: { userId: buyerId, status: 'paid' },
+          }).then(async (order) => {
+            order.status = 'shipping';
+            return order.save();
+          });
           emitter.emit('productPurchased', invoice);
           res.status(200).json({
             status: req.t('success'),
@@ -333,32 +341,31 @@ const cart_process = async (req, res) => {
   return cart;
 };
 
-
 // Sending order Confirmation email
 
-export const orderConfirmation = async (buyerID, email,res) => {
+export const orderConfirmation = async (buyerID, email, res) => {
   const myOrder = await db.Order.findOne({
-    where: { userId: buyerID }
+    where: { userId: buyerID },
   });
   // verify payment
   if (myOrder.status !== 'shipping') {
-    res.status(409).json({message:'Payment was not successful'});
+    res.status(409).json({ message: 'Payment was not successful' });
   }
   let trackingNumber = 'Tr';
   const trackingNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   for (let i = 0; i <= 5; i++) {
-    trackingNumber += trackingNumbers[Math.floor(Math.random() * trackingNumbers.length
-    )]
+    trackingNumber +=
+      trackingNumbers[Math.floor(Math.random() * trackingNumbers.length)];
   }
   //Assigning tracking number on product with the same order
   const activeOrder = await db.Order.findOne({
-   where: { userId: buyerID },
-   order: [['createdAt', 'DESC']]
+    where: { userId: buyerID },
+    order: [['createdAt', 'DESC']],
   });
   activeOrder.trackingNumber = trackingNumber;
   await activeOrder.save();
-  const amount = activeOrder.amount
-  
+  const amount = activeOrder.amount;
+
   // prepare email message
   const emailData = {
     email,
@@ -385,5 +392,3 @@ export const orderConfirmation = async (buyerID, email,res) => {
   // send email to customer
   await sendEmail(emailData);
 };
-
-

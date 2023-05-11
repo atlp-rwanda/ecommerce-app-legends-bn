@@ -90,5 +90,7 @@
   "product_review_posted" : "The review was posted successfully",
   "users_fetched": "Users fetched successfully",
   "single_user_fetched": " Sinlge user fetched successfully",
-  "user_deleted": "User deleted successfully"
+  "user_deleted": "User deleted successfully",
+  "roles":"roles",
+  "role_updated": "Role updated successfully"
 }

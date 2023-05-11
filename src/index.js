@@ -15,8 +15,8 @@ import Backend from 'i18next-fs-backend';
 import middleware from 'i18next-http-middleware';
 import db from './database/models/index';
 import CartRoutes from './routes/shoppingCart/shoppingCartRoutes';
+import RoleRoutes from './routes/role/roleRoute';
 import chatRoutes from './routes/liveChat/chatRoutes';
-import { origin } from './middleware/x-originConfig';
 import { Server } from "socket.io";
 import http from "http";
 import cors from "cors";
@@ -37,10 +37,8 @@ i18next
     }
   });
 const app = express();
-const domainName = process.env.NODE_ENV === 'production' ? process.env.HOSTED_DOMAIN : process.env.LOCAL_DOMAIN;
 app.use(express.json());
 app.use(middleware.handle(i18next));
-app.use(origin);
 app.use(cors({ origin: true, credentials: true }));
 // routes
 app.use('/', rootRouter);
@@ -55,6 +53,7 @@ app.use(productRoutes);
 app.use(google_auth)
 app.use(wishlistRoutes);
 app.use(chatRoutes);
+app.use(RoleRoutes);
 app.use('/api/v1/products',buyerRoutes)
 
 

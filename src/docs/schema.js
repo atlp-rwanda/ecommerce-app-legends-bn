@@ -210,5 +210,19 @@ export default {
         example: 'product',
       }
     }
+  },
+
+  roles: {
+    type: 'object',
+    properties: {
+      id: {
+        type: 'uuid',
+        description: 'The auto-generated id ',
+      },
+      roleId: {
+        type: 'integer',
+        description: 'The auto-generated id ',
+      }
+    }
   }
 };

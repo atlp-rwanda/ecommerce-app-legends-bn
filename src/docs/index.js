@@ -20,6 +20,7 @@ import items from './items';
 import coupon from './coupon';
 import chat from './chat';
 import viewOrderDetails from './viewOrderDetails';
+import roles from './roles';
 const { serve, setup } = swagger;
 
 const swaggerDocRouter = Router();
@@ -93,7 +94,8 @@ const options = {
     ...coupon,
     ...paymentCheckout,
     ...viewOrderDetails,
-    ...chat
+    ...chat,
+    ...roles,
    },
  
 };
