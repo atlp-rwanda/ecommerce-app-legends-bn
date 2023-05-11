@@ -41,7 +41,7 @@ const domainName = process.env.NODE_ENV === 'production' ? process.env.HOSTED_DO
 app.use(express.json());
 app.use(middleware.handle(i18next));
 app.use(origin);
-app.use(cors({ origin: domainName, credentials: true }));
+app.use(cors({ origin: true, credentials: true }));
 // routes
 app.use('/', rootRouter);
 app.use(docs);
