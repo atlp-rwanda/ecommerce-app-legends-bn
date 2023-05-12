@@ -90,5 +90,7 @@
   "product_review_posted" : "L'avis a été posté avec succès.",
   "users_fetched":"utilisateurs récupérés avec succès",
   "single_user_fetched":"utilisateur récupéré avec succès",
-  "user_deleted":"utilisateur supprimé avec succès"
+  "user_deleted":"utilisateur supprimé avec succès",
+  "roles":"rôles",
+  "role_updated":"rôle mis à jour avec succès"
 }

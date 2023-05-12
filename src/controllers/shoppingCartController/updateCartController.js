@@ -17,12 +17,10 @@ export const updateCart = asyncWrapper(async (req, res) => {
   const itemToUpdate = cartData.find((item) => {
     return item == id;
   });
-  console.log(`====================${cartData}=============${id}==========`);
   const cartItem = await db.shoppingCarts.findByPk(itemToUpdate);
   const productVariation = await db.ProductAttribute.findByPk(
     cartItem.dataValues.product
   );
-  console.log(`====================${cartItem}=============${id}==========`);
 
   if (productVariation.dataValues.quantity < quantity) {
     return res.status(404).json({
