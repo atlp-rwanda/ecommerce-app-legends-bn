@@ -146,7 +146,6 @@ cron.schedule('30 17 * * *', async () => {
       }
     }
   });
-  console.log(`=========${todayWithTimeZone}=========`);
   for (const product of expiredProducts) {
     product.status = 'UNAVAILABLE';
     await product.save();

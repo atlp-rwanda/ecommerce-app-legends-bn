@@ -135,14 +135,6 @@ export const viewCart = asyncWrapper(async (req, res) => {
       message: req.t('cart_already_empty'),
     });
   }
-  console.log(`===================> ${cart}==================`);
-
-  // console.log(`===================> ${cartProduct}==================`);  
-  // cartProduct.forEach((cart) => { 
-  //   const product = db.ProductAttribute.findOne({
-  //     where: {}
-  //   })
-  // })
   
   res.status(200).json({
     status: req.t('success'),
@@ -168,7 +160,7 @@ export const pay = asyncWrapper(async (req, res) => {
     exp_year: exp_year,
     cvc: cvcNumber,
   };
-  console.log(card);
+
   const paymentMethod = await stripe.paymentMethods.create({
     type: 'card',
     card,
