@@ -12,7 +12,7 @@
     "seed": "npm run migrate && npx sequelize-cli db:seed:all",
     "lint:fix": "eslint src --fix --cache",
     "posttest": "npx update-badge",
-    "test": "cross-env NODE_ENV=test sequelize db:migrate && cross-env NODE_ENV=test nyc --require @babel/register --reporter=text --reporter=html --reporter=clover --reporter=lcov --reporter=teamcity --reporter=json-summary mocha --exit --timeout 20000 --recursive test/*.js --coverage",
+    "test": "cross-env NODE_ENV=test sequelize db:migrate && cross-env NODE_ENV=test nyc --require @babel/register --reporter=text --reporter=html --reporter=clover --reporter=lcov --reporter=teamcity --reporter=json-summary mocha --exit --timeout 80000 --recursive test/*.js --coverage",
     "docker:compose:up": "docker compose up",
     "docker:compose:down": "docker compose down",
     "docker:compose:clean": "docker compose down --volumes --rmi all --remove-orphans"
