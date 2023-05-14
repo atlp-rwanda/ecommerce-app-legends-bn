@@ -95,7 +95,7 @@ export const search = asyncWrapper(async (req, res) => {
 if (!q) {
   return res.status(400).send({ message: 'Missing search query' });
 }
-  const items = await Product.findAll({
+  const items = await db.Product.findAll({
     where: {
       [Op.or]: [
         { name: { [Op.iLike]: `%${q}%` } },
