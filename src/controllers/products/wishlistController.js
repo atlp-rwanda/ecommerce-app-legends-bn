@@ -31,28 +31,32 @@ export const addToWishlist = asyncWrapper(async (req, res) => {
 
     //in case they dont have a wish list
     if (!activewishlist) {
-      await db.wishlist.create({
+     const data = await db.wishlist.create({
         userId: req.user.id,
         productId: [product],
       });
+      const productData = await db.Product.findOne({where : {id : data.productId}})
       res
         .status(201)
-        .json({ status: req.t('success'), message: req.t('wishlist_created') });
+        .json({ status: req.t('success'), message: productData.name + ' ' + req.t('added_to_wishlist'), data:productData });
     } else {
       //updating the wishlist when its there
       if (activewishlist.productId.includes(product)) {
+        const productData = await db.Product.findOne({where : {id : activewishlist.productId}})
         return res.status(400).json({
           status: req.t('fail'),
-          message: req.t('exists_in_wishlist'),
+          message: productData.name + ' ' + req.t('exists_in_wishlist'),
         });
       } else {
         const updatedWishlist = [...activewishlist.productId, product];
-        await activewishlist.update({
+       const data = await activewishlist.update({
           productId: updatedWishlist,
         });
+        const productData = await db.Product.findOne({where : {id : data.productId}})
         res.status(201).json({
           status: req.t('success'),
-          message: req.t('added_to_wishlist'),
+          message: productData.name + ' ' + req.t('added_to_wishlist'),
+          data: productData
         });
       }
     }

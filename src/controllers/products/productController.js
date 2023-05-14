@@ -131,6 +131,7 @@ export const updateProduct = asyncWrapper( async (req, res) => {
     ...req.body,
     slug: SlugfyFunction(req.body.name || row.name),
   })
+  await row.save();
   res.status(200).json({ status: req.t('success'), message: req.t('product_updated_successfully'), data: row})
 }
   );

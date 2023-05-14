@@ -7,11 +7,12 @@ export const createAdmin = asyncWrapper(async (req, res) => {
     req.body;
   
     const hashedPassword = await hashPassword(password);
-    let newRole = await db.role.create({
-      name: 'admin',
-    });
-    while(!newRole){
-      newRole = await db.role.create({name: 'admin'});
+
+    let newRole = await db.role.findOne({ where: { name : 'admin'} })
+    if(!newRole){
+      newRole = await db.role.create({
+        name: 'admin',
+      });
     }
     const admin = await db.user.create({
       ...req.body,

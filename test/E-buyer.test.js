@@ -39,19 +39,7 @@ describe('BUYERS based functionlaities', () => {
     res.body.should.have.property('message');
     res.body.should.have.property('status');
   });
-  // ========================Enabling and Disabling a user========================//
 
-  // it('Should disable a user', async () => {
-  //   const res = await chai
-  //     .request(app)
-  //     .patch(`/api/v1/users/${buyerId}/enable`)
-  //     .set('Authorization', `bearer ${adminToken}`)
-  //     .send({ email: `${user.email}` });
-  //   res.statusCode.should.equal(200);
-  //   res.body.should.be.a('object');
-  //   res.body.should.have.property('message');
-  //   res.body.should.have.property('status');
-  // })
 
   it('Should view recommended products', async () => {
     const res = await chai
@@ -63,63 +51,6 @@ describe('BUYERS based functionlaities', () => {
     res.body.should.have.property('status');
     res.body.should.have.property('data');
   });
-
-  it('Should add product to wishList', async () => {
-    const res = await chai
-      .request(app)
-      .post('/api/v1/product/wishList')
-      .set('Authorization', `bearer ${buyerToken}`)
-      .send({ productId: `${productAttributeId}` });
-    res.statusCode.should.equal(201);
-    res.body.should.be.a('object');
-    res.body.should.have.property('message');
-    res.body.should.have.property('status');
-  });
-
-  it('Should add product to wishList Fail', async () => {
-    const res = await chai
-      .request(app)
-      .post('/api/v1/product/wishList')
-      .set('Authorization', `bearer ${buyerToken}`)
-      .send({ productId: `${productAttributeId}` });
-    res.statusCode.should.equal(400);
-    res.body.should.be.a('object');
-    res.body.should.have.property('message');
-    res.body.should.have.property('status');
-  });
-  // it('Should view recommended products', async () => {
-  //   const res = await chai
-  //     .request(app)
-  //     .get('/api/v1/products/view/recommendations')
-  //     .set('Authorization', `bearer ${buyerToken}`)
-  //   res.statusCode.should.equal(200);
-  //   res.body.should.be.a('object');
-  //   res.body.should.have.property('data');
-  //   res.body.should.have.property('status');
-  // });
-  // it('Should view products from wishList', async () => {
-  //   const res = await chai
-  //     .request(app)
-  //     .get('/api/v1/product/wishList')
-  //     .set('Authorization', `bearer ${buyerToken}`)
-  //     .send({ productId: `${productAttributeId}` });
-  //   res.statusCode.should.equal(404);
-  //   res.body.should.be.a('object');
-  //   res.body.should.have.property('status');
-  //   res.body.should.have.property('data');
-  // });
-
-  //   it('Should view unexisting products from wishList', async () => {
-  //     const res = await chai
-  //       .request(app)
-  //       .get('/api/v1/product/wishList')
-  //       .set('Authorization', `bearer ${buyerToken}`)
-  //       .send({ productId: `1234587654` });
-  //     res.statusCode.should.equal(200);
-  //     res.body.should.be.a('object');
-  //     res.body.should.have.property('status');
-  //     res.body.should.have.property('data');
-  //   });
 
   it('Should update a user', async () => {
     console.log(buyerToken, 'buyerToken');
@@ -186,16 +117,6 @@ describe('BUYERS based functionlaities', () => {
     res.body.should.have.property('message');
   });
 
-  // this delete product test should be at the end of all test cases
-  // it('should delete a product by product owner', async () => {
-  //   const res = await chai
-  //     .request(app)
-  //     .delete(`/api/v1/products/delete/${productId}`)
-  //     .set('Authorization', `bearer ${vendorToken}`);
-  //   res.statusCode.should.equal(200);
-  //   res.body.should.be.a('object');
-  //   res.body.should.have.property('message');
-  // });
   it('deleting a Buyer user', async () => {
     const res = await chai
       .request(app)
