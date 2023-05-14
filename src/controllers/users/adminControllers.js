@@ -7,7 +7,7 @@ export const createAdmin = asyncWrapper(async (req, res) => {
     req.body;
   
     const hashedPassword = await hashPassword(password);
-    let newRole = await db.role.create({
+    let newRole = await db.role.findOne({
       name: 'admin',
     });
     while(!newRole){
@@ -38,7 +38,7 @@ export const getAllUsers =asyncWrapper(async (req, res) => {
     attributes: { exclude: ['password', 'roleId'] },
     include: {
       model: db.role,
-      attributes: ['name'],
+      attributes: ['name', 'id'],
       include: {
         model: db.permission,
         attributes: { exclude: ['id'] },
@@ -60,13 +60,12 @@ export const deleteUsers =asyncWrapper(async (req, res) => {
   });
 });
 export const getSingleUser =asyncWrapper(async (req, res) => {
-  console.log(req.params.id);
   const singleUser = await db.user.findAll({
     where: { id: req.params.id },
     attributes: { exclude: ['password', 'roleId'] },
     include: {
       model: db.role,
-      attributes: ['name'],
+      attributes: ['name', 'id'],
       include: {
         model: db.permission,
         attributes: { exclude: ['id'] },
