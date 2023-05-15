@@ -57,6 +57,7 @@ app.use(wishlistRoutes);
 app.use(chatRoutes);
 app.use(RoleRoutes);
 app.use('/api/v1/products',buyerRoutes)
+app.use(orderRoutes)
 
 
 app.all('*', (req, res) => {

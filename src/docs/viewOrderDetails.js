@@ -70,7 +70,7 @@ export default {
   },
   '/api/v1/orders': {
     get: {
-      summary: 'get your order status',
+      summary: 'get your order status for buyer',
       tags: ['Order Details'],
       parameters: [],
       responses: {
