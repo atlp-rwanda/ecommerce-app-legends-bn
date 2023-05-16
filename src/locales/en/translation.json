@@ -88,6 +88,7 @@
   "product_id_and_rating_is_required":"Product ID and rating are required.",
   "the_rating_must_be_1_to_5": "The rating must be between 1 and 5.",
   "product_review_posted" : "The review was posted successfully",
+  "status_order":"order status updated",
   "users_fetched": "Users fetched successfully",
   "single_user_fetched": " Sinlge user fetched successfully",
   "user_deleted": "User deleted successfully",
