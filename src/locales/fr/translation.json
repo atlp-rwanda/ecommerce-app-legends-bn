@@ -93,5 +93,7 @@
   "single_user_fetched": "utilisateur récupéré avec succès",
   "user_deleted": "utilisateur supprimé avec succès",
   "roles": "rôles",
-  "role_updated": "rôle mis à jour avec succès"
+  "role_updated": "rôle mis à jour avec succès",
+  "no_vendors_found": "Aucun vendeur trouvé",
+  "vendors_retrieved_successfully": "vendeurs récupérés avec succès",
 }

@@ -230,6 +230,23 @@ export default {
     },
   },
 
+  '/api/v1/vendors': {
+    get: {
+      tags: ['admin'],
+      description:
+        "Retrieve all vendors with associated products",
+      parameters: [],
+      responses: {
+        200: {
+          description: 'success',
+        },
+        500: {
+          description: 'Internal Server Error',
+        },
+      },
+    },
+  },
+
   '/api/v1/users': {
     patch: {
       tags: ['user'],
