@@ -93,5 +93,7 @@
   "single_user_fetched": " Sinlge user fetched successfully",
   "user_deleted": "User deleted successfully",
   "roles":"roles",
-  "role_updated": "Role updated successfully"
+  "role_updated": "Role updated successfully",
+  "no_vendors_found": "No vendors found",
+  "vendors_retrieved_successfully": "Vendors retrieved successfully"
 }

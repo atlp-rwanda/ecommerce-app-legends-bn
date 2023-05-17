@@ -9,19 +9,19 @@ export const createVendor = async (req, res) => {
     const { firstname, lastname, email, phone, permissions } = req.body;
     const nodeEnv = process.env.NODE_ENV;
     let password;
-    if (nodeEnv == 'test') { 
+    if (nodeEnv == 'test') {
       password = '12345678';
     } else {
       password = generatePassword();
     }
     const hashedPassword = await hashPassword(password);
-    let newRole = await db.role.findOne({ where: { name : 'vendor'} })
-    if(!newRole){
+    let newRole = await db.role.findOne({ where: { name: 'vendor' } });
+    if (!newRole) {
       newRole = await db.role.create({
         name: 'vendor',
       });
     }
-    const vendor= await db.user.create({
+    const vendor = await db.user.create({
       firstname,
       lastname,
       email,
@@ -66,12 +66,65 @@ export const createVendor = async (req, res) => {
     res.status(201).json({
       status: req.t('success'),
       message: req.t('vendor_added_message'),
-      data: vendor
+      data: vendor,
     });
   } catch (err) {
     res.status(500).json({
       message: err.errors ? err.errors[0].message : err.message,
-      status: 'failed',
+      status: req.t('fail'),
+    });
+  }
+};
+
+export const getAllVendors = async (req, res) => {
+  try {
+    const role = await db.role.findOne({ where: { name: 'vendor' } });
+    console.log(role);
+    const roleId = role.id;
+    console.log(roleId);
+    const vendors = await db.user.findAll({ where: { roleId: roleId } });
+
+    if (vendors.length < 1) {
+      return res.status(404).json({
+        status: req.t('fail'),
+        message: req.t('no_vendors_found'),
+      });
+    }
+
+    const vendorsData = await Promise.all(
+      vendors.map(async (vendor) => {
+        const vendorName = `${vendor.dataValues.firstname} ${vendor.dataValues.lastname}`;
+        const vendorProduct = await db.Product.findAll({
+          where: { userId: vendor.dataValues.id },
+        });
+        return { vendorName, vendorProduct };
+      })
+    );
+
+    const vendorsData2 = await Promise.all(
+      vendorsData.map(async (vendor) => {
+        const { vendorName, vendorProduct } = vendor;
+        const vendorProduct2 = await Promise.all(
+          vendorProduct.map(async (product) => {
+            const { id } = product;
+            const ProductAttribute = await db.ProductAttribute.findAll({
+              where: { productId: id },
+            });
+            return {...product.dataValues, ProductAttribute };
+          })
+        );
+        return { vendorName, vendorProduct2 };
+      })
+    );
+    res.status(200).json({
+      status: req.t('success'),
+      message: req.t('vendors_retrieved_successfully'),
+      data: vendorsData2,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err.errors ? err.errors[0].message : err.message,
+      status: req.t('fail'),
     });
   }
 };
