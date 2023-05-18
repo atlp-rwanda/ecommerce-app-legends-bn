@@ -97,29 +97,33 @@ export const getAllVendors = async (req, res) => {
         const vendorProduct = await db.Product.findAll({
           where: { userId: vendor.dataValues.id },
         });
-        return { vendorName, vendorProduct };
+        return { vendorId:vendor.dataValues.id, vendorName, vendorProduct };
       })
     );
-
-    const vendorsData2 = await Promise.all(
+    const vendorsProducts = await Promise.all(
       vendorsData.map(async (vendor) => {
-        const { vendorName, vendorProduct } = vendor;
-        const vendorProduct2 = await Promise.all(
+        const {vendorId, vendorName, vendorProduct } = vendor;
+        const vendorProducts = await Promise.all(
           vendorProduct.map(async (product) => {
             const { id } = product;
             const ProductAttribute = await db.ProductAttribute.findAll({
               where: { productId: id },
             });
-            return {...product.dataValues, ProductAttribute };
+            return {
+              ...product.dataValues,
+              ProductAttribute,
+            };
           })
         );
-        return { vendorName, vendorProduct2 };
+        console.log(vendor);
+        console.log(`==========================================================`);
+        return { vendorId, vendorName, vendorProducts };
       })
     );
     res.status(200).json({
       status: req.t('success'),
       message: req.t('vendors_retrieved_successfully'),
-      data: vendorsData2,
+      data: vendorsProducts,
     });
   } catch (err) {
     res.status(500).json({
