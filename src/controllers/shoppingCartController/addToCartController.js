@@ -193,14 +193,18 @@ export const pay = asyncWrapper(async(req, res) => {
 export const checkout = asyncWrapper(async(req, res) => {
     const buyerId = req.user.id;
     const { location } = req.body;
-    let ids = [];
     let order;
     const cart = await cart_process(req, res);
     const totalAmount = cart.totalAmount;
-
     const dupArr = await db.Order.findOne({
         where: { userId: buyerId, status: 'pending' },
     });
+    if (!cart.cart[0]) {
+        return res.status(200).json({
+            status: req.t('fail'),
+            message: req.t('empty-cart'),
+        });
+    }
 
     if (dupArr) {
         return res.status(200).json({
@@ -238,8 +242,9 @@ export const checkout = asyncWrapper(async(req, res) => {
 
 });
 export const checkoutCancel = asyncWrapper(async(req, res) => {
+    const buyerId = req.user.id;
     await db.Order.findOne({
-        where: { userId: user, status: 'pending' },
+        where: { userId: buyerId, status: 'pending' },
     }).then(async(order) => {
         if (order) {
             await db.Order2Details.destroy({
@@ -252,16 +257,15 @@ export const checkoutCancel = asyncWrapper(async(req, res) => {
                     id: order.id,
                 },
             });
-            return res.status(404).json({
+            return res.status(200).json({
                 status: req.t('success'),
                 message: req.t('cancel-checkout'),
             });
-        } else {
-            return res.status(404).json({
-                status: req.t('fail'),
-                message: req.t('no-order'),
-            });
         }
+    });
+    return res.status(404).json({
+        status: req.t('fail'),
+        message: req.t('no-order'),
     });
 });
 
@@ -295,7 +299,6 @@ export const checkout_End = asyncWrapper(async(req, res, data) => {
 
         if (counter === cart.cart.length) {
             let invoice = [];
-            let counter2 = 0;
             const ordersList = await db.Order.findOne({
                 where: {
                     userId: req.user.id,
@@ -319,22 +322,22 @@ export const checkout_End = asyncWrapper(async(req, res, data) => {
             });
             invoice.push(detail);
             // Getting Total aamount per invoice
+            console.log(invoice);
 
-            counter2++;
-            if (counter2 === ordersList.products.length) {
-                db.Order.findOne({
-                    where: { userId: buyerId, status: 'paid' },
-                }).then(async(order) => {
-                    order.status = 'shipping';
-                    return order.save();
-                });
-                emitter.emit('productPurchased', invoice);
-                res.status(200).json({
-                    status: req.t('success'),
-                    message: req.t('payment_succeed'),
-                    data: invoice,
-                });
-            }
+
+            db.Order.findOne({
+                where: { userId: buyerId, status: 'paid' },
+            }).then(async(order) => {
+                order.status = 'shipping';
+                return order.save();
+            });
+            emitter.emit('productPurchased', invoice);
+            res.status(200).json({
+                status: req.t('success'),
+                message: req.t('payment_succeed'),
+                data: invoice,
+            });
+
         };
     });
 });

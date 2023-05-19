@@ -97,5 +97,6 @@
     "no_vendors_found": "Aucun vendeur trouvé",
     "vendors_retrieved_successfully": "vendeurs récupérés avec succès",
     "cancel-checkout": "commande annulée",
-    "no-order": "vous n'avez pas encore de commande"
+    "no-order": "vous n'avez pas encore de commande",
+    "empty-cart": "vous n'avez rien dans le panier"
 }
