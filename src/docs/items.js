@@ -8,26 +8,7 @@ export default {
             bearerAuth: [],
           },
         ],
-        parameters: [
-          {
-            name: "page",
-            in: "query",
-            description: "The page number to retrieve. Defaults to 1.",
-            schema: {
-              type: "integer",
-              default: 1,
-            },
-          },
-          {
-            name: "limit",
-            in: "query",
-            description: "The number of items per page to retrieve. Defaults to 10.",
-            schema: {
-              type: "integer",
-              default: 10,
-            },
-          },
-        ],
+  
         responses: {
           200: {
             description: "The list of items in the seller's collection",
@@ -94,26 +75,6 @@ export default {
       get: {
         tags: ["Product"],
         description: "Retrieve a list of all items available for purchase",
-        parameters: [
-          {
-            name: "page",
-            in: "query",
-            description: "The page number to retrieve. Defaults to 1.",
-            schema: {
-              type: "integer",
-              default: 1,
-            },
-          },
-          {
-            name: "limit",
-            in: "query",
-            description: "The number of items per page to retrieve. Defaults to 10.",
-            schema: {
-              type: "integer",
-              default: 10,
-            },
-          },
-        ],
         responses: {
           200: {
             description: "The list of available items",

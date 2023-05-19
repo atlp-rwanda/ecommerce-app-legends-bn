@@ -103,7 +103,17 @@ if (!q) {
         { model: { [Op.iLike]: `%${q}%` } },
       ],
     },
-  });
+    include: [
+      {
+        model: db.ProductImage,
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
+      },
+      {
+        model: db.ProductAttribute,
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
+      },
+    ]
+    });
   return res.status(200).json({status: req.t('success'),message: req.t('searching'), data: items});
 });
 
