@@ -1,32 +1,38 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class OrderDetails extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-   
-  }
-  OrderDetails.init(
-    {
-      id: {
-        type: DataTypes.UUID,
-        primaryKey: true,
-        allowNull: false,
-        defaultValue: require('sequelize').UUIDV4,
-      },
-      name: DataTypes.STRING,
-      color:  DataTypes.STRING,
-      size:  DataTypes.STRING,
-      quantity:  DataTypes.STRING,
-      price:  DataTypes.STRING,
-    },
-    {
-      sequelize,
-      modelName: 'OrderDetails',
+    class Order3Details extends Model {
+        /**
+         * Helper method for defining associations.
+         * This method is not a part of Sequelize lifecycle.
+         * The `models/index` file will call this method automatically.
+         */
+        static associate(models) {
+            // define association here
+            // this.belongsTo(models.user, { foreignKey: 'vendorId' })
+            // this.hasMany(models.CouponProduct, { foreignKey: 'couponId' })
+            // define association here
+            this.belongsTo(models.Order, { foreignKey: 'orderId' });
+        }
     }
-  );
-  return OrderDetails;
+    Order3Details.init({
+        id: {
+            type: DataTypes.UUID,
+            primaryKey: true,
+            allowNull: false,
+            defaultValue: require('sequelize').UUIDV4,
+        },
+        name: DataTypes.STRING,
+        color: DataTypes.STRING,
+        size: DataTypes.STRING,
+        quantity: DataTypes.STRING,
+        image: DataTypes.STRING,
+        price: DataTypes.STRING,
+        // priductAttId : DataTypes.INTEGER,
+        orderId: DataTypes.UUID
+    }, {
+        sequelize,
+        modelName: 'Order3Details',
+    });
+    return Order3Details;
 };

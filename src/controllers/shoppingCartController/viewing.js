@@ -10,7 +10,7 @@ export const viewOrderDetails = asyncWrapper(async(req,res) =>{
         trackingNumber : trackingnumber
     }
   })
-  const details = await db.OrderDetails.findAll({
+  const details = await db.Order3Details.findAll({
     where: { id: { [Op.in]: order.products } },
   });
   res.status(200).json({

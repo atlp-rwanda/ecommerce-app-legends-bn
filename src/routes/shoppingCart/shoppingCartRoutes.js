@@ -4,61 +4,68 @@ import { clearCart } from '../../controllers/shoppingCartController/clearCartCon
 import { isUserEnabled } from '../../middleware/auth';
 import { viewOrderDetails } from '../../controllers/shoppingCartController/viewing';
 import {
-  addToCart,
-  viewCart,
-  checkout,
-  pay
+    addToCart,
+    viewCart,
+    checkout,
+    pay,
+    checkoutCancel
 } from '../../controllers/shoppingCartController/addToCartController';
 import {
-  updateCart,
-  deleteCartItem,
+    updateCart,
+    deleteCartItem,
 } from '../../controllers/shoppingCartController/updateCartController';
 const CartRoutes = express.Router();
 CartRoutes.post(
-  '/api/v1/shoppingCart/add',
-  auth(['vendor', 'buyer', 'admin']),
-  isUserEnabled,
-  addToCart
+    '/api/v1/shoppingCart/add',
+    auth(['vendor', 'buyer', 'admin']),
+    isUserEnabled,
+    addToCart
 );
 CartRoutes.get(
-  '/api/v1/shoppingCart/view',
-  auth(['vendor', 'buyer', 'admin']),
-  isUserEnabled,
-  viewCart
+    '/api/v1/shoppingCart/view',
+    auth(['vendor', 'buyer', 'admin']),
+    isUserEnabled,
+    viewCart
 );
 CartRoutes.patch(
-  '/api/v1/shoppingCart/update',
-  auth(['vendor', 'buyer', 'admin']),
-  isUserEnabled,
-  updateCart
+    '/api/v1/shoppingCart/update',
+    auth(['vendor', 'buyer', 'admin']),
+    isUserEnabled,
+    updateCart
 );
 CartRoutes.delete(
-  '/api/v1/shoppingCart/delete',
-  auth(['vendor', 'buyer', 'admin']),
-  isUserEnabled,
-  deleteCartItem
+    '/api/v1/shoppingCart/delete',
+    auth(['vendor', 'buyer', 'admin']),
+    isUserEnabled,
+    deleteCartItem
 );
 CartRoutes.delete(
-  '/api/v1/shoppingCart/clear',
-  auth(['vendor', 'buyer', 'admin']),
-  isUserEnabled,
-  clearCart
+    '/api/v1/shoppingCart/clear',
+    auth(['vendor', 'buyer', 'admin']),
+    isUserEnabled,
+    clearCart
 );
 CartRoutes.post(
-  '/api/v1/checkout',
-  auth(['vendor', 'buyer', 'admin']),
-  isUserEnabled,
-  checkout
+    '/api/v1/checkout',
+    auth(['vendor', 'buyer', 'admin']),
+    isUserEnabled,
+    checkout
 );
 CartRoutes.post(
-  '/api/v1/checkout/payment',
-  auth(['vendor', 'buyer', 'admin']),
-  isUserEnabled,
-  pay
+    '/api/v1/cancelCheckout',
+    auth(['vendor', 'buyer', 'admin']),
+    isUserEnabled,
+    checkoutCancel
+);
+CartRoutes.post(
+    '/api/v1/checkout/payment',
+    auth(['vendor', 'buyer', 'admin']),
+    isUserEnabled,
+    pay
 );
 CartRoutes.get(
-  '/api/v1/orderDetails/:trackingId',
-  viewOrderDetails
+    '/api/v1/orderDetails/:trackingId',
+    viewOrderDetails
 )
 
 export default CartRoutes;
