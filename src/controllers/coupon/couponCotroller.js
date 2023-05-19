@@ -130,7 +130,7 @@ const applyCoupon = asyncWrapper(async (req, res) => {
     });
   }
 
-  const cart = await db.shoppingCarts.findAll({ where: { buyer } });
+  const cart = await db.shopping2Carts.findAll({ where: { buyer } });
 
   let discountedCart = cart
     .map((item) => item.toJSON())
@@ -156,7 +156,7 @@ const applyCoupon = asyncWrapper(async (req, res) => {
     (acc, current) => acc + current.totalpriceDiscounted,
     0
   );
-  await db.shoppingCarts.update(
+  await db.shopping2Carts.update(
     { totalpricePerProduct: `${Math.floor(discountedTotal)}` },
     { where: { buyer } }
   );

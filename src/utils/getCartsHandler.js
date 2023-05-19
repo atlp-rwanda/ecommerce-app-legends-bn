@@ -1,6 +1,6 @@
 import db from '../database/models';
 export const getCarts = async (buyerId) => {
-  const carts = await db.shoppingCarts.findAll({ where: { buyer: buyerId } });
+  const carts = await db.shopping2Carts.findAll({ where: { buyer: buyerId } });
   return carts;
 };
 export const CalculateTotalPrice = (cart) => {

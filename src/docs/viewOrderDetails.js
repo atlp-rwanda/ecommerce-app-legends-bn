@@ -103,6 +103,41 @@ export default {
       },
     },
   },
+  '/api/v1/admin/orders': {
+    get: {
+      summary: 'Admin get your order status for buyer',
+      tags: ['Order Details'],
+      parameters: [],
+      responses: {
+        200: {
+          description: 'ok',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                example: {
+                  schema: {
+                    status: 'success',
+                    order: {
+                      id: '1b86af1e-8363-476e-a68b-b1185329f67b',
+                      amount: '560',
+                      products: ['3d81c396-2595-4fde-8008-d771688558f2'],
+                      status: 'change4',
+                      location: 'Rwanda',
+                      userId: 'de4d6360-0f7d-4c62-bfc8-57fb4d22954f',
+                      trackingNumber: null,
+                      createdAt: '2023-04-13T20:14:14.547Z',
+                      updatedAt: '2023-04-15T21:50:20.360Z',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
   '/api/v1/orders/{id}': {
     put: {
       tags: ['Order Details'],

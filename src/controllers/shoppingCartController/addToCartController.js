@@ -37,7 +37,7 @@ export const addToCart = asyncWrapper(async (req, res) => {
   let quantity;
   let productINcart;
   //check wether the product has already been added
-  const isAdded = await db.shoppingCarts.findOne({
+  const isAdded = await db.shopping2Carts.findOne({
     where: {
       product: productId,
     },
@@ -51,7 +51,7 @@ export const addToCart = asyncWrapper(async (req, res) => {
     quantity = 1;
     const totalCost = productUnitPrice * quantity;
     //recodring information related to the cart.
-    productINcart = await db.shoppingCarts.create({
+    productINcart = await db.shopping2Carts.create({
       buyer: buyerId,
       product: productId,
       quantity,
@@ -71,7 +71,7 @@ export const addToCart = asyncWrapper(async (req, res) => {
 });
 
 const generateCart = async (buyer) => {
-  const availableInCart = await db.shoppingCarts.findAll({});
+  const availableInCart = await db.shopping2Carts.findAll({});
   //if the product has spent more than fourteen days on the cart it will not be recorganised as active on that cart
   availableInCart.forEach((cart) => {
     const isCartActive = isAbondoned(cart.createdAt);
@@ -80,7 +80,7 @@ const generateCart = async (buyer) => {
     }
   });
   //non active product will not be available on shopping cart
-  const addedProducts = await db.shoppingCarts.findAll({
+  const addedProducts = await db.shopping2Carts.findAll({
     where: {
       buyer: buyer,
       cartStatus: 'active',
@@ -196,7 +196,7 @@ export const checkout = asyncWrapper(async (req, res) => {
   let order;
   const cart = await cart_process(req, res);
   const totalAmount = cart.totalAmount;
-  let counter = 0;
+
   const dupArr = await db.Order.findOne({
     where: { userId: buyerId, status: 'pending' },
   });
@@ -208,33 +208,33 @@ export const checkout = asyncWrapper(async (req, res) => {
       data: dupArr,
     });
   }
+  order = await db.Order.create({
+    amount: totalAmount,
+    userId: req.user.id,
+    status: 'pending',
+    location: location,
+  });
+  
   await cart.cart.forEach(async (item) => {
-    await db.OrderDetails.create({
+    await db.Order2Details.create({
       name: item.productName,
       quantity: item.quantity,
+      image: item.productImage,
       size: item.productSize,
       color: item.productColor,
       price: item.totalPrice,
-    }).then((data) => {
-      ids.push(data.dataValues.id);
+      orderId : order.id
     });
-    counter++;
-
-    if (counter === cart.cart.length) {
-      order = await db.Order.create({
-        amount: totalAmount,
-        userId: req.user.id,
-        status: 'pending',
-        location: location,
-        products: ids,
-      });
-      res.status(200).json({
-        status: req.t('success'),
-        message: req.t('checkout-started'),
-        data: order,
-      });
-    }
+    
   });
+
+
+  res.status(200).json({
+    status: req.t('success'),
+    message: req.t('checkout-started'),
+    data: order,
+  });
+
 });
 
 export const checkout_End = asyncWrapper(async (req, res, data) => {
@@ -249,7 +249,7 @@ export const checkout_End = asyncWrapper(async (req, res, data) => {
   // delete everything from the cart
   const buyerId = req.user.id;
   const email = req.user.email;
-  await db.shoppingCarts.destroy({
+  await db.shopping2Carts.destroy({
     where: {
       buyer: buyerId,
       cartStatus: 'active',
@@ -275,11 +275,12 @@ export const checkout_End = asyncWrapper(async (req, res, data) => {
         },
       });
       ordersList.products.forEach(async (product) => {
-        const detail = await db.OrderDetails.findOne({
+        const detail = await db.Order2Details.findOne({
           attributes: [
             'name',
             'size',
             'color',
+            'image',
             'quantity',
             'price',
             'createdAt',

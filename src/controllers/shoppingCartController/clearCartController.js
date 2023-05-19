@@ -3,14 +3,14 @@ import { asyncWrapper } from '../../utils/handlingTryCatchBlocks';
 
 export const clearCart = asyncWrapper(async (req, res) => {
     const buyerId = req.user.id;
-    const cartItems =  await db.shoppingCarts.destroy({
+    const cartItems =  await db.shopping2Carts.destroy({
         where: {
           buyer: buyerId,
           cartStatus: 'active'
         }
       });
 
-      const totalPrice =  await db.shoppingCarts.findAll({
+      const totalPrice =  await db.shopping2Carts.findAll({
         where: {
           buyer: buyerId
         }
