@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('Order2Details', {
+        await queryInterface.createTable('Order3Details', {
             id: {
                 allowNull: false,
                 primaryKey: true,
@@ -47,6 +47,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('Order2Details');
+        await queryInterface.dropTable('Order3Details');
     }
 };

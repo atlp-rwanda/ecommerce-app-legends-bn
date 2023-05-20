@@ -221,7 +221,7 @@ export const checkout = asyncWrapper(async(req, res) => {
     });
 
     await cart.cart.forEach(async(item) => {
-        await db.Order2Details.create({
+        await db.Order3Details.create({
             name: item.productName,
             quantity: item.quantity,
             image: item.productImage,
@@ -247,7 +247,7 @@ export const checkoutCancel = asyncWrapper(async(req, res) => {
         where: { userId: buyerId, status: 'pending' },
     }).then(async(order) => {
         if (order) {
-            await db.Order2Details.destroy({
+            await db.Order3Details.destroy({
                 where: {
                     orderId: order.id,
                 },
@@ -305,7 +305,7 @@ export const checkout_End = asyncWrapper(async(req, res, data) => {
                     status: 'paid',
                 },
             });
-            const detail = await db.Order2Details.findAll({
+            const detail = await db.Order3Details.findAll({
                 attributes: [
                     'name',
                     'size',

@@ -12,7 +12,7 @@ export const adminGetOrderStatus = asyncWrapper(async(req, res) => {
     let allData = [];
     let counter = 0;
     await orders.forEach(async(Oneorder) => {
-            let details = await db.Order2Details.findAll({
+            let details = await db.Order3Details.findAll({
                 where: {
                     orderId: Oneorder.id,
                 },
