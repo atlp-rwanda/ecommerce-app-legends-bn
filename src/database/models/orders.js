@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: require('sequelize').UUIDV4,
       },
       amount: DataTypes.STRING,
-      products: DataTypes.ARRAY(DataTypes.STRING),
+      // products: DataTypes.ARRAY(DataTypes.STRING),
       status:  DataTypes.STRING,
       location:  DataTypes.STRING,
       userId: DataTypes.UUID,
