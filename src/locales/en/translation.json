@@ -98,5 +98,6 @@
     "vendors_retrieved_successfully": "Vendors retrieved successfully",
     "cancel-checkout": "order canceled",
     "no-order": "you have no order yet",
-    "empty-cart": "you have nothing in cart"
+    "empty-cart": "you have nothing in cart",
+    "you_dont_owe_this_product": "you don't owe this product"
 }

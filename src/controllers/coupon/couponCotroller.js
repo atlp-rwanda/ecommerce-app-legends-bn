@@ -20,13 +20,17 @@ const create = asyncWrapper(async (req, res) => {
   if (data) {
     // check if the product attribute id exists
     for (let element of productAttributeIds) {
-      let productAttributes = await db.ProductAttribute.findByPk(element);
-
+      let productAttributes = await db.ProductAttribute.findByPk(element, { include : [ { model : db.Product} ]} );
       if (!productAttributes)
         return res.status(404).json({
           status: req.t('fail'),
           message: req.t('related_product_attributte_not_found', { element }),
         });
+
+        if(productAttributes.Product?.userId != req.user.id){
+          return res.status(404).json({ status: req.t('fail'), message: req.t('you_dont_owe_this_product') });
+        }
+  
     }
 
     // check if the coupon expiration date is valid it should be next to 1 day form the time of creation
