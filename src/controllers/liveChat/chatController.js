@@ -37,3 +37,20 @@ export const listAllMessages = asyncWrapper(async (req, res) => {
     message:'messages'
   });
 });
+
+export const clearAllMessages = asyncWrapper(async (req, res) => {
+  const allMessages = await db.Chats.destroy({where:{}});
+  if(!allMessages){
+  return  res.status(200).json({
+      status: req.t('success'),
+      data:  allMessages,
+      message:'no message found'
+    });
+  }
+ return res.status(200).json({
+    status: req.t('success'),
+    data:  allMessages,
+    message:'messages'
+  });
+}
+);

@@ -6,7 +6,7 @@ import { isUserEnabled } from '../../middleware/auth';
 const routes = express.Router();
 
 routes.post('/add' , auth('vendor') , isUserEnabled ,couponCotroller.create)
-routes.get('/all' , auth('vendor'), auth('buyer'),  auth('admin'), isUserEnabled ,couponCotroller.index)
-routes.post('/apply/coupon' , auth('vendor'), auth('buyer'), auth('admin') , isUserEnabled ,couponCotroller.applyCoupon)
+routes.get('/all',  auth('all'), isUserEnabled ,couponCotroller.index)
+routes.post('/apply/coupon', auth('all') , isUserEnabled ,couponCotroller.applyCoupon)
 
 export default routes

@@ -48,4 +48,21 @@ export default {
           },
         },
       },
+      '/api/v1/chat/messages/clear': {
+        delete: {
+          tags: ['Chat'],
+          description: 'clearing all messages',
+          parameters: [],
+          requestBody: {},
+          responses: {
+            200: {
+              description: 'messaged cleared',
+            },
+            500: {
+              description: 'Internal Server Error',
+            },
+          },
+        },
+      },
+      
 }  
