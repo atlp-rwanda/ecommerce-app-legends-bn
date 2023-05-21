@@ -98,5 +98,6 @@
     "vendors_retrieved_successfully": "vendeurs récupérés avec succès",
     "cancel-checkout": "commande annulée",
     "no-order": "vous n'avez pas encore de commande",
-    "empty-cart": "vous n'avez rien dans le panier"
+    "empty-cart": "vous n'avez rien dans le panier",
+    "you_dont_owe_this_product": "Vous ne devez pas ce produit"
 }
