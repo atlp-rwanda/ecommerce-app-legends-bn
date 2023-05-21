@@ -18,6 +18,7 @@ import db from './database/models/index';
 import CartRoutes from './routes/shoppingCart/shoppingCartRoutes';
 import RoleRoutes from './routes/role/roleRoute';
 import chatRoutes from './routes/liveChat/chatRoutes';
+import notificationRouter from './routes/notification/notification.routes';
 import { Server } from "socket.io";
 import http from "http";
 import cors from "cors";
@@ -58,6 +59,7 @@ app.use(chatRoutes);
 app.use(RoleRoutes);
 app.use('/api/v1/products',buyerRoutes)
 app.use(orderRoutes)
+app.use(notificationRouter)
 
 
 app.all('*', (req, res) => {
