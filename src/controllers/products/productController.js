@@ -188,12 +188,14 @@ export const rateProduct = asyncWrapper(async (req, res) => {
 
   const user = req.user;
   // Create new ProductRating object
-
+  const userName = await db.user.findOne({ where: { id: user.id } });
+  // console.log(use);
   const productRating = await db.ProductRating.create({
     productId: productId,
     userId: user.id,
     rating: rating,
     comment: comment,
+    userName: userName.dataValues.email,
   });
 
       // Update product average rating
@@ -203,7 +205,7 @@ export const rateProduct = asyncWrapper(async (req, res) => {
 
       const numRatings = productRatings.length;
       const totalRating = productRatings.reduce((sum, rating) => sum + rating.rating, 0);
-      const newAvgRating = totalRating / numRatings;
+      const newAvgRating = Math.ceil(totalRating / numRatings);
       await db.Product.update({ avgRating: newAvgRating }, {
         where: { id: productId }
       });
