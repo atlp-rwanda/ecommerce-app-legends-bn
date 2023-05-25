@@ -61,7 +61,6 @@ export const deleteUsers =asyncWrapper(async (req, res) => {
   });
 });
 export const getSingleUser =asyncWrapper(async (req, res) => {
-  console.log(req.params.id);
   const singleUser = await db.user.findAll({
     where: { id: req.params.id },
     attributes: { exclude: ['password', 'roleId'] },

@@ -29,7 +29,6 @@ describe('BUYERS based functionlaities', () => {
     res.body.should.have.property('status');
     buyerId = res.body.data.id;
     buyerToken = res.body.token;
-    console.log(buyerToken, 'buyerToken');
   });
 
   it('trying to register a user which is already eist in database', async () => {
@@ -53,7 +52,6 @@ describe('BUYERS based functionlaities', () => {
   });
 
   it('Should update a user', async () => {
-    console.log(buyerToken, 'buyerToken');
     const res = await chai
       .request(app)
       .patch('/api/v1/users')
@@ -66,7 +64,6 @@ describe('BUYERS based functionlaities', () => {
   });
 
   it('Should update a user with modefied token', async () => {
-    console.log(buyerToken, 'buyerToken');
     const res = await chai
       .request(app)
       .patch('/api/v1/users')
@@ -78,7 +75,6 @@ describe('BUYERS based functionlaities', () => {
     res.body.should.have.property('message');
   });
   it('Should update a user Password', async () => {
-    console.log(buyerToken, 'buyerToken');
     const res = await chai
       .request(app)
       .put('/api/v1/users/password/update')
@@ -93,7 +89,6 @@ describe('BUYERS based functionlaities', () => {
     res.body.should.have.property('message');
   });
   it('A user should verify email to be able to reset Password', async () => {
-    console.log(buyerToken, 'buyerToken');
     const res = await chai.request(app).post('/api/v1/email').send({
       email: 'johnbuyer@gmail.com',
     });
@@ -104,7 +99,6 @@ describe('BUYERS based functionlaities', () => {
     emailToken = res.body.token;
   });
   it('A user should be able to reset password after email verification', async () => {
-    console.log(buyerToken, 'buyerToken');
     const res = await chai
       .request(app)
       .post(`/api/v1/password/${emailToken}`)

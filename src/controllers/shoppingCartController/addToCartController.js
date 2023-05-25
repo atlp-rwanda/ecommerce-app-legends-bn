@@ -112,6 +112,8 @@ const generateCart = async(buyer) => {
                 productImage: productVariation.attrImage,
                 quantity: addedProduct.quantity,
                 totalPrice: totalCost,
+                createdAt: addedProduct.createdAt,
+                updatedAt: addedProduct.updatedAt,
             };
             return productInfo;
         })
@@ -329,16 +331,15 @@ export const checkout_End = asyncWrapper(async(req, res, data) => {
             });
             invoice.push(detail);
             // Getting Total aamount per invoice
-            console.log(invoice);
-
-
+ 
             db.Order.findOne({
                 where: { userId: buyerId, status: 'paid' },
             }).then(async(order) => {
                 order.status = 'shipping';
                 return order.save();
             });
-            emitter.emit('productPurchased', invoice);
+       const buyer = await db.user.findOne({ where: { id: buyerId } });
+            emitter.emit('productPurchased', detail, buyer);
             res.status(200).json({
                 status: req.t('success'),
                 message: req.t('payment_succeed'),

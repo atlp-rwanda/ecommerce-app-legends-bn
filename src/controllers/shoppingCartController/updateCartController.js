@@ -35,7 +35,6 @@ export const updateCart = asyncWrapper(async (req, res) => {
   });
     const newCart = await getCarts(buyerId);
   const totalPrice = CalculateTotalPrice(newCart);
-  console.log('Hello total', totalPrice);
   res.status(201).json({
     status: req.t('success'),
     message: req.t('cart_item_updated'),

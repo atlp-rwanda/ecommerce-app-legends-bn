@@ -154,34 +154,27 @@ export const emitProductExpired = async (productName, productOwnerUser) => {
   });
 };
 
-export const emitProductPurchased = async (invoice) => {
+export const emitProductPurchased = async (detail, buyer) => {
   const socket = socketIOClient('http://localhost:5000');
-  const buyerRole = await db.role.findOne({ where: { name: 'vendor' } });
-  const allBuyers = await db.user.findAll({ where: { roleId: buyerRole.id } });
-  const adminRole = await db.role.findOne({ where: { name: 'admin' } });
-  const allAdmins = await db.user.findAll({ where: { roleId: adminRole.id } });
-  if (!allBuyers || !allAdmins) return;
-  const allUsers = allAdmins.concat(allBuyers);
-  for (const user of allUsers) {
+
     const notification = await db.notification.create({
       subject: `Product Purchased`,
-      message: `💵 Product purchased, check your email for more details 💵  `,
+      message: `💵 hey ${buyer.firstname} payment done! 💵  `,
       type: 'productPurchased',
-      userId: user.id,
+      userId: buyer.id,
     });
     const sendemailOpt = {
-      email: user.email,
+      email: buyer.email,
       subject: notification.subject,
-      html: `${templateHeader} <p> Dear <h2> ${user.firstname} </h2> We want to inform you that product purchased with the following details <b>${invoice}</b>  🍏</p> ${templateFotter}`,
+      html: `${templateHeader} <p> Dear <h2> ${buyer.firstname} </h2> We want to inform you that product purchased 🍏</p> ${templateFotter}`,
     };
 
     await sendEmail(sendemailOpt);
     socket.emit('notification', {
       message: notification.message,
-      userId: user.id,
+      userId: buyer.id,
     });
   }
-};
 
 export const emitUpdatePassword = async (user) => {
   const socket = socketIOClient('http://localhost:5000');

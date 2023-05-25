@@ -79,9 +79,7 @@ export const createVendor = async (req, res) => {
 export const getAllVendors = async (req, res) => {
   try {
     const role = await db.role.findOne({ where: { name: 'vendor' } });
-    console.log(role);
     const roleId = role.id;
-    console.log(roleId);
     const vendors = await db.user.findAll({ where: { roleId: roleId } });
 
     if (vendors.length < 1) {
@@ -115,8 +113,6 @@ export const getAllVendors = async (req, res) => {
             };
           })
         );
-        console.log(vendor);
-        console.log(`==========================================================`);
         return { vendorId, vendorName, vendorProducts };
       })
     );

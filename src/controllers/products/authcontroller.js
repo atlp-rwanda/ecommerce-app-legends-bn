@@ -32,7 +32,6 @@ exports.register = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       status: 'error',
       error: 'Something went wrong',
@@ -77,7 +76,6 @@ exports.login = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       status: 'error',
       error: 'Something went wrong',

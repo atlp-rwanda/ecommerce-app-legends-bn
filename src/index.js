@@ -74,35 +74,29 @@ export const io = new Server(server, {
 });
 // listening events using socket.io instance
 io.on('connection', (socket) => {
-  console.log('A client has connected');
   //notifications events
   socket.on('notification', (data) => {
     io.emit('notification', data);
   });
   socket.on('status', (data) => {
-    console.log('_______status changing______________',data);
     io.emit("status",data)
   });
   //lesting to chats events
   
    socket.on('disconnect', () => {
-     console.log('User disconnected');
    });
 
    socket.on('chat message', (msg) => {
-     console.log('message: ' + msg);
      io.emit('chat message', { name: socket.name, message: msg });
    });
 
    socket.on('user joined', (name) => {
-     console.log(`${name} has joined the chat`);
      socket.name = name;
      io.emit('user joined', name);
    });
  });
 db.dbConnection;
 db.sequelize.sync({ force: false }).then(async () => {
-  console.log('DB synced');
   server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
 

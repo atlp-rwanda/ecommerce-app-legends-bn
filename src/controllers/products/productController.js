@@ -157,7 +157,6 @@ cron.schedule('30 17 * * *', async () => {
       }
     }
   });
-  console.log(`=========${todayWithTimeZone}=========`);
   for (const product of expiredProducts) {
     product.status = 'UNAVAILABLE';
     await product.save();
@@ -189,13 +188,12 @@ export const rateProduct = asyncWrapper(async (req, res) => {
   const user = req.user;
   // Create new ProductRating object
   const userName = await db.user.findOne({ where: { id: user.id } });
-  // console.log(use);
   const productRating = await db.ProductRating.create({
     productId: productId,
     userId: user.id,
     rating: rating,
     comment: comment,
-    userName: userName.dataValues.email,
+    userName: userName.dataValues.firstname + ' ' + userName.dataValues.lastname,
   });
 
       // Update product average rating
