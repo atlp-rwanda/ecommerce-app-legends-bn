@@ -41,6 +41,7 @@ export const addToCart = asyncWrapper(async(req, res) => {
     //check wether the product has already been added
     const isAdded = await db.shopping2Carts.findOne({
         where: {
+            buyer: buyerId,
             product: productId,
         },
     });
@@ -112,6 +113,7 @@ const generateCart = async(buyer) => {
                 productImage: productVariation.attrImage,
                 quantity: addedProduct.quantity,
                 totalPrice: totalCost,
+                createdAt:addedProduct.createdAt,
             };
             return productInfo;
         })
@@ -235,6 +237,7 @@ export const checkout = asyncWrapper(async(req, res) => {
             size: item.productSize,
             color: item.productColor,
             price: item.totalPrice,
+            productAttrId:item.id,
             orderId: order.id
         });
 
