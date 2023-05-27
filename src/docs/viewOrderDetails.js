@@ -185,4 +185,28 @@ export default {
       },
     },
   },
+  '/api/v1/vendor/customers': {
+    get: {
+      tags: ['Order Details'],
+        summary: 'customers of a vendor',
+        security: [{
+            bearerAuth: [],
+        }, ],
+        parameters: [],
+        responses: {
+            201: {
+                description: 'successfully',
+            },
+            401: {
+                description: 'User Not Authorized',
+            },
+            404: {
+                description: "Product doesn't exist!",
+            },
+            500: {
+                description: 'Internal Server Error',
+            },
+        },
+    },
+},
 };
