@@ -8,7 +8,16 @@ export const getOrderStatus = asyncWrapper(async(req, res) => {
 });
 
 export const adminGetOrderStatus = asyncWrapper(async(req, res) => {
-    const orders = await db.Order.findAll();
+    const orders = await db.Order.findAll({
+        include: [
+          {
+            model: db.user,
+        }
+    ],
+    order: [
+        ['createdAt', 'DESC'], // Sorting by the 'date' column in descending order
+      ],
+});
     let allData = [];
     let counter = 0;
     await orders.forEach(async(Oneorder) => {
@@ -23,7 +32,9 @@ export const adminGetOrderStatus = asyncWrapper(async(req, res) => {
                 amount: Oneorder.amount,
                 status: Oneorder.status,
                 location: Oneorder.location,
-                userId: Oneorder.userId,
+                user: Oneorder.user,
+                createdAt: Oneorder.createdAt,
+                updatedAt: Oneorder.updatedAt,
                 detail: details
             }
             allData.push(fullOrder);
