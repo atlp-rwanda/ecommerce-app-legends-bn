@@ -271,12 +271,15 @@ export const checkoutCancel = asyncWrapper(async(req, res) => {
                 status: req.t('success'),
                 message: req.t('cancel-checkout'),
             });
+        }else{
+            return res.status(404).json({
+                status: req.t('fail'),
+                message: req.t('no-order'),
+            });
+            
         }
     });
-    return res.status(404).json({
-        status: req.t('fail'),
-        message: req.t('no-order'),
-    });
+    
 });
 
 export const checkout_End = asyncWrapper(async(req, res, data) => {
